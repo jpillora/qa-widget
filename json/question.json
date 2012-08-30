@@ -1,0 +1,300 @@
+{
+  "total": 1,
+  "items": [{
+    "question_id": 5558655,
+    "last_edit_date": 1302039717,
+    "creation_date": 1302038255,
+    "last_activity_date": 1302039717,
+    "score": 0,
+    "answer_count": 1,
+    "accepted_answer_id": 5558687,
+    "body": "<p>I am trying to use <code>min-height</code> with jQuery.animate like this:</p>\n\n<pre><code>$insert.animate({ min-height : 52 }, 1000).animate({ opacity : 1 }, 1000);\n</code></pre>\n\n<p>but it breaks the script. If i use <code>height : 52</code> it works. Any ideas?</p>\n\n<p>edit: <a href=\"http://jsfiddle.net/patrioticcow/hh8Q8/1/\" rel=\"nofollow\">see demo</a></p>\n",
+    "title": "How do I use jQuery&#39;s .animate method with min-height?",
+    "tags": ["jquery", "jquery-animate"],
+    "up_vote_count": 0,
+    "down_vote_count": 0,
+    "favorite_count": 0,
+    "view_count": 453,
+    "owner": {
+      "user_id": 642022,
+      "display_name": "Patrioticcow",
+      "reputation": 945,
+      "user_type": "registered",
+      "profile_image": "http://www.gravatar.com/avatar/f939f13f83c6b530a01071a21cd0efb1?d=identicon&r=PG",
+      "link": "http://stackoverflow.com/users/642022/patrioticcow",
+      "accept_rate": 98
+    },
+    "comments": [{
+      "comment_id": 6321287,
+      "post_id": 5558655,
+      "creation_date": 1302038369,
+      "post_type": "question",
+      "score": 0,
+      "edited": false,
+      "body": "was min-height set prior to trying to animate it? I&#39;m not entirely sure why you&#39;d want to animate that property.",
+      "owner": {
+        "user_id": 172279,
+        "display_name": "DA.",
+        "reputation": 9738,
+        "user_type": "registered",
+        "profile_image": "http://www.gravatar.com/avatar/5ad36d3f26a90126c83161ee07419e7e?d=identicon&r=PG",
+        "link": "http://stackoverflow.com/users/172279/da",
+        "accept_rate": 66
+      },
+      "link": "http://stackoverflow.com/questions/5558655/how-do-i-use-jquerys-animate-method-with-min-height#comment6321287_5558655"
+    }, {
+      "comment_id": 6321322,
+      "post_id": 5558655,
+      "creation_date": 1302038521,
+      "post_type": "question",
+      "score": 0,
+      "edited": false,
+      "body": "i have to insert an element and animate it at a certain height, bu if there is come picture inside that element that can be bigger or smaller, i want the element to automatically resize, with a min-height",
+      "owner": {
+        "user_id": 642022,
+        "display_name": "Patrioticcow",
+        "reputation": 945,
+        "user_type": "registered",
+        "profile_image": "http://www.gravatar.com/avatar/f939f13f83c6b530a01071a21cd0efb1?d=identicon&r=PG",
+        "link": "http://stackoverflow.com/users/642022/patrioticcow",
+        "accept_rate": 98
+      },
+      "reply_to_user": {
+        "user_id": 172279,
+        "display_name": "DA.",
+        "reputation": 9738,
+        "user_type": "registered",
+        "profile_image": "http://www.gravatar.com/avatar/5ad36d3f26a90126c83161ee07419e7e?d=identicon&r=PG",
+        "link": "http://stackoverflow.com/users/172279/da",
+        "accept_rate": 66
+      },
+      "link": "http://stackoverflow.com/questions/5558655/how-do-i-use-jquerys-animate-method-with-min-height#comment6321322_5558655"
+    }, {
+      "comment_id": 6321364,
+      "post_id": 5558655,
+      "creation_date": 1302038657,
+      "post_type": "question",
+      "score": 0,
+      "edited": false,
+      "body": "but what is it animating from? Again, was there a previously set value for min-height?",
+      "owner": {
+        "user_id": 172279,
+        "display_name": "DA.",
+        "reputation": 9738,
+        "user_type": "registered",
+        "profile_image": "http://www.gravatar.com/avatar/5ad36d3f26a90126c83161ee07419e7e?d=identicon&r=PG",
+        "link": "http://stackoverflow.com/users/172279/da",
+        "accept_rate": 66
+      },
+      "link": "http://stackoverflow.com/questions/5558655/how-do-i-use-jquerys-animate-method-with-min-height#comment6321364_5558655"
+    }, {
+      "comment_id": 6321455,
+      "post_id": 5558655,
+      "creation_date": 1302039043,
+      "post_type": "question",
+      "score": 0,
+      "edited": false,
+      "body": "it&#39;s animating from 0",
+      "owner": {
+        "user_id": 642022,
+        "display_name": "Patrioticcow",
+        "reputation": 945,
+        "user_type": "registered",
+        "profile_image": "http://www.gravatar.com/avatar/f939f13f83c6b530a01071a21cd0efb1?d=identicon&r=PG",
+        "link": "http://stackoverflow.com/users/642022/patrioticcow",
+        "accept_rate": 98
+      },
+      "reply_to_user": {
+        "user_id": 172279,
+        "display_name": "DA.",
+        "reputation": 9738,
+        "user_type": "registered",
+        "profile_image": "http://www.gravatar.com/avatar/5ad36d3f26a90126c83161ee07419e7e?d=identicon&r=PG",
+        "link": "http://stackoverflow.com/users/172279/da",
+        "accept_rate": 66
+      },
+      "link": "http://stackoverflow.com/questions/5558655/how-do-i-use-jquerys-animate-method-with-min-height#comment6321455_5558655"
+    }, {
+      "comment_id": 6321482,
+      "post_id": 5558655,
+      "creation_date": 1302039153,
+      "post_type": "question",
+      "score": 0,
+      "edited": false,
+      "body": "height: 0 or min-height: 0? I&#39;m not entirely sure you can animate that particular property. To animate the height of a div, it has to animate the height property as well anyways.",
+      "owner": {
+        "user_id": 172279,
+        "display_name": "DA.",
+        "reputation": 9738,
+        "user_type": "registered",
+        "profile_image": "http://www.gravatar.com/avatar/5ad36d3f26a90126c83161ee07419e7e?d=identicon&r=PG",
+        "link": "http://stackoverflow.com/users/172279/da",
+        "accept_rate": 66
+      },
+      "link": "http://stackoverflow.com/questions/5558655/how-do-i-use-jquerys-animate-method-with-min-height#comment6321482_5558655"
+    }],
+    "answers": [{
+      "question_id": 5558655,
+      "answer_id": 5558687,
+      "creation_date": 1302038457,
+      "last_activity_date": 1302038457,
+      "score": 1,
+      "is_accepted": true,
+      "body": "<p>Try wrapping <code>min-height</code> in quotes: </p>\n\n<pre><code>$insert.animate({ 'min-height' : 52 }, 1000).animate({ opacity : 1 }, 1000);\n</code></pre>\n\n<p>I should add: I'm assuming <code>$insert</code> is a pointer to a block element, i.e. <code>$insert = $('#insert')</code>, where <code>#insert</code> is an HTML element with <code>display: block</code>. I tried my solution <a href=\"http://ttp://jsfiddle.net/hh8Q8/\" rel=\"nofollow\">in JSFiddle too</a>.</p>\n",
+      "owner": {
+        "user_id": 350278,
+        "display_name": "Jimmy Sawczuk",
+        "reputation": 6470,
+        "user_type": "registered",
+        "profile_image": "http://www.gravatar.com/avatar/9f7e4046c9835840862c86e7b9e0900d?d=identicon&r=PG",
+        "link": "http://stackoverflow.com/users/350278/jimmy-sawczuk",
+        "accept_rate": 75
+      },
+      "title": "How do I use jQuery&#39;s .animate method with min-height?",
+      "up_vote_count": 1,
+      "down_vote_count": 0,
+      "comments": [{
+        "comment_id": 6321360,
+        "post_id": 5558687,
+        "creation_date": 1302038642,
+        "post_type": "answer",
+        "score": 0,
+        "edited": false,
+        "body": "it converts somehow to <code>height:0px</code>. looks like it doesn&#39;t understand it",
+        "owner": {
+          "user_id": 642022,
+          "display_name": "Patrioticcow",
+          "reputation": 945,
+          "user_type": "registered",
+          "profile_image": "http://www.gravatar.com/avatar/f939f13f83c6b530a01071a21cd0efb1?d=identicon&r=PG",
+          "link": "http://stackoverflow.com/users/642022/patrioticcow",
+          "accept_rate": 98
+        },
+        "link": "http://stackoverflow.com/questions/5558655/how-do-i-use-jquerys-animate-method-with-min-height/5558687#comment6321360_5558687"
+      }, {
+        "comment_id": 6321395,
+        "post_id": 5558687,
+        "creation_date": 1302038782,
+        "post_type": "answer",
+        "score": 0,
+        "edited": false,
+        "body": "I added some new assumptions to my answer, does your code match that?",
+        "owner": {
+          "user_id": 350278,
+          "display_name": "Jimmy Sawczuk",
+          "reputation": 6470,
+          "user_type": "registered",
+          "profile_image": "http://www.gravatar.com/avatar/9f7e4046c9835840862c86e7b9e0900d?d=identicon&r=PG",
+          "link": "http://stackoverflow.com/users/350278/jimmy-sawczuk",
+          "accept_rate": 75
+        },
+        "reply_to_user": {
+          "user_id": 642022,
+          "display_name": "Patrioticcow",
+          "reputation": 945,
+          "user_type": "registered",
+          "profile_image": "http://www.gravatar.com/avatar/f939f13f83c6b530a01071a21cd0efb1?d=identicon&r=PG",
+          "link": "http://stackoverflow.com/users/642022/patrioticcow",
+          "accept_rate": 98
+        },
+        "link": "http://stackoverflow.com/questions/5558655/how-do-i-use-jquerys-animate-method-with-min-height/5558687#comment6321395_5558687"
+      }, {
+        "comment_id": 6321614,
+        "post_id": 5558687,
+        "creation_date": 1302039741,
+        "post_type": "answer",
+        "score": 0,
+        "edited": false,
+        "body": "see <a href=\"http://jsfiddle.net/patrioticcow/hh8Q8/1/\" rel=\"nofollow\">jsfiddle.net/patrioticcow/hh8Q8/1</a>  . it should animate to the <code>.test</code> size",
+        "owner": {
+          "user_id": 642022,
+          "display_name": "Patrioticcow",
+          "reputation": 945,
+          "user_type": "registered",
+          "profile_image": "http://www.gravatar.com/avatar/f939f13f83c6b530a01071a21cd0efb1?d=identicon&r=PG",
+          "link": "http://stackoverflow.com/users/642022/patrioticcow",
+          "accept_rate": 98
+        },
+        "link": "http://stackoverflow.com/questions/5558655/how-do-i-use-jquerys-animate-method-with-min-height/5558687#comment6321614_5558687"
+      }, {
+        "comment_id": 6321765,
+        "post_id": 5558687,
+        "creation_date": 1302040367,
+        "post_type": "answer",
+        "score": 0,
+        "edited": false,
+        "body": "My mistake, I misunderstood what you were saying. So you want the parent (<code>#insert</code>) to animate to the child&#39;s (<code>.test</code>) size?",
+        "owner": {
+          "user_id": 350278,
+          "display_name": "Jimmy Sawczuk",
+          "reputation": 6470,
+          "user_type": "registered",
+          "profile_image": "http://www.gravatar.com/avatar/9f7e4046c9835840862c86e7b9e0900d?d=identicon&r=PG",
+          "link": "http://stackoverflow.com/users/350278/jimmy-sawczuk",
+          "accept_rate": 75
+        },
+        "reply_to_user": {
+          "user_id": 642022,
+          "display_name": "Patrioticcow",
+          "reputation": 945,
+          "user_type": "registered",
+          "profile_image": "http://www.gravatar.com/avatar/f939f13f83c6b530a01071a21cd0efb1?d=identicon&r=PG",
+          "link": "http://stackoverflow.com/users/642022/patrioticcow",
+          "accept_rate": 98
+        },
+        "link": "http://stackoverflow.com/questions/5558655/how-do-i-use-jquerys-animate-method-with-min-height/5558687#comment6321765_5558687"
+      }, {
+        "comment_id": 6321789,
+        "post_id": 5558687,
+        "creation_date": 1302040430,
+        "post_type": "answer",
+        "score": 0,
+        "edited": false,
+        "body": "If that&#39;s the case, try this one: <a href=\"http://jsfiddle.net/hh8Q8/3/\" rel=\"nofollow\">jsfiddle.net/hh8Q8/3</a>",
+        "owner": {
+          "user_id": 350278,
+          "display_name": "Jimmy Sawczuk",
+          "reputation": 6470,
+          "user_type": "registered",
+          "profile_image": "http://www.gravatar.com/avatar/9f7e4046c9835840862c86e7b9e0900d?d=identicon&r=PG",
+          "link": "http://stackoverflow.com/users/350278/jimmy-sawczuk",
+          "accept_rate": 75
+        },
+        "reply_to_user": {
+          "user_id": 642022,
+          "display_name": "Patrioticcow",
+          "reputation": 945,
+          "user_type": "registered",
+          "profile_image": "http://www.gravatar.com/avatar/f939f13f83c6b530a01071a21cd0efb1?d=identicon&r=PG",
+          "link": "http://stackoverflow.com/users/642022/patrioticcow",
+          "accept_rate": 98
+        },
+        "link": "http://stackoverflow.com/questions/5558655/how-do-i-use-jquerys-animate-method-with-min-height/5558687#comment6321789_5558687"
+      }, {
+        "comment_id": 6321889,
+        "post_id": 5558687,
+        "creation_date": 1302040892,
+        "post_type": "answer",
+        "score": 0,
+        "edited": false,
+        "body": "oh, i see. I have to change a bit the technique i use to match what u showed me, but it should work fine.. thanks",
+        "owner": {
+          "user_id": 642022,
+          "display_name": "Patrioticcow",
+          "reputation": 945,
+          "user_type": "registered",
+          "profile_image": "http://www.gravatar.com/avatar/f939f13f83c6b530a01071a21cd0efb1?d=identicon&r=PG",
+          "link": "http://stackoverflow.com/users/642022/patrioticcow",
+          "accept_rate": 98
+        },
+        "link": "http://stackoverflow.com/questions/5558655/how-do-i-use-jquerys-animate-method-with-min-height/5558687#comment6321889_5558687"
+      }],
+      "link": "http://stackoverflow.com/questions/5558655/how-do-i-use-jquerys-animate-method-with-min-height/5558687#5558687"
+    }],
+    "link": "http://stackoverflow.com/questions/5558655/how-do-i-use-jquerys-animate-method-with-min-height",
+    "is_answered": true
+  }],
+  "quota_remaining": 258,
+  "quota_max": 300,
+  "has_more": false
+}
