@@ -1,11 +1,11 @@
-define(['utils/ga','jquery'], function(ga) {
+define(['ga','jquery'], function(ga) {
 
 
   var ajax = function(opts) {
     $.ajax(opts);//$.extend(true,{ },opts));
   };
 
-  window.jajax = {
+  return {
     local: {
 
     },
@@ -47,6 +47,7 @@ define(['utils/ga','jquery'], function(ga) {
         });
       }
     }//end stackoverflow 
-  }
-  return window.jajax;
+  };
+
+
 });
