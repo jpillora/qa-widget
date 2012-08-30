@@ -1,5 +1,5 @@
-define(['text!template/similar.html','ga','util/jajax','store','backbone'], 
-  function(similarHtml,ga,jajx,store){
+define(['text!template/similar.html','ga','util/qa-api','store','backbone'], 
+  function(similarHtml,ga,api,store){
 
   return Backbone.View.extend({
 
@@ -34,14 +34,14 @@ define(['text!template/similar.html','ga','util/jajax','store','backbone'],
 
         view.keyTimer = setTimeout(function(){
           view.btnMode("loading");
-          jajx.stackOverflow.similar(str,view,view.gotSimilars);
+          api.stackOverflow.similar(str,view,view.gotSimilars);
         }, 1000);
 
       });
 
       var userSimilars = store.get('similars');
       if(userSimilars && userSimilars.length > 0)
-        jajx.stackOverflow.question(userSimilars.join(';'), view, view.gotQuestion);
+        api.stackOverflow.question(userSimilars.join(';'), view, view.gotQuestion);
       
     },
 
@@ -60,7 +60,7 @@ define(['text!template/similar.html','ga','util/jajax','store','backbone'],
         .click(function() {
           var id = item.question_id;
           store.add('similars',id);
-          jajx.stackOverflow.question(id, view, view.gotQuestion);
+          api.stackOverflow.question(id, view, view.gotQuestion);
         });
         view.similars.append(similar);
       });
