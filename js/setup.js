@@ -1,18 +1,14 @@
 //Setup require paths
 
 (function(){
-  var f = '../../../JavaScript/js-framework/js/', 
-      lib = f + 'lib/'
+  var lib = '../framework/js/lib/'
 
   require.config({
     paths: {
-
       package: [{
         name: 'framework',
-        location: '../../../JavaScript/js-framework/js/',
-        main: 'scriptfileToLoad'
+        location : '../framework/js/'
       }],
-
       jquery:     lib+'jquery/jquery',
       'jquery.cookie' : lib+'jquery/plugin/jquery.cookie',
       'jquery.color'  : lib+'jquery/plugin/jquery.color',
@@ -34,8 +30,8 @@
   });
 
   //Setup library customisations and Initialise the Widget
-  require(['views/widget', f+'util/ga','bootstrap','text', 'jquery',
-           'jquery.cookie','jquery.color'], function(WidgetView,ga) {
+  require(['framework', 'views/widget','bootstrap','text', 'jquery',
+           'jquery.cookie','jquery.color'], function(WidgetView) {
     
     var widget = new WidgetView();
     widget.render();

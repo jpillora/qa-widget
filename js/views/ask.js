@@ -1,4 +1,4 @@
-define(['text!templates/similar.html','utils/ga','utils/jajax','utils/store','backbone'], 
+define(['text!templates/similar.html','../../framework/js/util/ga','utils/jajax','utils/store','backbone'], 
   function(similarHtml,ga,jajx,store){
 
   return Backbone.View.extend({
