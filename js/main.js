@@ -3,7 +3,7 @@ require.config({
 });
 
 //App entry point
-define(['view/widget','bootstrap','text', 
+define(['view/widget','bootstrap','text', 'css',
          'jquery-ext', 'jquery.cookie','jquery.color',
          'backbone-ext'], function(WidgetView) {
 

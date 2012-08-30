@@ -14,7 +14,7 @@ define(['view/questions','view/ask','backbone'],
       var questionsView = new QuestionsView();
       questionsView.render();
 
-      askView.on('addQuestion', questionsView.addOne, questionsView);
+      askView.on('addQuestion', questionsView.createOne, questionsView);
     }
     
   });

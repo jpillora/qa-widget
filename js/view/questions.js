@@ -1,16 +1,18 @@
-define(['list/questions','view/question','backbone'],
-  function(QuestionsList,QuestionView){
+define(['list/questions','view/question', 'model/question','backbone'],
+  function(QuestionsList,QuestionView,QuestionModel){
 
   return Backbone.View.extend({
   	name: "QuestionsView",
-
     el: $("#questions"),
+
+    model: QuestionModel,
 
     initialize: function() {
       this.log("init");
 
       this.list = new QuestionsList();
-      this.list.bind('reset', this.addAll, this);
+      this.list.on('reset', this.addAll, this)
+      this.list.on('add', this.addOne, this)
       this.list.fetch();
     },
 
@@ -25,8 +27,14 @@ define(['list/questions','view/question','backbone'],
 
     addOne: function(model) {
       var questionView = new QuestionView({model: model});
-      this.$el.append(questionView.render());
+      this.$el.append(questionView.render().hide().delay(100).slideDown('slow'));
+    },
+
+    createOne: function(obj) {
+
+      var model = new QuestionModel(obj);
+      this.list.add(model);
     }
-    
+
   });
 });

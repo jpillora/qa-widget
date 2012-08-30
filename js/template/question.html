@@ -1,10 +1,29 @@
-<h4><%= title %></h4>
-<div>
-  <div class="controls">
-    <div class="so_bg up"></div>
-    <div class="vote_count"></div>
-    <div class="so_bg down"></div>
+
+
+<div class="voting">
+  <div class="so_bg up"></div>
+  <div class="vote_count"><%= score %></div>
+  <div class="so_bg down"></div>
+</div>
+
+<h4 class="title"><%= title %></h4>
+<div class="controls">
+
+  <% if (source == 'stackoverflow') { %>
+    <span class="label label-warning">Stack Overflow</span>
+    <button class="remove btn btn-mini">Remove</button>
+  <% } %>
+  <button class="toggle btn btn-mini">Hide</button>
+</div>
+<div class="content">
+  <div class="clearfix body"><%= body %></div>
+
+  <div class="tags">
+  <% for(var i in tags) { %>
+    <span class="label label-info"><%= tags[i] %></span>
+  <% } %>
+
   </div>
-  <p><%= body %></p>
-  <p><a class="btn">View Question  &raquo;</a></p>
+  <div class="comments"></div>
+  <div class="answers"></div>
 </div>

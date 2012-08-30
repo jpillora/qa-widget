@@ -74,33 +74,46 @@ body .so_bg {
 
 
 .question {
-  background: #DDD;
-  border-radius: 5px;
-  padding: 5px;
-  margin-bottom: 5px;
+  position: relative;
+}
+
+.question .title {
+  padding: 10px;
+  display: inline-block;
 }
 
 .question .controls {
-  float: left;
+  float: right;
   padding-right: 3px;
 }
 
-.question .controls > div {
+.question .voting {
+  float: left;
+  padding: 5px;
+}
+
+.question .voting > div {
   height: 20px;
   width: 40px;
 }
 
-.question .controls > div.up {
+.question .voting > div.up {
   background-position: 0px -265px;
 }
-.question .controls > div.down {
+.question .voting > div.down {
   background-position: 0px -300px;
 }
-.question .controls > div.vote_count {
+.question .voting > div.vote_count {
   text-align: center;
   vertical-align: middle;
   font-weight: bold;
   font-size: 20px;
+}
+
+.question .body pre {
+  padding: 10px;
+  margin: 10px;
+  background: white;
 }
 
 ::-webkit-scrollbar{width:9px;height:9px;}

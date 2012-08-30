@@ -39,10 +39,10 @@ define(['text!template/similar.html','ga','util/qa-api','store','backbone'],
 
       });
 
-      var userSimilars = store.get('similars');
-      if(userSimilars && userSimilars.length > 0)
-        api.stackOverflow.question(userSimilars.join(';'), view, view.gotQuestion);
-      
+      //load previously chosen questions
+      var questions = store.get('stackoverflow-questions');
+      if(questions && questions.length > 0)
+        api.stackOverflow.question(questions.join(';'), view, view.gotQuestion);
     },
 
 
@@ -59,7 +59,6 @@ define(['text!template/similar.html','ga','util/qa-api','store','backbone'],
         //on click load the chosen question into the questions list
         .click(function() {
           var id = item.question_id;
-          store.add('similars',id);
           api.stackOverflow.question(id, view, view.gotQuestion);
         });
         view.similars.append(similar);
@@ -79,8 +78,9 @@ define(['text!template/similar.html','ga','util/qa-api','store','backbone'],
       this.log("got so question - adding...");
       for(var i = 0; i < data.total; ++i) {
         var item = data.items[i];
+        item.source = 'stackoverflow';
         item.id = "SO"+item.question_id;
-        this.trigger('addQuestion', new Backbone.Model(item) );
+        this.trigger('addQuestion', item );
       }
     },
 
