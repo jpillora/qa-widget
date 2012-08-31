@@ -1,8 +1,10 @@
 //Question view
-define(['text!template/question.html','store','prettify','backbone'], function(html,store){
+define(['text!template/question.html','store','view/body',
+        'view/answers','list/answers','prettify','backbone'], 
+  function(html,store,BodyView,AnswersView, AnswersList){
   return Backbone.View.extend({
 
-  	name: "QuestionView",
+    name: "QuestionView",
     tagName: "div",
     template: _.template(html),
 
@@ -14,6 +16,7 @@ define(['text!template/question.html','store','prettify','backbone'], function(h
       if(model.get('source') === 'stackoverflow')
         store.add('stackoverflow-questions', model.get('question_id'));
 
+      this.answersList = new AnswersList(model.get('answers'));
     },
 
     events: {
@@ -24,16 +27,14 @@ define(['text!template/question.html','store','prettify','backbone'], function(h
     render: function(){
       this.log("render")
 
-
       this.$el.addClass("question").addClass("well");
-      this.$el.html(this.template(this.model.toJSON()));
+      this.executeTemplate();
 
-      this.$('pre>code').each(function(i,e) {
-        $(e).parent().addClass('prettyprint');
-      })
-
-      prettyPrint();
-
+      this.body = new BodyView({el: this.$('.content>.body') }).render();
+      this.answers = new AnswersView({
+        el: this.$('.content>.answers'),
+        list: this.answersList
+      }).render();
 
       return this.$el;
     },
@@ -46,7 +47,6 @@ define(['text!template/question.html','store','prettify','backbone'], function(h
     },
 
     remove: function() {
-
       if(this.model.get('source') === 'stackoverflow')
         store.remove('stackoverflow-questions', this.model.get('question_id'));
 
