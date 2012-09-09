@@ -1,4 +1,4 @@
-define(['ga','jquery'], function(ga) {
+define(['util/ga','jquery'], function(ga) {
 
 
   var ajax = function(opts) {

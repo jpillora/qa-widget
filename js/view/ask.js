@@ -1,4 +1,4 @@
-define(['text!template/similar.html','ga','util/qa-api','store','backbone'], 
+define(['text!template/similar.html','util/ga','qa-api','util/store','backbone'], 
   function(similarHtml,ga,api,store){
 
   return Backbone.View.extend({

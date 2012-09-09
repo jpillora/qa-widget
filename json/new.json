@@ -1,0 +1,50 @@
+
+//comment
+{
+  "comment_id": Integer,
+  "user_id": String,
+  "update_at": Integer,
+  "create_at": Integer,
+  "body": String,
+  "score": Integer
+}
+
+//questions
+{
+ //array type, present questions
+ "items":[  
+    //question
+    {
+      "question_id": Integer,
+      "user_id": Integer,
+      "update_at": Integer,
+      "create_at": Integer,
+      "title": String,
+      "body": String,
+      "score": Integer,
+
+      //array type, present answers
+      "answers": [{   
+          //answer
+          "answer_id": Integer,
+          "user_id": Integer,
+          "update_at": Integer,
+          "create_at": Integer,
+          "body": String,
+          "score": Integer,
+          "is_accepted": boolean,
+          "score": Integer,
+          "comments": [   //array type, present comments
+            <COMMENTS>
+          ]
+        },
+        ...
+      ],
+      "comments": [   //array type, present comments
+        <COMMENTS>
+      ],
+      "tags": [ "name": String ]
+    },
+    ...
+  ]
+}

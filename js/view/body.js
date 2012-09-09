@@ -1,5 +1,5 @@
 //Body view - Handles formatting and highlighting within text bodies
-define(['prettify','backbone'], 
+define(['lib/prettify','backbone'], 
   function(){
   return Backbone.View.extend({
   	 

@@ -1,6 +1,6 @@
 //Question view
-define(['text!template/question.html','store','view/body',
-        'view/answers','list/answers','prettify','backbone'], 
+define(['text!template/question.html','util/store','view/body',
+        'view/answers','list/answers','lib/prettify','backbone'], 
   function(html,store,BodyView,AnswersView, AnswersList){
   return Backbone.View.extend({
 

@@ -1,11 +1,7 @@
-require.config({
-  paths: { }
-});
-
 //App entry point
 define(['view/widget','bootstrap','text', 'css',
-         'jquery-ext', 'jquery.cookie','jquery.color',
-         'backbone-ext'], function(WidgetView) {
+         'ext/jquery', 'lib/jquery.cookie','lib/jquery.color',
+         'ext/backbone'], function(WidgetView) {
 
   var widget = new WidgetView();
   widget.render();
