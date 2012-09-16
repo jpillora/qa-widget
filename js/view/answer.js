@@ -1,19 +1,19 @@
 //Answer view
-define(['text!template/answer.html','util/store','model/question','view/body','backbone'],
-	function(html,store,QuestionModel,BodyView){
+define(['text!template/answer.html','util/store','model/answer','view/body','view/comments','backbone'],
+	function(html,store,AnswerModel,BodyView,CommentsView){
 
   return Backbone.View.extend({
-    name: "QuestionView",
+    name: "AnswerView",
     tagName: "div",
     template: _.template(html),
-    model: QuestionModel,
+    model: AnswerModel,
 
     initialize: function() {
       this.model.bind('destroy', this.onDestroy, this);
     },
 
     events: {
-      //'click .toggle': 'toggle',
+      'click .toggle': 'toggle',
       'click .remove': 'remove'
     },
 
@@ -24,8 +24,21 @@ define(['text!template/answer.html','util/store','model/question','view/body','b
       this.executeTemplate();
 
       this.body = new BodyView({el: this.$('.content>.body') }).render();
+      
+      this.comments = new CommentsView({
+        el: this.$('.content>.comments>.table').first(),
+        attributes: { parent: this.model }
+      }).render();
 
       return this.$el;
+    },
+
+
+    toggle: function() {
+      var view = this, btn = $(this);
+      btn.closest('.content').first().toggle('slow', function() {
+        btn.html($(this).is(':hidden') ? 'Show' : 'Hide');
+      });
     },
 
     remove: function() {

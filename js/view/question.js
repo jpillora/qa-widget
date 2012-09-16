@@ -1,7 +1,7 @@
 //Question view
 define(['text!template/question.html','util/store','view/body',
-        'view/answers', 'model/question','backbone'], 
-  function(html,store,BodyView,AnswersView, QuestionModel){
+        'view/answers', 'model/question','view/comments','backbone'], 
+  function(html,store,BodyView,AnswersView, QuestionModel,CommentsView){
   return Backbone.View.extend({
 
     name: "QuestionView",
@@ -31,8 +31,14 @@ define(['text!template/question.html','util/store','view/body',
       this.executeTemplate();
 
       this.body = new BodyView({el: this.$('.content>.body') }).render();
+      
       this.answers = new AnswersView({
         el: this.$('.content>.answers>.list'),
+        attributes: { parent: this.model }
+      }).render();
+
+      this.comments = new CommentsView({
+        el: this.$('.content>.comments>.table').first(),
         attributes: { parent: this.model }
       }).render();
 
@@ -40,9 +46,9 @@ define(['text!template/question.html','util/store','view/body',
     },
 
     toggle: function() {
-      var view = this;
-      view.$('.content').toggle('slow', function() {
-        view.$('.toggle').html($(this).is(':hidden') ? 'Show' : 'Hide');
+      var view = this, btn = $(this);
+      btn.closest('.content').first().toggle('slow', function() {
+        btn.html($(this).is(':hidden') ? 'Show' : 'Hide');
       });
     },
 
