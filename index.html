@@ -70,12 +70,19 @@
 
     </div>
 
-    <script src="http://localframework:8888/framework/js/lib/require.js" 
-      data-main="http://localframework:8888/framework/js/framework" > </script>
-    <!--
-    <script src="http://framework.jpillora.com/js/lib/require.js" 
-      data-main="http://framework.jpillora.com/js/framework" > </script>
-    -->
+    <script type="text/javascript">
+      (function() {
+        var isLocal = window.location.host.match(/^localhost/) != null, 
+            script = document.createElement('script'); 
+
+        script.type = 'text/javascript';
+        script.src  = isLocal ? 'http://localframework:8888/framework/js/lib/require.js' :
+                                '//cdnjs.cloudflare.com/ajax/libs/require.js/2.0.6/require.min.js';     
+        script.setAttribute('data-main', isLocal ? 'http://localframework:8888/framework/js/framework' :
+                                                   'js/qa-widget');
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+      })();
+    </script>
 
   </body>
 </html>
