@@ -1,12 +1,13 @@
 //Question view
 define(['text!template/question.html','util/store','view/body',
-        'view/answers','list/answers','lib/prettify','backbone'], 
-  function(html,store,BodyView,AnswersView, AnswersList){
+        'view/answers', 'model/question','backbone'], 
+  function(html,store,BodyView,AnswersView, QuestionModel){
   return Backbone.View.extend({
 
     name: "QuestionView",
     tagName: "div",
     template: _.template(html),
+    model: QuestionModel,
 
     initialize: function() {
       //remove elem on destroy
@@ -16,7 +17,6 @@ define(['text!template/question.html','util/store','view/body',
       if(model.get('source') === 'stackoverflow')
         store.add('stackoverflow-questions', model.get('question_id'));
 
-      this.answersList = new AnswersList(model.get('answers'));
     },
 
     events: {
@@ -32,8 +32,8 @@ define(['text!template/question.html','util/store','view/body',
 
       this.body = new BodyView({el: this.$('.content>.body') }).render();
       this.answers = new AnswersView({
-        el: this.$('.content>.answers'),
-        list: this.answersList
+        el: this.$('.content>.answers>.list'),
+        attributes: { parent: this.model }
       }).render();
 
       return this.$el;

@@ -5,8 +5,6 @@ define(['list/questions','view/question', 'model/question','backbone'],
   	name: "QuestionsView",
     el: $("#questions"),
 
-    model: QuestionModel,
-
     initialize: function() {
       this.log("init");
 

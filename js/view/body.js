@@ -7,10 +7,11 @@ define(['lib/prettify','backbone'],
       this.$('pre>code').each(function(i,e) {
         $(e).parent().addClass('prettyprint');
       });
-      this.$el.ready(prettyPrint);
+      this.$el.ready(function() {
+        setTimeout(prettyPrint, 250);
+      });
       return this;
     }
-
 
   });
 
