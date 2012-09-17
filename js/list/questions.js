@@ -4,10 +4,16 @@ define(['model/question','backbone'],
     name: "QuestionsList",
     model: QuestionModel,
     
-    url: 'json/questions.json',
+    url: '/qa/question/',
 
     initialize: function() {
       this.log("init");
+    },
+
+    parse: function(response) {
+      if(response && response.items)
+        return response.items;
+      return [];
     }
   });
 });

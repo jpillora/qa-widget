@@ -10,6 +10,21 @@ body .so_bg {
   background-image: url('../img/so_sprites.png');
 }
 
+.small-title {
+  font-weight: bold;
+}
+
+.ask textarea.submitTitle {
+
+}
+.ask textarea.submitBody {
+  margin-top: 5px;
+  height:100px;
+}
+.ask input.submitTags {
+  margin-top: 5px;
+}
+
 .ask.container textarea {
   margin-bottom: 0px;
 }
@@ -128,6 +143,10 @@ body pre.prettyprint {
   padding: 5px;
   margin: 5px;
   background: whiteSmoke;
+}
+
+.content>.comments {
+  margin: 5px;
 }
 
 ::-webkit-scrollbar{width:9px;height:9px;}

@@ -4,12 +4,17 @@ define(['lib/prettify','backbone'],
   return Backbone.View.extend({
   	 
     render: function() {
-      this.$('pre>code').each(function(i,e) {
-        $(e).parent().addClass('prettyprint');
+
+      this.$('pre>code').parent().each(function() {
+        var code = $(this).html();
+        var newCode = prettyPrintOne(code);
+        $(this).addClass('prettyprint').html(newCode);
       });
+      /*
       this.$el.ready(function() {
         setTimeout(prettyPrint, 250);
       });
+      */
       return this;
     }
 

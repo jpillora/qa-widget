@@ -11,14 +11,18 @@ define(['list/comments','view/comment', 'model/comment','backbone'],
       this.list.on('reset', this.addAll, this);
       this.list.on('add', this.addOne, this);
 
-      var parent = this.attributes.parent;
-      if(parent)
-        this.list.add(parent.get('comments')); 
-      
+      var comments = this.attributes.parent && this.attributes.parent.get('comments');
+      if(comments) this.list.add(comments);
+
     },
 
     render: function(){
       this.log("render");
+      
+      if(this.list.length === 0)
+        this.$el.append('<tr><td class="no-comment">No comments yet</td></tr>');
+      
+      //this.$el.find(".no-comment").remove();
     },
 
     addAll: function() {

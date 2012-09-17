@@ -6,7 +6,7 @@ define(['backbone'], function() {
     defaults: {
     },
     initialize: function() {
-      this.log("init")
+      this.log("init");
     }
   });
 

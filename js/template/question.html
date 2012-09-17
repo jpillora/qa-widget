@@ -11,24 +11,37 @@
     <span class="label label-warning">Stack Overflow</span>
     <button class="remove btn btn-mini">Remove</button>
   <% } %>
-  <button class="toggle btn btn-mini">Hide</button>
+  <button class="toggle-content btn btn-mini">Hide</button>
 </div>
 <div class="content">
   <div class="clearfix body"><%= body %></div>
 
+  <hr/>
+
   <div class="tags">
-  <% for(var i in tags) { %>
-    <span class="label label-info"><%= tags[i] %></span>
-  <% } %>
+    <span class="small-title">Tags </span>
+    <% if (tags.length === 0) { %>
+      <span class="label">No tags yet</span>
+    <% } else {
+         for(var i in tags) { %>
+          <span class="label label-info"><%= tags[i].name || tags[i] %></span>
+    <%   }
+       } %>
   </div>
 
+  <hr/>
+
+  <span class="small-title">Comments </span>
   <div class="comments">
     <table class="table table-condensed table-bordered table-hover">
     </table>
   </div>
   
+  <hr/>
+
+  <span class="small-title">Answers </span>
+  <button class="toggle-answers btn">Hide Answers</button>
   <div class="answers">
-    <button class="btn">View Answers</button>
     <div class="list"></div>
   </div>
 </div>

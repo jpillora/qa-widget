@@ -1,8 +1,9 @@
 //Question view
-define(['text!template/question.html','util/store','view/body',
+define(['text!template/question.html','util/store','view/qa-base','view/body',
         'view/answers', 'model/question','view/comments','backbone'], 
-  function(html,store,BodyView,AnswersView, QuestionModel,CommentsView){
-  return Backbone.View.extend({
+  function(html,store,QABaseView,BodyView,AnswersView, QuestionModel,CommentsView){
+
+  return QABaseView.extend({
 
     name: "QuestionView",
     tagName: "div",
@@ -20,7 +21,8 @@ define(['text!template/question.html','util/store','view/body',
     },
 
     events: {
-      'click .toggle': 'toggle',
+      'click .toggle-content': 'toggleContent',
+      'click .toggle-answers': 'toggleAnswers',
       'click .remove': 'remove'
     },
 
@@ -45,11 +47,11 @@ define(['text!template/question.html','util/store','view/body',
       return this.$el;
     },
 
-    toggle: function() {
-      var view = this, btn = $(this);
-      btn.closest('.content').first().toggle('slow', function() {
-        btn.html($(this).is(':hidden') ? 'Show' : 'Hide');
-      });
+    toggleContent: function() {
+      this.toggle(this.$(".toggle-content"),'.content');
+    },
+    toggleAnswers: function() {
+      this.toggle(this.$(".toggle-answers"),'.answers');
     },
 
     remove: function() {

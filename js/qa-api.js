@@ -1,71 +1,90 @@
-define(['util/ga','jquery'], function(ga) {
+define(['util/ga','vars','jquery'], function(ga,vars) {
 
+  var ajax = function(success,error,context,opts) {
+    var defaults = {};
 
-  var ajax = function(opts) {
-    $.ajax(opts);//$.extend(true,{ },opts));
+    if(opts.type && opts.type.toLowerCase() === 'post') {
+      defaults.data = {};
+      defaults.data['slide_id'] = vars.hash.slide_id || 21;
+      defaults.data['user_id']  = vars.hash.user_id || 42;
+    }
+    if(success) defaults['success'] = success;
+    if(error) defaults['error'] = error;
+    if(context) defaults['context'] = context;
+
+    $.ajax( $.extend(true, defaults, opts) );
   };
 
   return {
     local: {
       question: {
         get: function(context,success) {
-
+          ga.event('local/question','get');
+          ajax(success, null, context, {
+            url:'/qa/question/'
+          });
         },
         submit: function(title,body,tags,context,success) {
-          ga.event("question","submit",title);
-          ajax({
-            method: "post"
-            dataType: "json",
-            url:'question/submit/',
+          ga.event('local/question','submit',title);
+          ajax(success, null, context, {
+            type: 'post',
+            dataType: 'json',
+            url:'/qa/question/submit/',
             data: {
               title: title,
               body: body,
               tags: tags
-
-            },
-            context: context,
-            success: success
+            }
           });
-
         }
       }
     },
     stackOverflow: {
       question: {
         get: function(questionIds,context,success) {
-          //if(!String(questionIds).match(/^\d+(;\d+)*$/)) return;
-
-          ga.event("question","ids",questionIds);
-          context.log("fetch so question: " + questionIds);
-          ajax({
+          ga.event('stackoverflow/question','get',questionIds);
+          context.log('fetch so question: ' + questionIds);
+          ajax(success, null, context, {
             //url: 'json/question.json',
-            dataType: "jsonp",
+            dataType: 'jsonp',
             url:'//api.stackexchange.com/2.0/questions/'+questionIds,
             data: {
               filter: '!.Kza89Q*3UOKzWNXb)jYMiQwk.-fs',
               order:'desc',
               sort:'activity',
               site:'stackoverflow'
-            },
-            context: context,
-            success: success
+            }
           });
         },
         similar: function(title,context,success) {
-          ga.event("question","similar",title);
-          context.log("fetching similar...");
-          ajax({
-            //url: '/json/similars.json',
-            dataType: "jsonp",
+          ga.event('stackoverflow/question','similar',title);
+          context.log('fetching similar...');
+          ajax(success, null, context, {
+            dataType: 'jsonp',
             url:'//api.stackexchange.com/2.0/similar',
             data: {
               title: title,
               order:'desc',
               sort:'activity',
               site:'stackoverflow'
-            },
-            context: context,
-            success: success
+            }
+          });
+        },
+      },
+      tag: {
+        similar: function(tagName,context,success) {
+          ga.event('stackoverflow/tag','similar',tagName);
+          context.log('fetching similar...');
+          ajax(success, null, context, {
+            dataType: 'jsonp',
+            url:'//api.stackexchange.com/2.1/tags/',
+            data: {
+              filter: '!.Kza89Q*3UOKzWNXb)jYMiQwk.-fs',
+              inname: tagName,
+              order:'desc',
+              sort:'popular',
+              site:'stackoverflow'
+            }
           });
         }
       }
