@@ -22,11 +22,6 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
           <a class="brand" href="#">Q&amp;A Widget</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
@@ -42,7 +37,7 @@
 
       <!-- QA Ask -->
       <div class="row">
-        <div class="ask container">
+        <div class="ask container" data-view="ask">
           <h2>Submit your Question</h2>
 
           <textarea class="submitTitle input-block-level" placeholder="Type your question title here">How do I ask questions on here ?</textarea>
@@ -61,7 +56,7 @@
       <!-- QA Questions -->
       <div class="row">
         <h2>View all Questions</h2>
-        <div id="questions"></div>
+        <div id="questions" data-view="questions"></div>
       </div>
       <!-- QA Stats -->
       <div class="row">

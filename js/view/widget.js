@@ -8,13 +8,10 @@ define(['view/questions','view/ask','backbone'],
     render: function(){
       this.log("render");
 
-      var askView = new AskView();
-      askView.render();
+      this.setupNestedViews(function() {
+        this.ask.on('addQuestion', this.questions.createOne, this.questions);
+      });
 
-      var questionsView = new QuestionsView();
-      questionsView.render();
-
-      askView.on('addQuestion', questionsView.createOne, questionsView);
     }
     
   });

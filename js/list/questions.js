@@ -3,8 +3,9 @@ define(['model/question','backbone'],
   return Backbone.Collection.extend({
     name: "QuestionsList",
     model: QuestionModel,
-    
-    url: '/qa/question/',
+
+    url: 'json/questions.json',
+    //url: '/qa/question/',
 
     initialize: function() {
       this.log("init");
@@ -13,7 +14,10 @@ define(['model/question','backbone'],
     parse: function(response) {
       if(response && response.items)
         return response.items;
+      if(response)
+        return response;
       return [];
     }
+
   });
 });

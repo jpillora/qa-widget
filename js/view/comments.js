@@ -1,8 +1,10 @@
-define(['list/comments','view/comment', 'model/comment','backbone'],
-  function(CommentsList,CommentView,CommentModel){
+define(['text!template/comments.html','list/comments','view/comment', 'model/comment','backbone'],
+  function(html,CommentsList,CommentView,CommentModel){
 
   return Backbone.View.extend({
     name: "CommentsView",
+
+    template: _.template(html),
 
     initialize: function() {
       this.log("init");
@@ -11,7 +13,10 @@ define(['list/comments','view/comment', 'model/comment','backbone'],
       this.list.on('reset', this.addAll, this);
       this.list.on('add', this.addOne, this);
 
-      var comments = this.attributes.parent && this.attributes.parent.get('comments');
+      this.content = $(this.template());
+      this.table = this.content.siblings('.list-comments').children('.table')
+
+      var comments = this.parentGet('comments');
       if(comments) this.list.add(comments);
 
     },
@@ -19,10 +24,11 @@ define(['list/comments','view/comment', 'model/comment','backbone'],
     render: function(){
       this.log("render");
       
+      this.$el.html(this.content);
+
       if(this.list.length === 0)
-        this.$el.append('<tr><td class="no-comment">No comments yet</td></tr>');
-      
-      //this.$el.find(".no-comment").remove();
+        this.table.append('<tr><td class="no-comment">No comments yet</td></tr>');
+
     },
 
     addAll: function() {
@@ -31,7 +37,7 @@ define(['list/comments','view/comment', 'model/comment','backbone'],
 
     addOne: function(model) {
       var commentView = new CommentView({model: model});
-      this.$el.append(commentView.render().hide().delay(100).slideDown('slow'));
+      this.table.append(commentView.render().hide().delay(100).slideDown('slow'));
     },
 
     createOne: function(obj) {

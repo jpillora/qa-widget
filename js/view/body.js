@@ -7,14 +7,17 @@ define(['lib/prettify','backbone'],
 
       this.$('pre>code').parent().each(function() {
         var code = $(this).html();
-        var newCode = prettyPrintOne(code);
+        var newCode = $(prettyPrintOne(code));
+
+        newCode.find('span').each(function() {
+          $(this).html( 
+            $(this).html().replace(/\n/g,'<br/>').replace(/\ /g,'&nbsp;')
+          );
+        });
+          
         $(this).addClass('prettyprint').html(newCode);
       });
-      /*
-      this.$el.ready(function() {
-        setTimeout(prettyPrint, 250);
-      });
-      */
+
       return this;
     }
 

@@ -37,8 +37,28 @@ define(['util/ga','vars','jquery'], function(ga,vars) {
             }
           });
         }
+      },
+      answer: {
+        submit: function(question,body,context,success) {
+
+          var questionId = question.id;
+          if(!questionId) return context.log("cannot submit answer - missing question id");
+
+          ga.event('local/answer','submit',title);
+          ajax(success, null, context, {
+            type: 'post',
+            dataType: 'json',
+            url:'/qa/question/'+questionId+'/answer/submit/',
+            data: {
+              body: body
+            }
+          });
+        }
+
+
       }
-    },
+    }, //end local
+
     stackOverflow: {
       question: {
         get: function(questionIds,context,success) {

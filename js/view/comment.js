@@ -1,6 +1,6 @@
 //Comment view
-define(['text!template/comment.html','util/store','model/comment','view/body','backbone'],
-  function(html,store,CommentModel,BodyView){
+define(['text!template/comment.html','model/comment','backbone'],
+  function(html,CommentModel){
 
   return Backbone.View.extend({
     name: "CommentView",
@@ -18,9 +18,7 @@ define(['text!template/comment.html','util/store','model/comment','view/body','b
     render: function(){
       this.log("render");
       this.executeTemplate();
-
-      this.body = new BodyView({el: this.$('.content>.body') }).render();
-
+      this.setupNestedViews();
       return this.$el;
     },
 

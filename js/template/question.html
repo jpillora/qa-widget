@@ -6,15 +6,13 @@
 
 <h4 class="title"><%= title %></h4>
 <div class="controls">
-
-  <% if (source == 'stackoverflow') { %>
-    <span class="label label-warning">Stack Overflow</span>
-    <button class="remove btn btn-mini">Remove</button>
-  <% } %>
-  <button class="toggle-content btn btn-mini">Hide</button>
+  <span class="source-label label label-warning">Stack Overflow</span>
+  <button class="remove btn btn-mini">Remove</button>
+  <button class="toggle-content btn btn-mini" data-toggle=".question-content">Hide</button>
 </div>
-<div class="content">
-  <div class="clearfix body"><%= body %></div>
+<div class="question-content">
+
+  <div class="body" data-view="body"><%= body %></div>
 
   <hr/>
 
@@ -29,19 +27,11 @@
        } %>
   </div>
 
-  <hr/>
+  <div class="comments" data-view="comments"></div>
 
-  <span class="small-title">Comments </span>
-  <div class="comments">
-    <table class="table table-condensed table-bordered table-hover">
-    </table>
-  </div>
-  
-  <hr/>
+  <div class="answers" data-view="answers"></div>
 
-  <span class="small-title">Answers </span>
-  <button class="toggle-answers btn">Hide Answers</button>
-  <div class="answers">
-    <div class="list"></div>
-  </div>
+  <div class="clearfix"></div>
+
 </div>
+

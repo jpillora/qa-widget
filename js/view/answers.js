@@ -1,8 +1,9 @@
-define(['list/answers','view/answer', 'model/answer','backbone'],
-  function(AnswersList,AnswerView,AnswerModel){
+define(['text!template/answers.html','list/answers','view/answer', 'model/answer','backbone'],
+  function(html,AnswersList,AnswerView,AnswerModel){
 
   return Backbone.View.extend({
     name: "AnswersView",
+    template: _.template(html),
 
     initialize: function() {
       this.log("init");
@@ -11,14 +12,19 @@ define(['list/answers','view/answer', 'model/answer','backbone'],
       this.list.on('reset', this.addAll, this);
       this.list.on('add', this.addOne, this);
 
-      var parent = this.attributes.parent;
-      if(parent)
-        this.list.add(parent.get('answers')); 
+      this.content = $(this.template());
+      this.listElem = this.content.siblings('.list-answers');
+
+      var answers = this.parentGet('answers');
+      if(answers) this.list.add(answers); 
       
     },
 
     render: function(){
       this.log("render");
+      this.$el.html(this.content);
+
+      this.setupTogglers();
     },
 
     addAll: function() {
@@ -27,7 +33,7 @@ define(['list/answers','view/answer', 'model/answer','backbone'],
 
     addOne: function(model) {
       var answerView = new AnswerView({model: model});
-      this.$el.append(answerView.render().hide().delay(100).slideDown('slow'));
+      this.listElem.append(answerView.render().hide().delay(100).slideDown('slow'));
     },
 
     createOne: function(obj) {

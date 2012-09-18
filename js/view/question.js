@@ -1,9 +1,8 @@
 //Question view
-define(['text!template/question.html','util/store','view/qa-base','view/body',
-        'view/answers', 'model/question','view/comments','backbone'], 
-  function(html,store,QABaseView,BodyView,AnswersView, QuestionModel,CommentsView){
+define(['text!template/question.html','util/store','model/question','backbone'], 
+  function(html,store,QuestionModel){
 
-  return QABaseView.extend({
+  return Backbone.View.extend({
 
     name: "QuestionView",
     tagName: "div",
@@ -21,8 +20,6 @@ define(['text!template/question.html','util/store','view/qa-base','view/body',
     },
 
     events: {
-      'click .toggle-content': 'toggleContent',
-      'click .toggle-answers': 'toggleAnswers',
       'click .remove': 'remove'
     },
 
@@ -31,27 +28,10 @@ define(['text!template/question.html','util/store','view/qa-base','view/body',
 
       this.$el.addClass("question").addClass("well");
       this.executeTemplate();
-
-      this.body = new BodyView({el: this.$('.content>.body') }).render();
-      
-      this.answers = new AnswersView({
-        el: this.$('.content>.answers>.list'),
-        attributes: { parent: this.model }
-      }).render();
-
-      this.comments = new CommentsView({
-        el: this.$('.content>.comments>.table').first(),
-        attributes: { parent: this.model }
-      }).render();
+      this.setupTogglers();
+      this.setupNestedViews();
 
       return this.$el;
-    },
-
-    toggleContent: function() {
-      this.toggle(this.$(".toggle-content"),'.content');
-    },
-    toggleAnswers: function() {
-      this.toggle(this.$(".toggle-answers"),'.answers');
     },
 
     remove: function() {

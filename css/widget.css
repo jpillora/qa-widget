@@ -94,7 +94,8 @@ body .so_bg {
 
 .question .title {
   padding: 10px;
-  display: inline-block;
+  display: inline;
+  line-height: 40px;
 }
 
 .question .controls {
@@ -104,49 +105,51 @@ body .so_bg {
 
 .question .voting {
   float: left;
-  padding: 5px;
+  margin-left: -10px;
+  margin-top: -10px;
+  padding-right: 5px;
+  padding-bottom: 5px;
 }
 
-.question .voting > div {
+.voting > div {
   height: 20px;
   width: 40px;
 }
 
-.question .voting > div.up {
+.voting > div.up {
   background-position: 0px -265px;
 }
-.question .voting > div.down {
+.voting > div.down {
   background-position: 0px -300px;
 }
-.question .voting > div.vote_count {
+.voting > div.vote_count {
   text-align: center;
   vertical-align: middle;
   font-weight: bold;
   font-size: 20px;
 }
 
-.question .body pre.prettyprint {
-  padding: 10px;
-  margin: 10px;
+.body pre.prettyprint {
+  padding-left: 10px;
   background: white;
+  border: thin solid #DDD;
+  overflow: scroll;
+  white-space: nowrap;
 }
 
-body pre.prettyprint {
-  border: thin solid #DDD;
+.answer .body pre.prettyprint {
+  padding-left: 5px;
+  background: whiteSmoke;
 }
+
 
 .answer {
   background: white;
 }
 
-.answer .body pre.prettyprint {
-  padding: 5px;
-  margin: 5px;
-  background: whiteSmoke;
-}
-
-.content>.comments {
-  margin: 5px;
+.content>.comments, .content>.post-comment {
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 ::-webkit-scrollbar{width:9px;height:9px;}
