@@ -1,4 +1,4 @@
-define(['text!template/answers.html','list/answers','view/answer', 'model/answer','backbone'],
+define(['text!template/answers.html','list/answers','view/answer', 'model/answer','lib/jquery.autogrow','backbone'],
   function(html,AnswersList,AnswerView,AnswerModel){
 
   return Backbone.View.extend({
@@ -20,9 +20,19 @@ define(['text!template/answers.html','list/answers','view/answer', 'model/answer
       
     },
 
+    events: {
+      "click .submitBtn": "submitAnswer"
+    },
+
+    submitAnswer: function() {
+      this.log("submit!")
+    },
+
     render: function(){
       this.log("render");
       this.$el.html(this.content);
+
+      this.$('textarea').autogrow();
 
       this.setupTogglers();
     },

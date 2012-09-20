@@ -10,6 +10,10 @@ body .so_bg {
   background-image: url('../img/so_sprites.png');
 }
 
+hr.separator {
+  margin: 10px 0;
+}
+
 .small-title {
   font-weight: bold;
 }
@@ -130,7 +134,7 @@ body .so_bg {
 }
 
 .body pre.prettyprint {
-  padding-left: 10px;
+  padding: 10px;
   background: white;
   border: thin solid #DDD;
   overflow: scroll;
