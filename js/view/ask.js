@@ -1,5 +1,6 @@
-define(['text!template/similar.html','util/ga','qa-api','util/store','util/timer','backbone'], 
-  function(similarHtml,ga,api,store,timer){
+define(['text!template/similar.html','util/ga',
+  'qa-api','util/store','util/timer','filters','backbone'], 
+  function(similarHtml,ga,api,store,timer,filters){
 
   return Backbone.View.extend({
 
@@ -13,8 +14,8 @@ define(['text!template/similar.html','util/ga','qa-api','util/store','util/timer
     },
 
     events: {
-      'click .submitBtn': 'submitQuestion',
-      'click .similarsBtn': 'hideShowSimilars'
+      'click .submitBtn'   : 'submitQuestion',
+      'click .similarsBtn' : 'hideShowSimilars'
     },
 
     render: function(){
@@ -22,9 +23,9 @@ define(['text!template/similar.html','util/ga','qa-api','util/store','util/timer
       view.log("render");
 
       view.similars = view.$(".similars");
-      view.submitTitle = this.$('.submitTitle');
-      view.submitBody = this.$('.submitBody');
-      view.submitTags = this.$('.submitTags');
+      view.submitTitle = view.$('.submitTitle');
+      view.submitBody = view.$('.submitBody');
+      view.submitTags = view.$('.submitTags');
 
       timer.idle(view.submitTitle, 'keyup', 1000, function(){
         view.similarsBtnMode("loading");
@@ -43,7 +44,7 @@ define(['text!template/similar.html','util/ga','qa-api','util/store','util/timer
           body  = this.submitBody.val(),
           tags  = this.submitTags.val();
 
-      api.local.question.submit(title,body,tags,this,this.gotQuestion)
+      api.local.question.submit(title,body,tags,this, filters.showQuestion(this.gotQuestion))
     },
 
     hideShowSimilars: function() {
@@ -64,7 +65,8 @@ define(['text!template/similar.html','util/ga','qa-api','util/store','util/timer
         //on click load the chosen question into the questions list
         .click(function() {
           var id = item.question_id;
-          api.stackOverflow.question.get(id, view, view.gotQuestion);
+          api.stackOverflow.question.get(id, view, 
+            filters.showQuestion(view.gotQuestion));
         });
         view.similars.append(similar);
       });
@@ -74,19 +76,14 @@ define(['text!template/similar.html','util/ga','qa-api','util/store','util/timer
       
     },
 
-
     gotQuestion: function(data) {
-      if(data.items === undefined) {
-        this.log("unknown question data");
-        return;
-      }
-      this.log("got so question - adding...");
-      for(var i = 0; i < data.items.length; ++i) {
-        var item = data.items[i];
-        item.source = 'stackoverflow';
-        item.id = "SO"+item.question_id;
-        this.trigger('addQuestion', item );
-      }
+      if(data.items === undefined)
+        return this.log("unknown question data");
+      this.log("got question - adding...");
+      
+      for(var i = 0; i < data.items.length; ++i)
+        this.trigger('addQuestion', data.items[i] );
+      
     },
 
     similarsBtnMode: function(mode) {

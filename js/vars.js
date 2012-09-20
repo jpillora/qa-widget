@@ -2,8 +2,8 @@ define(function() {
 
   var variables = {};
 
-  //set hash vars
-  variables.hash = (function() {
+  //update hash vars
+  function update() {
     var str = window.location.hash.substr(1),
         vars = str.split('&'),
         obj = {};
@@ -13,13 +13,18 @@ define(function() {
       if(pair.length != 2) continue;
       obj[pair[0]] = pair[1];
     }
-    return obj;
-  })();
+    
+    variables = $.extend({},obj);
+  }
 
-  return variables;
-  // return {
-  //   set: function(key,val) { variables[key] = val; },
-  //   get: function(key)     { return variables[key]; }
-  // };
+  return {
+    get: function(key, def) {
+      update();
+      var val = variables[key]; 
+      if(val === undefined)
+        return def;
+      return val;
+    }
+  };
 
 });

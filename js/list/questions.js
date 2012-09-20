@@ -5,7 +5,7 @@ define(['model/question','backbone'],
     model: QuestionModel,
 
     url: 'json/questions.json',
-    //url: '/qa/question/',
+    // url: '/QAServer/question/',
 
     initialize: function() {
       this.log("init");

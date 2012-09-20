@@ -27,7 +27,7 @@ define(['text!template/comments.html','list/comments','view/comment', 'model/com
       this.$el.html(this.content);
 
       if(this.list.length === 0)
-        this.table.append('<tr><td class="no-comment">No comments yet</td></tr>');
+        this.table.append('<tr><td class="muted">No comments yet</td></tr>');
 
     },
 

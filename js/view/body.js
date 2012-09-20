@@ -18,6 +18,8 @@ define(['lib/prettify','backbone'],
         $(this).addClass('prettyprint').html(newCode);
       });
 
+      this.attributes.parent.log("render body");
+
       return this;
     }
 

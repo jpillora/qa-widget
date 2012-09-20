@@ -14,6 +14,20 @@ hr.separator {
   margin: 10px 0;
 }
 
+div.source-stackoverflow span.label-source {
+  background-color: #FFA603;
+}
+div.source-stackoverflow div.post-answer,
+div.source-stackoverflow div.post-comment {
+  display: none;
+}
+div.source-local span.label-source {
+  background-color: #4289F3;
+}
+div.source-local button.remove {
+  display: none;
+}
+
 .small-title {
   font-weight: bold;
 }
@@ -91,6 +105,10 @@ hr.separator {
   transition: background-color 500ms linear;
 }
 
+body .well {
+  margin-bottom: 10px;
+  padding-bottom: 10px; 
+}
 
 .question {
   position: relative;

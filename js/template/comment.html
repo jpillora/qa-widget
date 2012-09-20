@@ -1,6 +1,8 @@
 <td>
   <div class="content">
     <%= body %>
-    <!-- <span>username</span> -->
+    <% if (owner) { %>
+    <span> - <a href="<%= owner.link %>"><%= owner.display_name %></a></span>
+    <% } %>
   </div>
 </td>

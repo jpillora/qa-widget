@@ -4,6 +4,7 @@ define(['backbone'], function() {
 
     name: "AnswerModel",
     defaults: {
+      score    : 0
     },
     initialize: function() {
       this.log("init");

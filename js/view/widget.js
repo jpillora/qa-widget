@@ -10,6 +10,8 @@ define(['view/questions','view/ask','backbone'],
 
       this.setupNestedViews(function() {
         this.ask.on('addQuestion', this.questions.createOne, this.questions);
+      
+        window.questionView = this.questions;
       });
 
     }

@@ -6,7 +6,8 @@ define(['backbone'], function() {
     defaults: {
       'score'       : 0,
       'source'      : 'local',
-      'tags'        : []
+      'tags'        : [],
+      'hidden'      : true
     },
     initialize: function() {
       this.log("init")

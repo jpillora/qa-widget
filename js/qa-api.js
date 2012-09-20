@@ -1,12 +1,13 @@
-define(['util/ga','vars','jquery'], function(ga,vars) {
+define(['util/ga','vars','filters','jquery'], function(ga,vars,filters) {
 
+  //custom ajax requests
   var ajax = function(success,error,context,opts) {
     var defaults = {};
 
     if(opts.type && opts.type.toLowerCase() === 'post') {
       defaults.data = {};
-      defaults.data['slide_id'] = vars.hash.slide_id || 21;
-      defaults.data['user_id']  = vars.hash.user_id || 42;
+      defaults.data['slide_id'] = vars.get('slide_id', 21);
+      defaults.data['user_id']  = vars.get('user_id', 42);
     }
     if(success) defaults['success'] = success;
     if(error) defaults['error'] = error;
@@ -15,13 +16,15 @@ define(['util/ga','vars','jquery'], function(ga,vars) {
     $.ajax( $.extend(true, defaults, opts) );
   };
 
+  var localPath = '/QAServer/';
+  //interface
   return {
     local: {
       question: {
         get: function(context,success) {
           ga.event('local/question','get');
           ajax(success, null, context, {
-            url:'/qa/question/'
+            url: localPath + 'question/'
           });
         },
         submit: function(title,body,tags,context,success) {
@@ -29,7 +32,7 @@ define(['util/ga','vars','jquery'], function(ga,vars) {
           ajax(success, null, context, {
             type: 'post',
             dataType: 'json',
-            url:'/qa/question/submit/',
+            url:localPath + 'question/submit/',
             data: {
               title: title,
               body: body,
@@ -44,11 +47,11 @@ define(['util/ga','vars','jquery'], function(ga,vars) {
           var questionId = question.id;
           if(!questionId) return context.log("cannot submit answer - missing question id");
 
-          ga.event('local/answer','submit',title);
+          ga.event('local/answer','submit');
           ajax(success, null, context, {
             type: 'post',
             dataType: 'json',
-            url:'/qa/question/'+questionId+'/answer/submit/',
+            url: localPath + 'question/'+questionId+'/answer/submit/',
             data: {
               body: body
             }
@@ -64,7 +67,8 @@ define(['util/ga','vars','jquery'], function(ga,vars) {
         get: function(questionIds,context,success) {
           ga.event('stackoverflow/question','get',questionIds);
           context.log('fetch so question: ' + questionIds);
-          ajax(success, null, context, {
+          ajax(filters.stackOverflow(success), 
+            null, context, {
             //url: 'json/question.json',
             dataType: 'jsonp',
             url:'//api.stackexchange.com/2.0/questions/'+questionIds,
@@ -79,7 +83,7 @@ define(['util/ga','vars','jquery'], function(ga,vars) {
         similar: function(title,context,success) {
           ga.event('stackoverflow/question','similar',title);
           context.log('fetching similar...');
-          ajax(success, null, context, {
+          ajax(filters.stackOverflow(success), null, context, {
             dataType: 'jsonp',
             url:'//api.stackexchange.com/2.0/similar',
             data: {
@@ -95,7 +99,7 @@ define(['util/ga','vars','jquery'], function(ga,vars) {
         similar: function(tagName,context,success) {
           ga.event('stackoverflow/tag','similar',tagName);
           context.log('fetching similar...');
-          ajax(success, null, context, {
+          ajax(filters.stackOverflow(success), null, context, {
             dataType: 'jsonp',
             url:'//api.stackexchange.com/2.1/tags/',
             data: {

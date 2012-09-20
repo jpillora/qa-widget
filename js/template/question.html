@@ -6,11 +6,11 @@
 
 <h4 class="title"><%= title %></h4>
 <div class="controls">
-  <span class="source-label label label-warning">Stack Overflow</span>
+  <span class="label label-source"><%= source %></span>
   <button class="remove btn btn-mini">Remove</button>
-  <button class="toggle-content btn btn-mini" data-toggle=".question-content">Hide</button>
+  <button class="toggle-content btn btn-mini" data-toggle=".question-content"><%= hidden ? 'Show' : 'Hide' %></button>
 </div>
-<div class="question-content">
+<div class="question-content" <%= hidden ? 'style="display:none;"' : '' %> >
 
   <div class="body" data-view="body"><%= body %></div>
 
@@ -19,7 +19,7 @@
   <div class="tags">
     <span class="small-title">Tags </span>
     <% if (tags.length === 0) { %>
-      <span class="label">No tags yet</span>
+      <span class="label" style="opacity:0.5;">No tags</span>
     <% } else {
          for(var i in tags) { %>
           <span class="label label-info"><%= tags[i].name || tags[i] %></span>
@@ -31,7 +31,7 @@
 
   <div class="answers" data-view="answers"></div>
 
-  <div class="clearfix"></div>
-
 </div>
+
+<div class="clearfix"></div>
 

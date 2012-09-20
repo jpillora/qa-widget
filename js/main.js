@@ -1,7 +1,14 @@
 //App entry point
 define(['view/widget','bootstrap','text', 'css',
          'ext/jquery', 'lib/jquery.cookie','lib/jquery.color',
-         'ext/backbone'], function(WidgetView) {
+         'ext/backbone',
+         //workaround just for building
+         'view/comment',
+         'view/comments',
+         'view/answer',
+         'view/answers',
+         'view/body'
+         ], function(WidgetView) {
 
   var widget = new WidgetView();
   widget.render();

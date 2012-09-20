@@ -26,10 +26,21 @@ define(['text!template/question.html','util/store','model/question','backbone'],
     render: function(){
       this.log("render")
 
-      this.$el.addClass("question").addClass("well");
+      this.$el
+        .addClass("question")
+        .addClass("well")
+        .addClass("source-" + this.model.get('source'));
+
       this.executeTemplate();
       this.setupTogglers();
       this.setupNestedViews();
+
+
+      var view = this;
+      if(this.model.get('hidden') === false)
+      setTimeout(function() {
+        view.$el.scrollTo();
+      },1000)
 
       return this.$el;
     },

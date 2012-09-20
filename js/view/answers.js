@@ -1,5 +1,6 @@
-define(['text!template/answers.html','list/answers','view/answer', 'model/answer','lib/jquery.autogrow','backbone'],
-  function(html,AnswersList,AnswerView,AnswerModel){
+define(['text!template/answers.html','list/answers','view/answer', 
+  'model/answer','qa-api','lib/jquery.autogrow','backbone'],
+  function(html,AnswersList,AnswerView,AnswerModel,api){
 
   return Backbone.View.extend({
     name: "AnswersView",
@@ -13,7 +14,7 @@ define(['text!template/answers.html','list/answers','view/answer', 'model/answer
       this.list.on('add', this.addOne, this);
 
       this.content = $(this.template());
-      this.listElem = this.content.siblings('.list-answers');
+      this.listElem = this.content.children('.list');
 
       var answers = this.parentGet('answers');
       if(answers) this.list.add(answers); 
@@ -25,7 +26,19 @@ define(['text!template/answers.html','list/answers','view/answer', 'model/answer
     },
 
     submitAnswer: function() {
-      this.log("submit!")
+
+      if(!this.attributes.parent)
+        throw "No parent question";
+
+      var question = this.attributes.parent.model;
+
+      api.local.answer.submit(
+        question, this.$('.submitAnswer').val(), this, 
+        function(data) {
+          if(data.items)
+            this.list.add(data.items[0]);
+        }
+      );
     },
 
     render: function(){
