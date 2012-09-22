@@ -15,7 +15,13 @@ define(['text!template/answer.html','util/store','model/answer','backbone'],
     render: function(){
       this.log("render");
 
-      this.$el.addClass("answer").addClass("well").addClass("well-small");
+      this.$el.addClass("answer")
+      .addClass("well")
+      .addClass("well-small");
+
+      if(this.model.get('is_accepted') === true)
+        this.$el.addClass("accepted");
+
       this.executeTemplate();
       this.setupNestedViews();
 

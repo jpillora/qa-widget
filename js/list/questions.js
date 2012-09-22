@@ -4,8 +4,8 @@ define(['model/question','backbone'],
     name: "QuestionsList",
     model: QuestionModel,
 
-    url: 'json/questions.json',
-    // url: '/QAServer/question/',
+    // url: 'json/questions.json',
+    url: '/qa/question/',
 
     initialize: function() {
       this.log("init");

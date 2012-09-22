@@ -1,10 +1,40 @@
 //Body view - Handles formatting and highlighting within text bodies
-define(['lib/prettify','backbone'], 
-  function(){
+define(['util/regex','lib/prettify','backbone'], 
+  function(regex){
   return Backbone.View.extend({
   	 
     render: function() {
 
+      var body = this.parseMarkup(this.$el.html());
+      this.$el.html(body);
+      this.prettyPrint();
+      return this;
+    },
+
+    parseMarkup: function(text) {
+      return text
+        //code block
+        .replace(/```((.*\s?)*)```/mg,"<pre><code>$1</code></pre>")
+        //inline code
+        .replace(/`(.*?)`/g,"<code>$1</code>")
+        //headings
+        .replace(/^(#{1,6})([\s\w]*[^\s])$/gm,
+          function(n,hashes,text) { 
+            var n = hashes.length; 
+            return "</h"+n+">" + text + "</h"+n+">" 
+          })
+        //bold
+        .replace(/\*\*(.*?)\*\*/g,"<b>$1</b>")
+        //italics
+        .replace(/\*(.*?)\*/g,"<i>$1</i>")
+        //plain url
+        .replace(regex.url,"<a href='$0'>$0</a>")
+        //named url
+        .replace(/!\[([\w\s]+)\]\(([^\<>;"')]+)\)/,'<img src="$2" alt="$1"/>')
+        .replace(/\[([\w\s]+)\]\(([^\<>;"')]+)\)/,'<a href="$2">$1</a>')
+    },
+
+    prettyPrint: function() {
       this.$('pre>code').parent().each(function() {
         var code = $(this).html();
         var newCode = $(prettyPrintOne(code));
@@ -17,10 +47,6 @@ define(['lib/prettify','backbone'],
           
         $(this).addClass('prettyprint').html(newCode);
       });
-
-      this.attributes.parent.log("render body");
-
-      return this;
     }
 
   });

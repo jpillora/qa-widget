@@ -4,7 +4,8 @@ define(['backbone'], function() {
 
     name: "CommentModel",
     defaults: {
-      'body'       : ''
+      'body'       : '',
+      'owner'      : null
     },
     initialize: function() {
       this.log("init")

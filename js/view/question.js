@@ -1,6 +1,7 @@
 //Question view
-define(['text!template/question.html','util/store','model/question','backbone'], 
-  function(html,store,QuestionModel){
+define(['text!template/question.html','util/store',
+  'model/question','vars','backbone'], 
+  function(html,store,QuestionModel,vars){
 
   return Backbone.View.extend({
 
@@ -30,6 +31,10 @@ define(['text!template/question.html','util/store','model/question','backbone'],
         .addClass("question")
         .addClass("well")
         .addClass("source-" + this.model.get('source'));
+
+      var user_id = vars.get('user_id');
+      if(user_id && user_id == this.model.get('user_id'))
+        this.$el.addClass("owned");
 
       this.executeTemplate();
       this.setupTogglers();

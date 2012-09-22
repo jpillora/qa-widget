@@ -58,13 +58,12 @@ div.source-local button.remove {
   float: left;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
   border-top: none;
   opacity: 0.8;
   width: 60px;
   text-align: center;
   padding: 5px;
+  margin-bottom: 5px;
 }
 
 .ask .similarsBtn.loading {
@@ -164,9 +163,23 @@ body .well {
   background: whiteSmoke;
 }
 
-
 .answer {
   background: white;
+}
+
+.answer .accept {
+  width: 40px;
+  height: 30px;
+  display: none;
+}
+
+.answer.accepted .accept {
+  background-position: 0px -465px;
+  display: block;
+}
+.question.owned .answer .accept {
+  background-position: 0px -565px;
+  display: block;
 }
 
 .content>.comments, .content>.post-comment {

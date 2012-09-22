@@ -1,7 +1,10 @@
 <td>
   <div class="content">
     <%= body %>
-    <% if (owner) { %>
+
+    <% if (user_id) { %>
+    <span> - User<%= user_id %></span>
+    <% } else if (owner) { %>
     <span> - <a href="<%= owner.link %>"><%= owner.display_name %></a></span>
     <% } %>
   </div>

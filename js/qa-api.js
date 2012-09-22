@@ -1,22 +1,24 @@
-define(['util/ga','vars','filters','jquery'], function(ga,vars,filters) {
+define(['util/ga','vars','filters','util/html','jquery'], 
+  function(ga,vars,filters,html) {
 
   //custom ajax requests
-  var ajax = function(success,error,context,opts) {
+  var ajax = function(success,error,context,user_opts) {
     var defaults = {};
+    defaults.data = {};
+    defaults.data['slide_id'] = vars.get('slide_id', 21);
+    defaults.data['user_id']  = vars.get('user_id', 42);
 
-    if(opts.type && opts.type.toLowerCase() === 'post') {
-      defaults.data = {};
-      defaults.data['slide_id'] = vars.get('slide_id', 21);
-      defaults.data['user_id']  = vars.get('user_id', 42);
-    }
+    defaults.dataType = 'json';
     if(success) defaults['success'] = success;
     if(error) defaults['error'] = error;
     if(context) defaults['context'] = context;
 
-    $.ajax( $.extend(true, defaults, opts) );
+    var opts = $.extend(true, defaults, user_opts);
+    
+    $.ajax(opts);
   };
 
-  var localPath = '/QAServer/';
+  var localPath = '/qa/';
   //interface
   return {
     local: {
@@ -31,16 +33,15 @@ define(['util/ga','vars','filters','jquery'], function(ga,vars,filters) {
           ga.event('local/question','submit',title);
           ajax(success, null, context, {
             type: 'post',
-            dataType: 'json',
             url:localPath + 'question/submit/',
             data: {
-              title: title,
-              body: body,
-              tags: tags
+              title: html.encode(title),
+              body: html.encode(body),
+              tags: html.encode(tags)
             }
           });
         }
-      },
+      },//end question
       answer: {
         submit: function(question,body,context,success) {
 
@@ -50,15 +51,26 @@ define(['util/ga','vars','filters','jquery'], function(ga,vars,filters) {
           ga.event('local/answer','submit');
           ajax(success, null, context, {
             type: 'post',
-            dataType: 'json',
             url: localPath + 'question/'+questionId+'/answer/submit/',
             data: {
-              body: body
+              body: html.encode(body)
             }
           });
         }
+      },//end answer
+      comment: {
+        submit: function(type,id,body,context,success) {
 
+          ga.event('local/comment','submit');
+          ajax(success, null, context, {
+            type: 'post',
+            url: localPath + type + '/'+ id +'/comment/submit/',
+            data: {
+              body: html.encode(body)
+            }
+          });
 
+        }
       }
     }, //end local
 

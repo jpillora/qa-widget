@@ -12,13 +12,8 @@ define(['text!template/answers.html','list/answers','view/answer',
       this.list = new AnswersList();
       this.list.on('reset', this.addAll, this);
       this.list.on('add', this.addOne, this);
-
-      this.content = $(this.template());
-      this.listElem = this.content.children('.list');
-
-      var answers = this.parentGet('answers');
-      if(answers) this.list.add(answers); 
-      
+      this.list.on('add', this.changed, this);
+      this.list.on('remove', this.changed, this);
     },
 
     events: {
@@ -41,9 +36,21 @@ define(['text!template/answers.html','list/answers','view/answer',
       );
     },
 
+    changed: function() {
+      this.$('.answers-container').visible(this.list.length > 0);
+    },
+
     render: function(){
       this.log("render");
-      this.$el.html(this.content);
+
+      this.$el.html(this.template());
+      this.listElem = this.$('.list');
+
+      var answers = this.parentGet('answers');
+      if(answers && answers.length > 0) 
+        this.list.add(answers);
+      else 
+        this.changed();
 
       this.$('textarea').autogrow();
 

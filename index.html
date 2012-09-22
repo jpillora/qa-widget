@@ -22,6 +22,11 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
           <a class="brand" href="#">Q&amp;A Widget</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
@@ -42,9 +47,9 @@
 
           <textarea class="submitTitle input-block-level" placeholder="Type your question title here">How do I ask questions on here ?</textarea>
           <div class="similars"></div>
-          <div class="similarsBtn"></div>
+          <div class="similarsBtn" data-toggle=".similars"></div>
 
-          <textarea class="submitBody input-block-level" placeholder="Type your question body here">I've been looking around this site and I can't find the Submit button, can someone help me ????</textarea>
+          <textarea class="submitBody input-block-level" placeholder="Type your question body here">I've been looking around this sitE and I can't find the Submit button, can someone help me ????</textarea>
 
           <input class="submitTags input-block-level" type="text" placeholder="Type your tags here" value="qa-management,javascript" ></input>
 
@@ -76,9 +81,9 @@
             script = document.createElement('script'); 
 
         script.type = 'text/javascript';
-        script.src  = isLocal ? 'http://localframework:8888/framework/js/lib/require.js' :
+        script.src  = isLocal ? 'http://127.0.0.1:8888/framework/js/lib/require.js' :
                                 '//cdnjs.cloudflare.com/ajax/libs/require.js/2.0.6/require.min.js';     
-        script.setAttribute('data-main', isLocal ? 'http://localframework:8888/framework/js/framework' :
+        script.setAttribute('data-main', isLocal ? 'http://127.0.0.1:8888/framework/js/framework' :
                                                    'js/qa-widget');
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
       })();

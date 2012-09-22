@@ -14,21 +14,25 @@ define(['text!template/similar.html','util/ga',
     },
 
     events: {
-      'click .submitBtn'   : 'submitQuestion',
-      'click .similarsBtn' : 'hideShowSimilars'
+      'click .submitBtn'   : 'submitQuestion'
     },
 
     render: function(){
       var view = this;
       view.log("render");
 
+      this.setupTogglers();
+      
       view.similars = view.$(".similars");
+      view.similarsBtn = view.$(".similarsBtn");
       view.submitTitle = view.$('.submitTitle');
       view.submitBody = view.$('.submitBody');
       view.submitTags = view.$('.submitTags');
 
+      view.submitBody.autogrow();
+
       timer.idle(view.submitTitle, 'keyup', 1000, function(){
-        view.similarsBtnMode("loading");
+        view.similarsIsLoading(true);
         api.stackOverflow.question.similar(view.submitTitle.val(),view,view.gotSimilars);
       });
 
@@ -47,18 +51,15 @@ define(['text!template/similar.html','util/ga',
       api.local.question.submit(title,body,tags,this, filters.showQuestion(this.gotQuestion))
     },
 
-    hideShowSimilars: function() {
-      this.similarsBtnMode("hide");
-      this.similars.slideUp('slow');
-    },
-
     gotSimilars: function(data) {
-      var view = this;
-      view.log("got similar: #" + (data.items ? data.items.length : data.items));
-      if(data.items === undefined || data.items.length == 0) {
-        view.similarsBtnMode("hide");
-        return;
-      }
+
+      if(data.items === undefined) return;
+
+      var view = this, numItems = data.items.length;
+
+
+      view.log("got similar: #" + numItems);
+      
       view.similars.empty();
       _.each(data.items, function(item) {
         var similar = $(view.similarTemplate(item))
@@ -71,9 +72,9 @@ define(['text!template/similar.html','util/ga',
         view.similars.append(similar);
       });
         
-      view.similars.slideDown('slow');
-      view.similarsBtnMode("shown");
-      
+      view.similars.slideDown('slow', function() {
+        view.similarsIsLoading(false, numItems !== 0);
+      });
     },
 
     gotQuestion: function(data) {
@@ -86,13 +87,22 @@ define(['text!template/similar.html','util/ga',
       
     },
 
-    similarsBtnMode: function(mode) {
-      var btn = this.$(".similarsBtn");
-      switch(mode) {
-        case "loading": btn.html("Loading").addClass('loading').slideDown('slow'); break;
-        case "shown": btn.html("Hide").removeClass('loading').slideDown('slow'); break;
-        default: btn.slideUp('slow');
-      } 
+    similarsIsLoading: function(loading,show) {
+
+      if(show === undefined)
+        show = true;
+
+      if(show)
+        this.similarsBtn.slideDown('slow');
+      else
+        this.similarsBtn.slideUp('slow');
+
+      if(loading)
+        this.similarsBtn.addClass('loading').html("Loading");
+      else
+        this.similarsBtn
+        .removeClass('loading')
+        .html(this.similars.is(":hidden") ? "Show" : "Hide");
     }
     
   });
