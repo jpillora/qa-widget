@@ -1,6 +1,6 @@
 define(['text!template/similar.html','util/ga',
-  'qa-api','util/store','util/timer','filters','backbone'], 
-  function(similarHtml,ga,api,store,timer,filters){
+  'qa-api','util/store','util/timer','alert','backbone'], 
+  function(similarHtml,ga,api,store,timer,alert){
 
   return Backbone.View.extend({
 
@@ -28,11 +28,15 @@ define(['text!template/similar.html','util/ga',
       view.submitTitle = view.$('.submitTitle');
       view.submitBody = view.$('.submitBody');
       view.submitTags = view.$('.submitTags');
+      view.submitTagsObj = {};
 
       //title listeners
       timer.idle(view.submitTitle, 'keyup', 1000, function(){
+        var title = view.submitTitle.val();
+        if(!title || title.length < 5) return;
+
         view.similarsIsLoading(true);
-        api.stackOverflow.question.similar(view.submitTitle.val(),view,view.gotSimilars);
+        api.stackOverflow.question.similar(title,view,view.gotSimilars);
       });
 
       //body listeners
@@ -40,35 +44,86 @@ define(['text!template/similar.html','util/ga',
 
       //tag listeners
       view.submitTags.typeahead({
-          source: function (query, typeahead) {
-            var query = query.match(/ /);
-            api.stackOverflow.tag.similar(query, view,
-              function (data) {
-
-                var names = _.map(data.items, function(i) {
-                  return i.name;
-                });
-
-                if(names.length > 0)
-                  return typeahead(names);
-              }
-            );
-          }
+        source: function (query, process) {
+          var query = query.match(/([^,]*)$/)[0];
+          api.stackOverflow.tag.similar(query, view,
+            function (data) {
+              return process(_.map(data.items, function(i) { return i.name; }));
+            }
+          );
+        },
+        updater:function (item) {
+          view.addSubmitTag(item);
+          return item;
+        }
       });
 
       //load previously chosen questions
       var questions = store.get('stackoverflow-questions');
       if(questions && questions.length > 0)
-        api.stackOverflow.question.get(questions.join(';'), view, view.gotQuestion);
+        api.stackOverflow.question.get(questions.join(';'), view, view.addQuestions);
+    },
+
+    addSubmitTag: function(tag) {
+
+      this.submitTags.val('');
+      if(this.submitTagsObj[tag] !== undefined)
+        return;
+
+      this.submitTagsObj[tag] = true;
+      this.$('.tag-list').append('<span class="label label-info">'+tag+'</span>');
     },
 
     submitQuestion: function() {
 
       var title = this.submitTitle.val(),
           body  = this.submitBody.val(),
-          tags  = this.submitTags.val();
+          tags  = _.keys(this.submitTagsObj).join(',');
 
-      api.local.question.submit(title,body,tags,this, filters.showQuestion(this.gotQuestion))
+      if(!$.trim(title)) {
+        alert.error("Title is required");
+      } else if (!$.trim(body)) {
+        alert.error("Body is required");
+      } else if (!$.trim(tags)) {
+        alert.error("At least one tag is required");
+      } else {
+        api.local.question.submit(
+          title,body,tags,this,this.submittedQuestion
+        );
+      }
+        
+    },
+
+    submittedQuestion: function(data) {
+
+      if(data.error !== undefined)
+        return;
+
+      this.submitTitle.val('');
+      this.submitBody.val('');
+      this.submitTags.val('');
+      this.submitTagsObj = {};
+      this.$('.tag-list').empty();
+      this.showQuestion(data);
+    },
+
+    showQuestion: function(data) {
+
+      if(data.items !== undefined &&
+         data.items.length === 1)
+        data.items[0].hidden = false;
+
+      this.addQuestions(data);
+    },
+
+    addQuestions: function(data) {
+      if(data.items === undefined)
+        return this.log("unknown question data");
+      this.log("got question - adding...");
+      
+      for(var i = 0; i < data.items.length; ++i)
+        this.trigger('addQuestion', data.items[i] );
+      
     },
 
     gotSimilars: function(data) {
@@ -77,17 +132,21 @@ define(['text!template/similar.html','util/ga',
 
       var view = this, numItems = data.items.length;
 
-
       view.log("got similar: #" + numItems);
-      
+
       view.similars.empty();
+
+      if(numItems === 0) {
+        view.similarsIsLoading(false, false);
+        return;
+      }
+
       _.each(data.items, function(item) {
         var similar = $(view.similarTemplate(item))
         //on click load the chosen question into the questions list
         .click(function() {
           var id = item.question_id;
-          api.stackOverflow.question.get(id, view, 
-            filters.showQuestion(view.gotQuestion));
+          api.stackOverflow.question.get(id, view, view.showQuestion);
         });
         view.similars.append(similar);
       });
@@ -95,16 +154,6 @@ define(['text!template/similar.html','util/ga',
       view.similars.slideDown('slow', function() {
         view.similarsIsLoading(false, numItems !== 0);
       });
-    },
-
-    gotQuestion: function(data) {
-      if(data.items === undefined)
-        return this.log("unknown question data");
-      this.log("got question - adding...");
-      
-      for(var i = 0; i < data.items.length; ++i)
-        this.trigger('addQuestion', data.items[i] );
-      
     },
 
     similarsIsLoading: function(loading,show) {

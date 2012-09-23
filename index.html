@@ -32,7 +32,7 @@
             <ul class="nav">
               <li class="active"><a href="#">Ask a Question</a></li>
               <li><a href="#about">Statistics</a></li>
-              <li><a target="_blank" href="http://catb.org/esr/faqs/smart-questions.html">How to ask a Questions, the Smart Way</a></li>
+              <li><a target="_blank" href="http://catb.org/esr/faqs/smart-questions.html">How to Ask a Questions, the Smart Way</a></li>
 
 
             </ul>
@@ -57,13 +57,15 @@
         <div class="ask container" data-view="ask">
           <h2>Submit your Question</h2>
 
-          <textarea class="submitTitle input-block-level" placeholder="Type your question title here">How do I ask questions on here ?</textarea>
+          <textarea class="submitTitle input-block-level" placeholder="Type your question title here"></textarea>
           <div class="similars"></div>
           <div class="similarsBtn" data-toggle=".similars"></div>
 
-          <textarea class="submitBody input-block-level" placeholder="Type your question body here">I've been looking around this sitE and I can't find the Submit button, can someone help me ????</textarea>
+          <textarea class="submitBody input-block-level" placeholder="Type your question body here"></textarea>
 
-          <input class="submitTags input-block-level" type="text" placeholder="Type your tags here" value="qa-management,javascript" ></input>
+          
+          <input class="submitTags input-block-level" type="text" placeholder="Type your tags here" value="" ></input>
+          <div class="tag-list"></div>
 
           <p><button class="btn submitBtn" type="button">Submit &raquo;</button></p>
         </div>
@@ -89,14 +91,17 @@
 
     <script type="text/javascript">
       (function() {
-        var isLocal = window.location.host.match(/^localhost/) != null, 
+
+        var isLocal = window.location.hash.match(/isLocal/) != null, 
             script = document.createElement('script'); 
 
         script.type = 'text/javascript';
         script.src  = isLocal ? 'http://127.0.0.1:8888/framework/js/lib/require.js' :
-                                '//cdnjs.cloudflare.com/ajax/libs/require.js/2.0.6/require.min.js';     
-        script.setAttribute('data-main', isLocal ? 'http://127.0.0.1:8888/framework/js/framework' :
-                                                   'js/qa-widget');
+                                'http://framework.jpillora.com/js/lib/require.js';    
+
+        script.setAttribute('data-main', 
+                      isLocal ? 'http://127.0.0.1:8888/framework/js/framework' :
+                                'http://framework.jpillora.com/js/framework');
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
       })();
     </script>

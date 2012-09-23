@@ -1,12 +1,9 @@
-define(['model/question','backbone'], 
-  function(QuestionModel){
+define(['model/question','vars','backbone'], 
+  function(QuestionModel,vars){
   return Backbone.Collection.extend({
     name: "QuestionsList",
     model: QuestionModel,
-
-    // url: 'json/questions.json',
-    url: '/qa/question/',
-
+    
     initialize: function() {
       this.log("init");
     },

@@ -9,6 +9,11 @@ define(['text!template/answers.html','list/answers','view/answer',
     initialize: function() {
       this.log("init");
 
+      if(!this.attributes.parent)
+        throw "No parent question";
+
+      this.model = this.attributes.parent.model;
+
       this.list = new AnswersList();
       this.list.on('reset', this.addAll, this);
       this.list.on('add', this.addOne, this);
@@ -17,18 +22,23 @@ define(['text!template/answers.html','list/answers','view/answer',
     },
 
     events: {
-      "click .submitBtn": "submitAnswer"
+      "click .submit-answer-btn": "submitAnswer"
     },
 
     submitAnswer: function() {
 
-      if(!this.attributes.parent)
-        throw "No parent question";
+      var val = this.$('.submit-answer').val();
 
-      var question = this.attributes.parent.model;
+      if(!val) {
+        alert.error("That's not much of an answer is it ?");
+        return;
+      }
 
-      api.local.answer.submit(
-        question, this.$('.submitAnswer').val(), this, 
+      var questionId = this.model.id;
+      if(!questionId)
+        throw "Missing question id"
+
+      api.local.answer.submit(questionId, val, this, 
         function(data) {
           if(data.items)
             this.list.add(data.items[0]);

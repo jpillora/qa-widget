@@ -40,7 +40,6 @@ define(['text!template/question.html','util/store',
       this.setupTogglers();
       this.setupNestedViews();
 
-
       var view = this;
       if(this.model.get('hidden') === false)
       setTimeout(function() {

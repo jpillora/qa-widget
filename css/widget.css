@@ -41,7 +41,10 @@ div.source-local button.remove {
 .ask input.submitTags {
   margin-top: 5px;
 }
-
+.ask .tag-list span {
+  margin-right: 5px;
+  font-size: 15px;
+}
 .ask.container textarea {
   margin-bottom: 0px;
 }
@@ -232,7 +235,7 @@ body .well {
   display: none;
   z-index: 2000;
   width: 100%;
-  opacity: 0.85;
+  opacity: 0.95;
 }
 
 .alert-container .alert {

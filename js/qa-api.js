@@ -1,28 +1,52 @@
-define(['util/ga','vars','filters','util/html','alert','jquery'], 
-  function(ga,vars,filters,html,alert) {
+define(['util/ga','vars','util/html','alert','jquery'], 
+  function(ga,vars,html,alert) {
 
   //custom ajax requests
-  var ajax = function(success,error,context,user_opts) {
+  function ajax(success,error,context,user_opts) {
     var defaults = {};
-    defaults.data = {};
-    defaults.data['slide_id'] = vars.get('slide_id', 21);
-    defaults.data['user_id']  = vars.get('user_id', 42);
 
+    if(user_opts.type && 
+       user_opts.type.toLowerCase() === 'post') {
+      defaults.data = {};
+      defaults.data['slide_id'] = vars.get('slide_id', 1);
+      defaults.data['user_id']  = vars.get('user_id', 54321);
+    }
+    
     defaults.dataType = 'json';
-    if(success) defaults['success'] = function() {
+
+    //intercept errors
+    defaults['success'] = function() {
       var data = arguments[0];
-      //intercept errors
       if(data.error !== undefined)
         alert.error(data.error);
-      success.apply(context, arguments); 
+      if(data.error_message !== undefined)
+        alert.error(data.error_message);
+      
+      if(success !== undefined) 
+        success.apply(context, arguments); 
     };
-    if(error) defaults['error'] = error;
-    if(context) defaults['context'] = context;
+    if(error !== undefined)
+      defaults['error'] = error;
+    if(context !== undefined)
+      defaults['context'] = context;
 
     var opts = $.extend(true, defaults, user_opts);
     
     return $.ajax(opts);
   };
+
+
+  function stackOverflowTransform(success) {
+    return function(data) {
+      if(data.items !== undefined)
+      for(var i = 0; i < data.items.length; ++i) {
+        if(data.items[i].question_id)
+          data.items[i].id = data.items[i].question_id;
+        data.items[i].source = 'stackoverflow';
+      }
+      return success.apply(this,[data]);
+    };
+  }
 
   var localPath = '/qa/';
   //interface
@@ -33,6 +57,13 @@ define(['util/ga','vars','filters','util/html','alert','jquery'],
           ga.event('local/question','get');
           return ajax(success, null, context, {
             url: localPath + 'question/'
+          });
+        },
+        get_by_slide: function(context,success) {
+          var slide_id = vars.get('slide_id', 21);
+          ga.event('local/question','get_by_slide', slide_id);
+          return ajax(success, null, context, {
+            url: localPath + 'slide/' + slide_id + '/question/'
           });
         },
         submit: function(title,body,tags,context,success) {
@@ -49,10 +80,7 @@ define(['util/ga','vars','filters','util/html','alert','jquery'],
         }
       },//end question
       answer: {
-        submit: function(question,body,context,success) {
-
-          var questionId = question.id;
-          if(!questionId) return context.log("cannot submit answer - missing question id");
+        submit: function(questionId,body,context,success) {
 
           ga.event('local/answer','submit');
           return ajax(success, null, context, {
@@ -98,7 +126,7 @@ define(['util/ga','vars','filters','util/html','alert','jquery'],
         get: function(questionIds,context,success) {
           ga.event('stackoverflow/question','get',questionIds);
           context.log('fetch so question: ' + questionIds);
-          return ajax(filters.stackOverflow(success), 
+          return ajax(stackOverflowTransform(success), 
             null, context, {
             //url: 'json/question.json',
             dataType: 'jsonp',
@@ -114,7 +142,7 @@ define(['util/ga','vars','filters','util/html','alert','jquery'],
         similar: function(title,context,success) {
           ga.event('stackoverflow/question','similar',title);
           context.log('fetching similar tags...');
-          return ajax(filters.stackOverflow(success), null, context, {
+          return ajax(stackOverflowTransform(success), null, context, {
             dataType: 'jsonp',
             url:'//api.stackexchange.com/2.0/similar',
             data: {

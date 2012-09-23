@@ -6,7 +6,7 @@ define(['qa-api', 'model/question', 'model/answer', 'model/comment', 'backbone']
     name: "VotingView",
 
     initialize: function() {
-
+      this.model = this.attributes.parent.model;
     },
 
     events: {
@@ -19,33 +19,36 @@ define(['qa-api', 'model/question', 'model/answer', 'model/comment', 'backbone']
     },
 
     upVote: function() {
-      this.log("up!");
       this.submitVote(1);
     },
     
     downVote: function() {
-      this.log("down!");
       this.submitVote(-1);
     },
 
     submitVote: function(value) {
 
-      var model = this.attributes.parent.model;
+      if(!this.model)
+        throw "VotingView: No parent model";
+
       var type;
-      if(model instanceof AnswerModel)
+      if(this.model instanceof AnswerModel)
         type = "answer";
-      else if(model instanceof QuestionModel)
+      else if(this.model instanceof QuestionModel)
         type = "question";
-      else if(model instanceof CommentModel)
+      else if(this.model instanceof CommentModel)
         type = "comment";
       else 
-        throw "Invalid model type";
+        throw "VotingView: Invalid model type";
 
-      api.local.vote.submit(type, model.id, value, this, this.submittedVote);
+      api.local.vote.submit(type, this.model.id, value, this, this.submittedVote);
     },
 
     submittedVote: function(data) {
-      this.log("data: " + JSON.stringify(data));
+      if(data.score !== undefined) {
+        this.model.set('score', data.score);
+        this.$('.vote_count').html(this.model.get('score'));
+      }
     }
 
   });

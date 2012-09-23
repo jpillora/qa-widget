@@ -1,8 +1,8 @@
 define(['text!template/comments.html','list/comments',
   'view/comment', 'model/comment','model/answer',
-  'model/question','qa-api','backbone'],
+  'model/question','qa-api','alert','backbone'],
   function(html,CommentsList,CommentView,CommentModel,
-           AnswerModel,QuestionModel,api){
+           AnswerModel,QuestionModel,api,alert){
 
   return Backbone.View.extend({
     name: "CommentsView",
@@ -12,6 +12,11 @@ define(['text!template/comments.html','list/comments',
     initialize: function() {
       this.log("init");
 
+      if(!this.attributes.parent)
+        throw "No parent"
+
+      this.model = this.attributes.parent.model;
+
       this.list = new CommentsList();
       this.list.on('reset', this.addAll, this);
       this.list.on('add', this.addOne, this);
@@ -20,27 +25,31 @@ define(['text!template/comments.html','list/comments',
     },
 
     events: {
-      "click .submitBtn": "submitComment"
+      "click .submit-comment-btn": "submitComment"
     },
 
     submitComment: function() {
 
-      if(!this.attributes.parent)
-        throw "No parent question";
+      var val = this.$('.submit-comment').val();
 
-      var model = this.attributes.parent.model;
+      if(!val) {
+        alert.error("You forgot to type your comment.");
+        return;
+      }
+
       var type;
-      if(model instanceof AnswerModel)
+      if(this.model instanceof AnswerModel)
         type = "answer";
-      else if(model instanceof QuestionModel)
+      else if(this.model instanceof QuestionModel)
         type = "question";
       else 
         throw "Invalid model type";
 
       api.local.comment.submit(
-        type, model.id, this.$('.submitComment').val(), this, 
+        type, this.model.id, val, this, 
         function(data) {
-          if(data.items) this.list.add(data.items[0]);
+          if(data.items && data.items.length === 1)
+            this.list.add(data.items[0]);
         }
       );
     },

@@ -5,8 +5,11 @@ define(['util/regex','lib/prettify','backbone'],
   	 
     render: function() {
 
-      var body = this.parseMarkup(this.$el.html());
-      this.$el.html(body);
+      if(this.$el.parents('.source-stackoverflow').length === 0) {
+        var body = this.parseMarkup(this.$el.html());
+        this.$el.html(body);
+      }
+
       this.prettyPrint();
       return this;
     },
@@ -14,24 +17,25 @@ define(['util/regex','lib/prettify','backbone'],
     parseMarkup: function(text) {
       return text
         //code block
-        .replace(/```((.*\s?)*)```/mg,"<pre><code>$1</code></pre>")
+        .replace(/```\n((.*\s?)*)\n```/mg,"<pre><code>$1</code></pre>")
         //inline code
         .replace(/`(.*?)`/g,"<code>$1</code>")
         //headings
         .replace(/^(#{1,6})([\s\w]*[^\s])$/gm,
           function(n,hashes,text) { 
             var n = hashes.length; 
-            return "</h"+n+">" + text + "</h"+n+">" 
+            return "<h"+n+">" + text + "</h"+n+">" 
           })
         //bold
         .replace(/\*\*(.*?)\*\*/g,"<b>$1</b>")
         //italics
         .replace(/\*(.*?)\*/g,"<i>$1</i>")
         //plain url
-        .replace(regex.url,"<a href='$0'>$0</a>")
+        .replace(/(https?:\/\/[^\s]+)/g,'<a href="$1">$1</a>')
+        //img
+        .replace(/!\[([\w\s]+)\]\(([^\<>;"')]+)\)/g,'<img src="$2" alt="$1"/>')
         //named url
-        .replace(/!\[([\w\s]+)\]\(([^\<>;"')]+)\)/,'<img src="$2" alt="$1"/>')
-        .replace(/\[([\w\s]+)\]\(([^\<>;"')]+)\)/,'<a href="$2">$1</a>')
+        .replace(/\[([\w\s]+)\]\(([^\<>;"')]+)\)/g,'<a href="$2">$1</a>')
     },
 
     prettyPrint: function() {

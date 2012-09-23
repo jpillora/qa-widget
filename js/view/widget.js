@@ -1,5 +1,5 @@
-define(['view/questions','view/ask','backbone'], 
-  function(QuestionsView,AskView) {
+define(['view/questions','view/ask','util/ga','backbone'], 
+  function(QuestionsView,AskView,ga) {
 
   return Backbone.View.extend({
     name: "Widget",
@@ -7,6 +7,10 @@ define(['view/questions','view/ask','backbone'],
 
     render: function(){
       this.log("render");
+
+      window.onerror = function(msg, url, line) {
+        ga.event('error',msg,url+":"+line);
+      };
 
       this.setupNestedViews(function() {
         //nested views loaded

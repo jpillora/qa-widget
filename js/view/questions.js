@@ -15,7 +15,7 @@ define(['list/questions','view/question', 'model/question',
       
       api.local.question.get(this,function(data) {
         if(data.items && data.items.length > 0)
-          this.list.add(data.items);
+          this.list.reset(data.items);
       });
 
     },
