@@ -1,5 +1,4 @@
 
-
 body {
   min-width: 350px;
   padding-top: 60px;
@@ -137,17 +136,45 @@ body .well {
   width: 40px;
 }
 
+.voting > div.up, .voting > div.down {
+  cursor: pointer;
+}
+
+.voting > div.up.chosen {
+  background-position: 0px -228px;
+}
 .voting > div.up {
   background-position: 0px -265px;
 }
 .voting > div.down {
   background-position: 0px -300px;
 }
+.voting > div.down.chosen {
+  background-position: 0px -332px;
+}
 .voting > div.vote_count {
   text-align: center;
   vertical-align: middle;
   font-weight: bold;
   font-size: 20px;
+}
+
+.comments .voting > div {
+  width: 15px;
+  height: 15px;
+}
+.comments .voting > div.up.chosen {
+  background-position: 0px -388px;
+}
+.comments .voting > div.up {
+  background-position: 0px -406px;
+  margin-left: 30px;
+  margin-top: 10px;
+}
+.comments .voting > div.vote_count {
+  font-size: 15px;
+  margin-top: 10px;
+  margin-left: 10px;
 }
 
 .body pre.prettyprint {
@@ -187,9 +214,55 @@ body .well {
   padding-right: 5px;
 }
 
+.listcomments>.table {
+  margin-bottom: 5px;
+}
+
+.post-comment .submitBtn {
+  margin-top: 3px;
+}
+
+/* ============= *\
+  FIXED ELEMENTS
+\* ============= */
+
+.alert-container {
+  position: fixed;
+  top: 0px; left: 0px;
+  display: none;
+  z-index: 2000;
+  width: 100%;
+  opacity: 0.85;
+}
+
+.alert-container .alert {
+  position: relative;
+  margin:20px;
+  z-index: 5;
+  cursor: pointer;
+}
+
+.loading-cover {
+  z-index: 2000;
+  background: #1B1B1B;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  top: 0px; left: 0px;
+  z-index: 2000;
+  color: whiteSmoke;
+  text-align: center;
+  padding-top: 40px;
+  font-size: 40px;
+  background-image: url('../img/loading64.gif');
+  background-repeat: no-repeat;
+  background-position-x: 50%;
+  background-position-y: 90px;
+}
+
+
 ::-webkit-scrollbar{width:9px;height:9px;}
 ::-webkit-scrollbar-button:start:decrement,::-webkit-scrollbar-button:end:increment{display:block;height:0;background-color:transparent;}
 ::-webkit-scrollbar-track-piece{background-color:#FAFAFA;-webkit-border-radius:0;-webkit-border-bottom-right-radius:8px;-webkit-border-bottom-left-radius:8px;}
 ::-webkit-scrollbar-thumb:vertical{height:50px;background-color:#999;-webkit-border-radius:8px;}
 ::-webkit-scrollbar-thumb:horizontal{width:50px;background-color:#999;-webkit-border-radius:8px;}
-

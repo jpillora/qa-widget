@@ -1,5 +1,5 @@
-define(['util/ga','vars','filters','util/html','jquery'], 
-  function(ga,vars,filters,html) {
+define(['util/ga','vars','filters','util/html','alert','jquery'], 
+  function(ga,vars,filters,html,alert) {
 
   //custom ajax requests
   var ajax = function(success,error,context,user_opts) {
@@ -9,7 +9,13 @@ define(['util/ga','vars','filters','util/html','jquery'],
     defaults.data['user_id']  = vars.get('user_id', 42);
 
     defaults.dataType = 'json';
-    if(success) defaults['success'] = success;
+    if(success) defaults['success'] = function() {
+      var data = arguments[0];
+      //intercept errors
+      if(data.error !== undefined)
+        alert.error(data.error);
+      success.apply(context, arguments); 
+    };
     if(error) defaults['error'] = error;
     if(context) defaults['context'] = context;
 
@@ -70,6 +76,19 @@ define(['util/ga','vars','filters','util/html','jquery'],
             }
           });
 
+        }
+      },//vote
+      vote: {
+        submit: function(type,id,value,context,success) {
+
+          ga.event('local/vote','submit', value);
+          ajax(success, null, context, {
+            type: 'post',
+            url: localPath + type + '/'+ id +'/vote/',
+            data: {
+              value: value
+            }
+          });
         }
       }
     }, //end local
