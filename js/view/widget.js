@@ -14,7 +14,7 @@ define(['view/questions','view/ask','backbone'],
       
         window.questionView = this.questions;
 
-        this.$('.loading-cover').animate({opacity:0.5,height:0},2000,function() {
+        this.$('.loading-cover').animate({opacity:0,height:0},2000,function() {
           $(this).hide();
         });
       });

@@ -29,11 +29,31 @@ define(['text!template/similar.html','util/ga',
       view.submitBody = view.$('.submitBody');
       view.submitTags = view.$('.submitTags');
 
-      view.submitBody.autogrow();
-
+      //title listeners
       timer.idle(view.submitTitle, 'keyup', 1000, function(){
         view.similarsIsLoading(true);
         api.stackOverflow.question.similar(view.submitTitle.val(),view,view.gotSimilars);
+      });
+
+      //body listeners
+      view.submitBody.autogrow();
+
+      //tag listeners
+      view.submitTags.typeahead({
+          source: function (query, typeahead) {
+            var query = query.match(/ /);
+            api.stackOverflow.tag.similar(query, view,
+              function (data) {
+
+                var names = _.map(data.items, function(i) {
+                  return i.name;
+                });
+
+                if(names.length > 0)
+                  return typeahead(names);
+              }
+            );
+          }
       });
 
       //load previously chosen questions
