@@ -52,13 +52,16 @@ define(['text!template/question.html','util/store',
       if(this.model.get('source') === 'stackoverflow')
         store.remove('stackoverflow-questions', this.model.get('question_id'));
 
-      this.model.destroy(); //will trigger destroy
-    },
+      this.model.collection.remove(this.model);      
 
-    onDestroy: function() {
       this.$el.slideUp('slow', function() {
         $(this).remove();
       });
+
+      //this.model.destroy(); //will trigger destroy
+    },
+
+    onDestroy: function() {
     }
 
     
