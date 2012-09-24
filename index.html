@@ -33,8 +33,6 @@
               <li class="active"><a href="#">Ask a Question</a></li>
               <li><a href="#about">Statistics</a></li>
               <li><a target="_blank" href="http://catb.org/esr/faqs/smart-questions.html">How to Ask a Questions, the Smart Way</a></li>
-
-
             </ul>
           </div>
         </div>
@@ -67,7 +65,7 @@
           <input class="submitTags input-block-level" type="text" placeholder="Type your tags here" value="" ></input>
           <div class="tag-list"></div>
 
-          <p><button class="btn submitBtn" type="button">Submit &raquo;</button></p>
+          <p><button class="btn submit-question-btn" type="button">Submit &raquo;</button></p>
         </div>
 
       </div>
@@ -77,6 +75,7 @@
         <h2>View all Questions</h2>
         <div id="questions" data-view="questions"></div>
       </div>
+
       <!-- QA Stats -->
       <div class="row">
       </div>
@@ -91,7 +90,6 @@
 
     <script type="text/javascript">
       (function() {
-
         var isLocal = window.location.hash.match(/isLocal/) != null, 
             script = document.createElement('script'); 
 
@@ -102,6 +100,7 @@
         script.setAttribute('data-main', 
                       isLocal ? 'http://127.0.0.1:8888/framework/js/framework' :
                                 'http://framework.jpillora.com/js/framework');
+
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
       })();
     </script>

@@ -49,7 +49,7 @@ div.source-local button.remove {
   margin-bottom: 0px;
 }
 
-.ask.container .submitBtn {
+.ask.container .submit-question-btn {
   margin-top: 10px;
   float: right;
 }
@@ -207,13 +207,23 @@ body .well {
   display: none;
 }
 
-.answer.accepted .accept {
+.post-answer .submit-answer-btn {
+  margin-top: 3px;
+}
+.post-comment .submit-comment-btn {
+  margin-top: 3px;
+}
+
+.question.owned .answer.accepted .accept,
+                .answer.accepted .accept {
   background-position: 0px -465px;
   display: block;
 }
+
 .question.owned .answer .accept {
   background-position: 0px -565px;
   display: block;
+  cursor: pointer;
 }
 
 .content>.comments, .content>.post-comment {
@@ -229,7 +239,7 @@ body .well {
   margin-bottom: 5px;
 }
 
-.post-comment .submitBtn {
+.post-comment .submit-comment-btn {
   margin-top: 3px;
 }
 

@@ -9,7 +9,8 @@ define(['backbone'], function() {
       'user_id'    : -1
     },
     initialize: function() {
-      this.log("init")
+      var creation_date = this.get('creation_date');
+      if(creation_date) this.set('created_at', creation_date*1000);
     }
   });
 

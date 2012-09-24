@@ -7,8 +7,6 @@ define(['text!template/answers.html','list/answers','view/answer',
     template: _.template(html),
 
     initialize: function() {
-      
-
       this.list = this.setupCollection('answers', AnswersList);
       this.list.on('add', this.changed, this);
       this.list.on('remove', this.changed, this);
@@ -17,7 +15,7 @@ define(['text!template/answers.html','list/answers','view/answer',
     events: {
       "click .submit-answer-btn": "submitAnswer"
     },
-
+    
     submitAnswer: function() {
 
       var val = this.$('.submit-answer').val();
@@ -31,12 +29,15 @@ define(['text!template/answers.html','list/answers','view/answer',
       if(!questionId)
         throw "Missing question id"
 
-      api.local.answer.submit(questionId, val, this, 
-        function(data) {
-          if(data.items)
-            this.list.add(data.items[0]);
-        }
-      );
+      api.local.answer.submit(questionId, val, this, this.submittedAnswer);
+    },
+
+    submittedAnswer: function(data) {
+      if(!data.items || data.items.length != 1)
+        return;
+
+      this.list.add(data.items[0]);
+      this.$('.submit-answer').val('');
     },
 
     changed: function() {

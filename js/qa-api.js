@@ -10,6 +10,10 @@ define(['util/ga','vars','util/html','alert','util/store','jquery'],
     ajax(success,error,context,$.extend(true, defaults, user_opts));
   }
 
+  //default error handler
+  function ajaxError(jqXHR, textStatus, errorThrown) {
+    alert.error(textStatus + ": " + errorThrown);     
+  }
 
   //custom ajax requests
   function ajax(success,error,context,user_opts) {
@@ -36,10 +40,13 @@ define(['util/ga','vars','util/html','alert','util/store','jquery'],
       if(success !== undefined) 
         success.apply(context, arguments); 
     };
-    if(error !== undefined)
-      defaults['error'] = error;
     if(context !== undefined)
       defaults['context'] = context;
+
+    if(error !== undefined)
+      defaults['error'] = error;
+    else
+      defaults['error'] = ajaxError;
     
     return $.ajax($.extend(true, defaults, user_opts));
   };
@@ -48,11 +55,11 @@ define(['util/ga','vars','util/html','alert','util/store','jquery'],
   function stackOverflowTransform(success) {
     return function(data) {
       if(data.items !== undefined)
-      for(var i = 0; i < data.items.length; ++i) {
-        if(data.items[i].question_id)
-          data.items[i].id = data.items[i].question_id;
-        data.items[i].source = 'stackoverflow';
-      }
+      data.items = _.map(data.items, function(item) {
+        if(item.question_id)   item.id = item.question_id;
+        item.source = 'stackoverflow';
+        return item;
+      });
       return success.apply(this,[data]);
     };
   }
@@ -69,12 +76,25 @@ define(['util/ga','vars','util/html','alert','util/store','jquery'],
           });
         },
         get_by_slide: function(context,success) {
-          var slide_id = vars.get('slide_id', 21);
+          var slide_id = vars.get('slide_id', 1);
           ga.event('local/question','get_by_slide', slide_id);
           return ajax(success, null, context, {
             url: localPath + 'slide/' + slide_id + '/question/'
           });
         },
+
+        get_after_date: function(date,context,success) {
+          var slide_id = vars.get('slide_id', 1);
+          ga.event('local/poll','get_by_slide', slide_id);
+          return ajax(success, null, context, {
+            url: localPath + 'slide/' + slide_id + '/question/',
+            data: {
+              from_date: date,
+              sort: "updated_at"
+            }
+          });
+        },
+
         submit: function(title,body,tags,context,success) {
           ga.event('local/question','submit',title);
           return ajax(success, null, context, {
@@ -98,6 +118,13 @@ define(['util/ga','vars','util/html','alert','util/store','jquery'],
             data: {
               body: html.encode(body)
             }
+          });
+        },
+        accept: function(answerId,context,success) {
+          ga.event('local/answer','accept');
+          return ajax(success, null, context, {
+            type: 'post',
+            url: localPath + 'answer/'+answerId+'/accept/'
           });
         }
       },//end answer

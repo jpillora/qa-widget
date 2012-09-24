@@ -1,6 +1,7 @@
 //Answer view
-define(['text!template/answer.html','util/store','model/answer','backbone'],
-	function(html,store,AnswerModel){
+define(['text!template/answer.html','util/store',
+        'model/answer','qa-api','backbone'],
+	function(html,store,AnswerModel,api){
 
   return Backbone.View.extend({
     name: "AnswerView",
@@ -10,6 +11,11 @@ define(['text!template/answer.html','util/store','model/answer','backbone'],
 
     initialize: function() {
       this.model.bind('destroy', this.onDestroy, this);
+      this.model.bind('change:is_accepted', this.acceptedCheck, this);
+    },
+
+    events: {
+      "click .voting .accept" : "acceptAnswer"
     },
 
     render: function(){
@@ -19,8 +25,7 @@ define(['text!template/answer.html','util/store','model/answer','backbone'],
       .addClass("well")
       .addClass("well-small");
 
-      if(this.model.get('is_accepted') === true)
-        this.$el.addClass("accepted");
+      this.acceptedCheck();
 
       this.executeTemplate();
       this.setupNestedViews();
@@ -28,9 +33,26 @@ define(['text!template/answer.html','util/store','model/answer','backbone'],
       return this.$el;
     },
     
+    acceptAnswer: function() {
+      api.local.answer.accept(this.model.id, this, this.acceptedAnswer);
+    },
+
+    acceptedAnswer: function(data) {
+      if(!data.items || data.items.length != 1)
+        return;
+
+      this.model.set('is_accepted',true);
+    },
+
     remove: function() {
       this.model.destroy(); //will trigger destroy
     },
+
+    acceptedCheck: function() {
+      if(this.model.get('is_accepted') === true)
+        this.$el.addClass("accepted");
+    },
+
     onDestroy: function() {
       this.$el.slideUp('slow', function() {
         $(this).remove();

@@ -14,6 +14,8 @@ define(['backbone'], function() {
       'hidden'      : true
     },
     initialize: function() {
+      var creation_date = this.get('creation_date');
+      if(creation_date) this.set('created_at', creation_date*1000);
     }
   });
 

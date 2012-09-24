@@ -16,7 +16,6 @@ define(['text!template/comment.html','model/comment','backbone'],
     },
 
     render: function(){
-      this.log("render");
       this.executeTemplate();
       this.setupNestedViews();
       return this.$el;

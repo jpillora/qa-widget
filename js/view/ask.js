@@ -14,7 +14,7 @@ define(['text!template/similar.html','util/ga',
     },
 
     events: {
-      'click .submitBtn'   : 'submitQuestion'
+      'click .submit-question-btn'   : 'submitQuestion'
     },
 
     render: function(){

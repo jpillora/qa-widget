@@ -1,6 +1,5 @@
-define(['list/questions','view/question', 'model/question',
-        'qa-api','backbone'],
-  function(QuestionsList,QuestionView,QuestionModel,api){
+define(['list/questions','view/question', 'model/question','backbone'],
+  function(QuestionsList,QuestionView,QuestionModel){
 
   return Backbone.View.extend({
   	name: "QuestionsView",
@@ -9,12 +8,6 @@ define(['list/questions','view/question', 'model/question',
     initialize: function() {
       
       this.list = this.setupCollection('questions', QuestionsList);
-      
-      api.local.question.get(this,function(data) {
-        if(data.items && data.items.length > 0)
-          this.list.reset(data.items);
-      });
-
     },
 
     render: function(){

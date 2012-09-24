@@ -7,6 +7,7 @@ define(['qa-api', 'model/question', 'model/answer', 'model/comment', 'backbone']
 
     initialize: function() {
       this.model = this.attributes.parent.model;
+      this.model.on('change:score', this.updateScore, this);
     },
 
     events: {
@@ -15,7 +16,10 @@ define(['qa-api', 'model/question', 'model/answer', 'model/comment', 'backbone']
     },
 
     render: function() {
-      this.log("render");
+    },
+
+    updateScore: function(model, score) {
+      this.$('.vote_count').html(score);
     },
 
     upVote: function() {
@@ -45,10 +49,8 @@ define(['qa-api', 'model/question', 'model/answer', 'model/comment', 'backbone']
     },
 
     submittedVote: function(data) {
-      if(data.score !== undefined) {
+      if(data.score !== undefined)
         this.model.set('score', data.score);
-        this.$('.vote_count').html(this.model.get('score'));
-      }
     }
 
   });

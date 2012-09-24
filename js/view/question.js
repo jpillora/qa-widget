@@ -43,7 +43,7 @@ define(['text!template/question.html','util/store',
       if(this.model.get('hidden') === false)
       setTimeout(function() {
         view.$el.scrollTo();
-      },1000)
+      },500);
 
       return this.$el;
     },

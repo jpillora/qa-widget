@@ -18,7 +18,13 @@ define(['text!template/comments.html','list/comments',
     },
 
     events: {
-      "click .submit-comment-btn": "submitComment"
+      "click .submit-comment-btn": "submitComment",
+      "keyup .submit-comment"    : "keyPress"
+    },
+
+
+    keyPress: function(e) {
+      if (e.keyCode == 13) this.submitComment();
     },
 
     submitComment: function() {
@@ -38,13 +44,17 @@ define(['text!template/comments.html','list/comments',
       else 
         throw "Invalid model type";
 
-      api.local.comment.submit(
-        type, this.model.id, val, this, 
-        function(data) {
-          if(data.items && data.items.length === 1)
-            this.list.add(data.items[0]);
-        }
-      );
+      this.$('.submit-comment').attr('disabled','disabled');
+      api.local.comment.submit(type, this.model.id, val, this, this.submittedComment);
+    },
+
+    submittedComment: function(data) {
+
+      if(!data.items || data.items.length != 1)
+        return;
+
+      this.list.add(data.items[0]);
+      this.$('.submit-comment').removeAttr('disabled').val('');
     },
 
     changed: function() {
@@ -52,8 +62,7 @@ define(['text!template/comments.html','list/comments',
     },
 
     render: function(){
-      this.log("render");
-
+      
       this.$el.html(this.template());
       this.table = this.$('.list-comments > .table');
       
