@@ -17,7 +17,6 @@ define(['text!template/question.html','util/store',
 
       if(model.get('source') === 'stackoverflow')
         store.add('stackoverflow-questions', model.get('question_id'));
-
     },
 
     events: {
@@ -55,6 +54,7 @@ define(['text!template/question.html','util/store',
 
       this.model.destroy(); //will trigger destroy
     },
+
     onDestroy: function() {
       this.$el.slideUp('slow', function() {
         $(this).remove();

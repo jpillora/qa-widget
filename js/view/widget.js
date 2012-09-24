@@ -5,6 +5,14 @@ define(['view/questions','view/ask','util/ga','backbone'],
     name: "Widget",
     el: $("#widget"),
 
+    initialize: function() {
+
+      this.model = new Backbone.Model({
+        questions: []
+      });
+
+    },
+
     render: function(){
       this.log("render");
 

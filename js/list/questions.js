@@ -5,7 +5,7 @@ define(['model/question','vars','backbone'],
     model: QuestionModel,
     
     initialize: function() {
-      this.log("init");
+      
     },
 
     parse: function(response) {

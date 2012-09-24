@@ -6,11 +6,14 @@ define(['backbone'], function() {
     defaults: {
       'score'       : 0,
       'source'      : 'local',
+      'title'       : "No Title",
+      'body'        : "No Body",
+      'answers'     : [],
+      'comments'    : [],
       'tags'        : [],
       'hidden'      : true
     },
     initialize: function() {
-      this.log("init")
     }
   });
 

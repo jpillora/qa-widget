@@ -203,6 +203,10 @@ body .well {
   display: none;
 }
 
+.answers-container {
+  display: none;
+}
+
 .answer.accepted .accept {
   background-position: 0px -465px;
   display: block;
@@ -217,7 +221,11 @@ body .well {
   padding-right: 5px;
 }
 
-.listcomments>.table {
+.list-comments {
+  display: none;
+}
+
+.list-comments > .table {
   margin-bottom: 5px;
 }
 

@@ -5,7 +5,7 @@ define(['model/comment','backbone'],
     model: CommentModel,
 
     initialize: function() {
-      this.log("init");
+      
     }
   });
 });

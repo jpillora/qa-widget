@@ -1,22 +1,15 @@
 define(['text!template/answers.html','list/answers','view/answer', 
-  'model/answer','qa-api','lib/jquery.autogrow','backbone'],
-  function(html,AnswersList,AnswerView,AnswerModel,api){
+  'model/answer','qa-api','alert','lib/jquery.autogrow','backbone'],
+  function(html,AnswersList,AnswerView,AnswerModel,api,alert){
 
   return Backbone.View.extend({
     name: "AnswersView",
     template: _.template(html),
 
     initialize: function() {
-      this.log("init");
+      
 
-      if(!this.attributes.parent)
-        throw "No parent question";
-
-      this.model = this.attributes.parent.model;
-
-      this.list = new AnswersList();
-      this.list.on('reset', this.addAll, this);
-      this.list.on('add', this.addOne, this);
+      this.list = this.setupCollection('answers', AnswersList);
       this.list.on('add', this.changed, this);
       this.list.on('remove', this.changed, this);
     },
@@ -55,12 +48,6 @@ define(['text!template/answers.html','list/answers','view/answer',
 
       this.$el.html(this.template());
       this.listElem = this.$('.list');
-
-      var answers = this.parentGet('answers');
-      if(answers && answers.length > 0) 
-        this.list.add(answers);
-      else 
-        this.changed();
 
       this.$('textarea').autogrow();
 

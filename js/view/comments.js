@@ -10,16 +10,9 @@ define(['text!template/comments.html','list/comments',
     template: _.template(html),
 
     initialize: function() {
-      this.log("init");
+      
 
-      if(!this.attributes.parent)
-        throw "No parent"
-
-      this.model = this.attributes.parent.model;
-
-      this.list = new CommentsList();
-      this.list.on('reset', this.addAll, this);
-      this.list.on('add', this.addOne, this);
+      this.list = this.setupCollection('comments', CommentsList);
       this.list.on('add', this.changed, this);
       this.list.on('remove', this.changed, this);
     },
@@ -62,13 +55,11 @@ define(['text!template/comments.html','list/comments',
       this.log("render");
 
       this.$el.html(this.template());
-      this.table = this.$('.list-comments > .table')
+      this.table = this.$('.list-comments > .table');
+      if(this.table.length)
+        this.log("found comments table")
 
-      var comments = this.parentGet('comments');
-      if(comments && comments.length > 0) 
-        this.list.add(comments);
-      else 
-        this.changed();
+      this.trigger('rendered');
     },
 
     addAll: function() {
@@ -76,9 +67,11 @@ define(['text!template/comments.html','list/comments',
     },
 
     addOne: function(model) {
+
       var commentView = new CommentView({model: model});
       var elem = commentView.render();
-      elem.find('.content').hide().delay(100).slideDown('slow')
+      elem.find('.content').hide().delay(100).slideDown('slow');
+
       this.table.append(elem);
     },
 

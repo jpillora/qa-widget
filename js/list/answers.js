@@ -5,7 +5,7 @@ define(['model/answer','backbone'],
     model: AnswerModel,
 
     initialize: function() {
-      this.log("init");
+      
     }
   });
 });

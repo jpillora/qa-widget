@@ -7,7 +7,7 @@ define(['backbone'], function() {
       score    : 0
     },
     initialize: function() {
-      this.log("init");
+      
     }
   });
 

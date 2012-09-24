@@ -9,7 +9,7 @@ define(['text!template/similar.html','util/ga',
     similarTemplate: _.template(similarHtml),
 
     initialize: function() {
-      this.log("init");
+      
 
     },
 
