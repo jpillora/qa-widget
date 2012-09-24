@@ -56,9 +56,7 @@ define(['text!template/comments.html','list/comments',
 
       this.$el.html(this.template());
       this.table = this.$('.list-comments > .table');
-      if(this.table.length)
-        this.log("found comments table")
-
+      
       this.trigger('rendered');
     },
 

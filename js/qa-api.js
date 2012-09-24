@@ -1,5 +1,15 @@
-define(['util/ga','vars','util/html','alert','jquery'], 
-  function(ga,vars,html,alert) {
+define(['util/ga','vars','util/html','alert','util/store','jquery'], 
+  function(ga,vars,html,alert,store) {
+
+  function stackOverflowAjax(success,error,context,user_opts) {
+
+    var defaults = {};
+    defaults.data = {};
+    defaults.data.key = 'Duypgvkqc1AxJ9aoLuEV6w((';
+    
+    ajax(success,error,context,$.extend(true, defaults, user_opts));
+  }
+
 
   //custom ajax requests
   function ajax(success,error,context,user_opts) {
@@ -12,7 +22,8 @@ define(['util/ga','vars','util/html','alert','jquery'],
       defaults.data['user_id']  = vars.get('user_id', 54321);
     }
     
-    defaults.dataType = 'json';
+    if(!defaults.dataType)
+      defaults.dataType = 'json';
 
     //intercept errors
     defaults['success'] = function() {
@@ -29,10 +40,8 @@ define(['util/ga','vars','util/html','alert','jquery'],
       defaults['error'] = error;
     if(context !== undefined)
       defaults['context'] = context;
-
-    var opts = $.extend(true, defaults, user_opts);
     
-    return $.ajax(opts);
+    return $.ajax($.extend(true, defaults, user_opts));
   };
 
 
@@ -126,7 +135,7 @@ define(['util/ga','vars','util/html','alert','jquery'],
         get: function(questionIds,context,success) {
           ga.event('stackoverflow/question','get',questionIds);
           context.log('fetch so question: ' + questionIds);
-          return ajax(stackOverflowTransform(success), 
+          return stackOverflowAjax(stackOverflowTransform(success), 
             null, context, {
             //url: 'json/question.json',
             dataType: 'jsonp',
@@ -142,7 +151,7 @@ define(['util/ga','vars','util/html','alert','jquery'],
         similar: function(title,context,success) {
           ga.event('stackoverflow/question','similar',title);
           context.log('fetching similar tags...');
-          return ajax(stackOverflowTransform(success), null, context, {
+          return stackOverflowAjax(stackOverflowTransform(success), null, context, {
             dataType: 'jsonp',
             url:'//api.stackexchange.com/2.0/similar',
             data: {
@@ -158,7 +167,7 @@ define(['util/ga','vars','util/html','alert','jquery'],
         similar: function(tagName,context,success) {
           ga.event('stackoverflow/tag','similar',tagName);
           context.log('fetching similar...');
-          return ajax(success, null, context, {
+          return stackOverflowAjax(success, null, context, {
             dataType: 'jsonp',
             url:'//api.stackexchange.com/2.1/tags/',
             data: {

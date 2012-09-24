@@ -11,8 +11,10 @@ define(['jquery'], function() {
 
   return {
     error: function(msg) {
-      alert.find('.alert .text').html(msg);
-      alert.fadeIn();
+      $(document).ready(function() {
+        alert.find('.alert .text').html(msg);
+        alert.fadeIn();
+      })
     }
   };
 

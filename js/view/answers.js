@@ -52,6 +52,8 @@ define(['text!template/answers.html','list/answers','view/answer',
       this.$('textarea').autogrow();
 
       this.setupTogglers();
+      
+      this.trigger('rendered');
     },
 
     addAll: function() {
