@@ -122,9 +122,9 @@ define(['util/ga', 'text!template/submit-tag.html',
         delete view.submitTagsObj[tag];
         $(this).parent().fadeOut(function() { $(this).remove(); });
       })
-      elem.hide();
+      elem.css({opacity:0});
       this.$('.tag-list').append(elem);
-      elem.fadeIn();
+      elem.animate({opacity:1});
     },
 
     

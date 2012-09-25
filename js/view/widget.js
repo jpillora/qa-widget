@@ -26,11 +26,17 @@ define(['view/questions','view/ask','util/ga',
       // };
 
       this.setupNestedViews(function() {
+
         //nested views loaded
         this.ask.on('addQuestion', this.questions.createOne, this.questions);
   
         //begin polling
         this.pollInitialize();
+
+        //hide loading cover
+        this.$('.loading-cover').animate({opacity:0,height:0},2000,function() {
+          $(this).hide();
+        });
       });
 
     },
@@ -39,10 +45,6 @@ define(['view/questions','view/ask','util/ga',
       //get initial set of questions
       api.local.question.get_by_slide(this,function(data) {
 
-        //hide loading cover
-        this.$('.loading-cover').animate({opacity:0,height:0},2000,function() {
-          $(this).hide();
-        });
 
         if(data.items && data.items.length > 0)
           this.questions.list.reset(data.items);

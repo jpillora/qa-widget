@@ -11,8 +11,8 @@ define(['util/ga','vars','util/html','alert','util/store','jquery'],
   }
 
   //default error handler
-  function ajaxError(jqXHR, textStatus, errorThrown) {
-    alert.error(textStatus + ": " + errorThrown);     
+  function ajaxError(xhr, textStatus, errorThrown) {
+    alert.error(xhr.status + " " + xhr.responseText);     
   }
 
   //custom ajax requests
@@ -43,7 +43,7 @@ define(['util/ga','vars','util/html','alert','util/store','jquery'],
     if(context !== undefined)
       defaults['context'] = context;
 
-    if(error !== undefined)
+    if(error)
       defaults['error'] = error;
     else
       defaults['error'] = ajaxError;

@@ -273,7 +273,6 @@ body .well {
 
 .loading-cover {
   z-index: 2000;
-  background: #1B1B1B;
   position: fixed;
   height: 100%;
   width: 100%;
@@ -283,10 +282,7 @@ body .well {
   text-align: center;
   padding-top: 40px;
   font-size: 40px;
-  background-image: url('../img/loading64.gif');
-  background-repeat: no-repeat;
-  background-position-x: 50%;
-  background-position-y: 90px;
+  background: url("../img/loading64.gif") no-repeat scroll 50% 100px #1B1B1B;
 }
 
 

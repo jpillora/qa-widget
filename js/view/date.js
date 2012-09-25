@@ -1,4 +1,4 @@
-define(['text!template/date.html','lib/jquery.timeago'], 
+define(['text!template/date.html','lib/jquery.timeago','backbone'], 
   function(html) {
   
   return Backbone.View.extend({
