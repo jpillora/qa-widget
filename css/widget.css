@@ -41,11 +41,19 @@ div.source-local button.remove {
 .ask input.submitTags {
   margin-top: 5px;
 }
-.ask .tag-list span {
+.ask .tag-list div.label {
   margin-right: 5px;
-  font-size: 15px;
+  margin-top: 3px;
+  display: inline-block;
+  font-size: 13px;
+  padding: 5px;
 }
-.ask.container textarea {
+.ask .tag-list div.label .close{
+  float: none;
+  margin-top: -5px;
+}
+.ask.container .submitTitle,
+.ask.container .submitTags {
   margin-bottom: 0px;
 }
 
@@ -54,7 +62,7 @@ div.source-local button.remove {
   float: right;
 }
 
-.ask .similarsBtn {
+.ask .similars-btn {
   display: none;
   border: thin solid #CCC;
   float: left;
@@ -68,14 +76,14 @@ div.source-local button.remove {
   margin-bottom: 5px;
 }
 
-.ask .similarsBtn.loading {
+.ask .similars-btn.loading {
   background-image: url('../img/loading.gif');
   background-repeat: no-repeat;
   padding-left: 30px;
   background-position: 5px 5px;
 }
 
-.ask .similarsBtn:hover {
+.ask .similars-btn:hover {
   cursor: pointer;
   opacity: 1;
   font-weight: bold;
@@ -84,7 +92,7 @@ div.source-local button.remove {
 .ask.container .similars {
   display: none;
   clear: both;
-  height: 250px;
+  max-height: 100px;
   overflow-y: scroll;
   border-radius: 3px;
   border: thin #CCC solid;

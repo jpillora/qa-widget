@@ -12,7 +12,7 @@ define(['view/questions','view/ask','util/ga',
         questions: []
       });
 
-      this.pollInterval = vars.get('pollInterval',5*1000);
+      this.pollInterval = vars.get('pollInterval',30*1000);
       this.lastPoll = null;
 
     },
@@ -20,10 +20,10 @@ define(['view/questions','view/ask','util/ga',
     render: function() {
       this.log("render");
 
-      window.onerror = function(msg, url, line) {
-        ga.event('error',msg,url+":"+line);
-        console.error(msg + "\n" + url + ":" + line);
-      };
+      // window.onerror = function(msg, url, line) {
+      //   ga.event('error',msg,url+":"+line);
+      //   console.error(msg + "\n" + url + ":" + line);
+      // };
 
       this.setupNestedViews(function() {
         //nested views loaded
