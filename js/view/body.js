@@ -3,9 +3,21 @@ define(['util/regex','lib/prettify','backbone'],
   function(regex){
   return Backbone.View.extend({
   	 
+    name: "BodyView",
+
     render: function() {
 
-      if(this.$el.parents('.source-stackoverflow').length === 0) {
+      var parent = this;
+      while(parent) {
+
+        if(parent.name === "QuestionView" ||
+          !parent.attributes ||
+          !parent.attributes.parent) 
+          break;
+        parent = parent.attributes.parent;
+      }
+
+      if(parent.model.get('source') !== 'stackoverflow') {
         var body = this.parseMarkup(this.$el.html());
         this.$el.html(body);
       }

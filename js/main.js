@@ -7,7 +7,9 @@ define(['view/widget','bootstrap','text', 'css',
          'view/comments',
          'view/answer',
          'view/answers',
-         'view/body'
+         'view/body',
+         'view/date',
+         'view/voting'
          ], function(WidgetView) {
 
   var widget = new WidgetView();

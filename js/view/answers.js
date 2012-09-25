@@ -62,7 +62,7 @@ define(['text!template/answers.html','list/answers','view/answer',
     },
 
     addOne: function(model) {
-      var answerView = new AnswerView({model: model});
+      var answerView = new AnswerView({model: model, attributes: {parent: this}});
       this.listElem.append(answerView.render().hide().delay(100).slideDown('slow'));
     },
 
