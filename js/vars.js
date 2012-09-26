@@ -1,6 +1,7 @@
-define(function() {
+define(['util/log','underscore','jquery'],function(log) {
 
   var variables = {};
+  var watchFor = {};
 
   //update hash vars
   function update() {
@@ -17,13 +18,30 @@ define(function() {
     variables = $.extend({},obj);
   }
 
+  function changes() {
+    update();
+    _.each(watchFor, function(data, key) {
+
+      var val = variables[key];
+      if(val === data.last)
+        return;
+      data.last = val;
+      data.callback(val);
+    });
+  }
+
+  $(window).bind('hashchange', changes);
+  update();
+
   return {
     get: function(key, def) {
-      update();
       var val = variables[key]; 
       if(val === undefined)
         return def;
       return val;
+    },
+    onChange: function(key, callback) {
+      watchFor[key] = {callback: callback, last: variables[key] };
     }
   };
 

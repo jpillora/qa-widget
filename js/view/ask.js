@@ -22,7 +22,6 @@ define(['util/ga', 'text!template/submit-tag.html',
 
       
       view.similars = view.$(".similars");
-      view.similarsBtn = view.$(".similarsBtn");
       view.submitTitle = view.$('.submitTitle');
       view.submitBody = view.$('.submitBody');
       view.submitTags = view.$('.submitTags');
@@ -127,8 +126,6 @@ define(['util/ga', 'text!template/submit-tag.html',
       elem.animate({opacity:1});
     },
 
-    
-
     submitQuestion: function() {
 
       var title = this.submitTitle.val(),
@@ -154,10 +151,15 @@ define(['util/ga', 'text!template/submit-tag.html',
       if(data.error !== undefined)
         return;
 
-      this.submitTitle.val('');
+      alert.success("Your question has been submitted", 2000);
+
+      this.submitTitle.val('').trigger('keyup');
       this.submitBody.val('');
       this.submitTags.val('');
       this.submitTagsObj = {};
+      $(".similars-btn")
+        .filter(function() { return $(this).html() === 'Hide'; })
+        .trigger('click').slideUp();
       this.$('.tag-list').empty();
       this.showQuestion(data);
     },

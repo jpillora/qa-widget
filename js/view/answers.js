@@ -28,7 +28,7 @@ define(['text!template/answers.html','list/answers','view/answer',
       var questionId = this.model.id;
       if(!questionId)
         throw "Missing question id"
-
+      
       api.local.answer.submit(questionId, val, this, this.submittedAnswer);
     },
 
@@ -36,8 +36,10 @@ define(['text!template/answers.html','list/answers','view/answer',
       if(!data.items || data.items.length != 1)
         return;
 
+      alert.success("Your answer has been submitted", 2000);
+
       this.list.add(data.items[0]);
-      this.$('.submit-answer').val('');
+      this.$('.submit-answer').val('').trigger('keyup');;
     },
 
     changed: function() {
@@ -53,6 +55,7 @@ define(['text!template/answers.html','list/answers','view/answer',
       this.$('textarea').autogrow();
 
       this.setupTogglers();
+      this.setupHidables();
       
       this.trigger('rendered');
     },

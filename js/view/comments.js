@@ -53,8 +53,10 @@ define(['text!template/comments.html','list/comments',
       if(!data.items || data.items.length != 1)
         return;
 
+      alert.success("Your comment has been submitted", 2000);
+
       this.list.add(data.items[0]);
-      this.$('.submit-comment').removeAttr('disabled').val('');
+      this.$('.submit-comment').removeAttr('disabled').val('').trigger('keyup');;
     },
 
     changed: function() {
@@ -66,6 +68,8 @@ define(['text!template/comments.html','list/comments',
       this.$el.html(this.template());
       this.table = this.$('.list-comments > .table');
       
+      this.setupHidables();
+
       this.trigger('rendered');
     },
 

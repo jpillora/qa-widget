@@ -7,15 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    
+
     <link href="css/prettify.css" rel="stylesheet">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/widget.css" rel="stylesheet">
     <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
 
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
   </head>
 
   <body id="widget">
@@ -65,7 +62,9 @@
           <div class="clearfix"></div>
           <div class="tag-list"></div>
 
-          <p><button class="btn submit-question-btn" type="button">Submit &raquo;</button></p>
+          <p><button class="btn submit-question-btn"
+            data-show-when=".submitTitle" 
+            type="button">Submit &raquo;</button></p>
 
         </div>
 
@@ -73,7 +72,7 @@
 
       <!-- QA Questions -->
       <div class="row">
-        <h2>View all Questions</h2>
+        <h2>Questions for Slide <span class="slide_id"></span></h2>
         <div id="questions" data-view="questions"></div>
       </div>
 

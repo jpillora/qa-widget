@@ -12,11 +12,19 @@ define(['list/questions','view/question', 'model/question','backbone'],
 
     render: function(){
       this.log("render");
+      this.trigger('rendered');
+    },
+
+    reset: function() {
+
     },
 
     addAll: function() {
-      this.$el.html('');
-      this.list.each(this.addOne,this);
+      var view = this;
+      view.$el.slideUp('fast',function() { 
+        $(this).empty().slideDown(); 
+        view.list.each(view.addOne,view);
+      });
     },
 
     addOne: function(model) {

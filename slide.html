@@ -1,0 +1,142 @@
+<html>
+  <head>
+    <title>Q&amp;A Widget</title>
+    <link href="css/reset-min.css" rel="stylesheet">
+    <style type="text/css">
+    body, button {
+      font-family: Verdana;
+    }
+
+    #header,#footer {
+      opacity: 0.75;
+    }
+
+    #header {
+      padding: 10px;
+      border-bottom: thin black solid;
+    }
+    #header button {
+      margin: 2px;
+    }
+
+    #content {
+      border-bottom: thin black solid;
+    }
+
+    #footer {
+      padding: 10px;
+      border-bottom: thin black solid;
+    }
+
+    #sidebar {
+      overflow: hidden;
+      float:left;
+      width: 0px;
+      height: 100%;
+    }
+
+    #slides {
+      margin: 30px;
+      float:left;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    #qa-widget-container {
+      width:100%;
+      height: 100%;
+    }
+    </style>
+    <script src="http://framework.jpillora.com/js/lib/jquery.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        $("button").click(function() {
+
+          var widgetWidth = $(this).data('width');
+          $("#sidebar").stop().animate({width: widgetWidth}, 500);
+
+        })
+
+        setTimeout(function() {
+          $("button").first().trigger('click');
+        }, 2000);
+
+        $(window).resize(function() {
+          $("#sidebar").css('height', $(this).height() - 90 );
+        }).trigger('resize');
+
+        $("button.slide").click(function() {
+
+          var input = $("#slide-num"), val = parseInt(input.val());
+
+          var dir = $(this).hasClass("go-left") ? -1 : 1;
+          var result = val + dir;
+          if(result <= 0) {
+            return;
+          } else if(result >= 13) {
+            return;
+          }
+
+          input.val(result);
+          setOptions();
+        });
+
+        $("#slide-user-set").click(setOptions);
+
+        function setOptions() {
+          $("#slides .text").html("Slide " + $("#slide-num").val());
+          $("iframe").attr('src', 
+            "index.html#slide_id=" + $("#slide-num").val() + 
+                       "&user_id=" + $("#slide-user").val());
+        }
+
+        setOptions();
+
+      });
+    </script>
+  </head>
+  <body>
+
+    <div id="header">
+      <span>Slide Tool Header</span>
+      <button data-width="400">Set 400px</button>
+      <button data-width="600">Set 600px</button>
+      <button data-width="50%">Set 50%</button>
+      <button data-width="75%">Set 75%</button>
+      <button data-width="0">Hide</button>
+    </div>
+    <div id="content">
+
+      <div id="sidebar">
+
+        <div id="qa-widget-container">
+          <iframe src="" frameborder="0" width="100%" height="100%"></iframe>
+        </div>
+
+      </div>
+
+      <div id="slides">
+        <div class="text"></div>
+      </div>
+
+      <div style="clear:both;"></div>
+
+
+    </div>
+    <div id="footer">Slide Tool Footer
+
+      <div style="float:right">
+
+      <span>Slide Number</span>
+      <button class="slide go-left">&laquo;</button>
+      <input id="slide-num" value="1" style="width:30px"/>
+      <button class="slide go-right">&raquo;</button>
+
+      <span>Slide User</span>
+      <input id="slide-user" value="123" style="width:60px"/>
+      <button id="slide-user-set">Set</button>
+
+      </div>
+    </div>
+  </body>
+</html>
