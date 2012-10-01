@@ -12,7 +12,7 @@ define(['jquery'], function() {
     $(document).ready(function() {
       alert.attr('class','alert alert-'+type);
       alert.find('.attention').html(attentionMsg + ' ');
-      alert.find('.text').html(msg)
+      alert.find('.text').html(msg.replace(/[^\w'\s]/g,''))
       alertContainer.fadeIn();
 
       if(duration !== undefined)
