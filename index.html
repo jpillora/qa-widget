@@ -8,14 +8,11 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <link href="http://framework.jpillora.com/css/prettify.css" rel="stylesheet">
+    <link href="css/prettify.css" rel="stylesheet">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/widget.css" rel="stylesheet">
     <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
 
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
   </head>
 
   <body id="widget">
@@ -23,16 +20,31 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
           <a class="brand" href="#">Q&amp;A Widget</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li class="active"><a href="#">Ask a Question</a></li>
               <li><a href="#about">Statistics</a></li>
+              <li><a target="_blank" href="http://catb.org/esr/faqs/smart-questions.html">How to Ask a Questions, the Smart Way</a></li>
             </ul>
           </div>
         </div>
       </div>
     </div>
+
+    <div class="alert-container">
+      <div class="alert">
+        <button type="button" class="close" data-toggle="alert">×</button>
+        <strong class="attention"></strong><span class='text'></span>
+      </div>
+    </div>
+
+    <div class="loading-cover">Loading...</div>
 
     <div class="container">
 
@@ -41,24 +53,29 @@
         <div class="ask container" data-view="ask">
           <h2>Submit your Question</h2>
 
-          <textarea class="submitTitle input-block-level" placeholder="Type your question title here">How do I ask questions on here ?</textarea>
-          <div class="similars"></div>
-          <div class="similarsBtn"></div>
+          <textarea class="submitTitle input-block-level" placeholder="Type your question title here"></textarea>
 
-          <textarea class="submitBody input-block-level" placeholder="Type your question body here">I've been looking around this site and I can't find the Submit button, can someone help me ????</textarea>
+          <textarea class="submitBody input-block-level" placeholder="Type your question body here"></textarea>
 
-          <input class="submitTags input-block-level" type="text" placeholder="Type your tags here" value="qa-management,javascript" ></input>
+          <input class="submitTags input-block-level" type="text" placeholder="Type your tags here and choose" value="" ></input>
 
-          <p><button class="btn submitBtn" type="button">Submit &raquo;</button></p>
+          <div class="clearfix"></div>
+          <div class="tag-list"></div>
+
+          <p><button class="btn submit-question-btn"
+            data-show-when=".submitTitle" 
+            type="button">Submit &raquo;</button></p>
+
         </div>
 
       </div>
 
       <!-- QA Questions -->
       <div class="row">
-        <h2>View all Questions</h2>
+        <h2>Questions for Slide <span class="slide_id"></span></h2>
         <div id="questions" data-view="questions"></div>
       </div>
+
       <!-- QA Stats -->
       <div class="row">
       </div>
@@ -73,14 +90,20 @@
 
     <script type="text/javascript">
       (function() {
-        var isLocal = window.location.host.match(/^localhost/) != null, 
+        var isLocal = window.location.hash.match(/isLocal/) != null,
+            isLazy = window.location.hash.match(/isLazy/) != null,
             script = document.createElement('script'); 
 
         script.type = 'text/javascript';
-        script.src  = isLocal ? 'http://localframework:8888/framework/js/lib/require.js' :
-                                '//cdnjs.cloudflare.com/ajax/libs/require.js/2.0.6/require.min.js';     
-        script.setAttribute('data-main', isLocal ? 'http://localframework:8888/framework/js/framework' :
-                                                   'js/qa-widget');
+        script.src  = isLocal ? 'http://127.0.0.1:8888/framework/js/lib/require.js' :
+                      isLazy  ? 'http://framework.jpillora.com/js/lib/require.js'   :
+                                '//cdnjs.cloudflare.com/ajax/libs/require.js/2.0.6/require.min.js';    
+
+        script.setAttribute('data-main', 
+                      isLocal ? 'http://127.0.0.1:8888/framework/js/framework' :
+                      isLazy  ? 'http://framework.jpillora.com/js/framework'   :
+                                'js/qa-widget');
+
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
       })();
     </script>
