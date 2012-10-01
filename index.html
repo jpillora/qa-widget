@@ -91,7 +91,8 @@
     <script type="text/javascript">
       (function() {
         var isLocal = window.location.hash.match(/isLocal/) != null,
-            isLazy = window.location.hash.match(/isLazy/) != null,
+            isLazy = window.location.hash.match(/isLazy/) != null ||
+                     window.location.host.match(/github\.com/),
             script = document.createElement('script'); 
 
         script.type = 'text/javascript';
