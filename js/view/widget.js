@@ -1,5 +1,6 @@
 define(['view/questions','view/ask','util/ga',
-        'qa-api','vars','alert','backbone'], 
+        'qa-api','vars','alert','backbone',
+        'css!../../css/widget'], 
   function(QuestionsView,AskView,ga,api,vars,alert) {
 
   return Backbone.View.extend({
@@ -25,7 +26,7 @@ define(['view/questions','view/ask','util/ga',
     render: function() {
       this.log("render");
 
-      this.setSlideId(vars.get('slide_id'));
+      this.setSlideId(vars.get('slide_id') || 1);
 
       vars.onChange('slide_id', $.proxy(function(id) {
         this.setSlideId(id, true);

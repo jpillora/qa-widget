@@ -1,4 +1,4 @@
-define(['jquery'], function() {
+define(['util/ga','jquery'], function(ga) {
 
   var alertContainer = null, alert = null;
 
@@ -15,8 +15,10 @@ define(['jquery'], function() {
       alert.find('.text').html(msg.replace(/[^\w'\s]/g,''))
       alertContainer.fadeIn();
 
-      if(duration !== undefined)
-        setTimeout(hide,duration);
+      if(duration === undefined)
+        duration = 5000;
+      
+      setTimeout(hide,duration);
     });
   }
 
@@ -26,6 +28,7 @@ define(['jquery'], function() {
 
   return {
     error: function(msg,duration) {
+      ga.trackEvent("error", msg);
       show('error', 'Error!',msg, duration);
     },
     warn: function(msg,duration) {

@@ -1,16 +1,37 @@
 
 body {
   min-width: 250px;
-  padding-top: 60px;
   padding-bottom: 40px;
+  padding-top: 60px;
 }
-
+@media (max-width: 979px) {
+  body {
+    padding-top: 0px;
+  }
+}
 body .so_bg {
   background-image: url('../img/so_sprites.png');
 }
 
 hr.separator {
   margin: 10px 0;
+}
+
+.navbar-inner {
+  background-image: -moz-linear-gradient(top, #F90, #F5D38B);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#F90), to(#F5D38B));
+  background-image: -webkit-linear-gradient(top, #F90, #F5D38B);
+}
+.navbar .brand {
+  color: #333;
+  font-weight: bold;
+}
+.navbar .nav > li > a {
+  color: #333;
+  font-weight: bold;
+}
+.navbar .btn-navbar .icon-bar {
+  background-color: #777;
 }
 
 div.source-stackoverflow span.label-source {
