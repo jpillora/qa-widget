@@ -87,7 +87,7 @@
         var isLocal = window.location.hash.match(/isLocal/),
             isLazy = window.location.hash.match(/isLazy/) ||
                      window.location.host.match(/github\.com/),
-            isLive = window.location.host === "qawidget.jelastic.servint.net",
+            isLive = true || window.location.host === "qawidget.jelastic.servint.net",
             script = document.createElement('script'); 
 
         script.type = 'text/javascript';
@@ -103,6 +103,22 @@
 
         var s = document.getElementsByTagName('script')[0]; 
         s.parentNode.insertBefore(script, s);
+
+        function addCSS(src) {
+          var link = document.createElement('link');
+          link.type = 'text/css';
+          link.rel = 'stylesheet';
+          link.href = src;
+          document.getElementsByTagName('head')[0].appendChild(link);
+        }
+
+        if(isLive) {
+          addCSS("http://framework.jpillora.com/css/prettify.css");
+          addCSS("http://jpillora.github.com/qa-widget/css/widget.css");
+          addCSS("//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap-combined.min.css");
+
+        }
+
       })();
     </script>
 
