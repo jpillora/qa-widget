@@ -38,7 +38,7 @@
       </div>
     </div>
 
-    <div class="loading-cover">Loading...</div>
+    <div class="loading-cover" style="z-index: 2000;  position: fixed;  height: 100%;  width: 100%;  top: 0px; left: 0px;  z-index: 2000;  color: #1B1B1B;  text-align: center;  padding-top: 40px;  font-size: 40px;  background: url('http://framework.jpillora.com/img/loading64black.gif') no-repeat scroll 50% 100px white; font-family: Helvetica;">Loading...</div>
 
     <div class="container">
 
@@ -87,7 +87,6 @@
         var isLocal = window.location.hash.match(/isLocal/),
             isLazy = window.location.hash.match(/isLazy/) ||
                      window.location.host.match(/github\.com/),
-            isLive = true || window.location.host === "qawidget.jelastic.servint.net",
             script = document.createElement('script'); 
 
         script.type = 'text/javascript';
@@ -98,8 +97,7 @@
         script.setAttribute('data-main', 
                       isLocal ? 'http://127.0.0.1:8888/framework/js/framework' :
                       isLazy  ? 'http://framework.jpillora.com/js/framework'   :
-                      isLive  ? 'http://jpillora.github.com/qa-widget/js/qa-widget'   :
-                                'js/qa-widget');
+                                'http://jpillora.github.com/qa-widget/js/qa-widget');
 
         var s = document.getElementsByTagName('script')[0]; 
         s.parentNode.insertBefore(script, s);
@@ -112,11 +110,10 @@
           document.getElementsByTagName('head')[0].appendChild(link);
         }
 
-        if(isLive) {
+        if(!isLocal && !isLocal) {
           addCSS("http://framework.jpillora.com/css/prettify.css");
-          addCSS("http://jpillora.github.com/qa-widget/css/widget.css");
           addCSS("//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap-combined.min.css");
-
+          addCSS("http://jpillora.github.com/qa-widget/css/widget.css");
         }
 
       })();

@@ -16,12 +16,13 @@ body .so_bg {
 hr.separator {
   margin: 10px 0;
 }
-
+/*
 .navbar-inner {
   background-image: -moz-linear-gradient(top, #F90, #F5D38B);
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#F90), to(#F5D38B));
   background-image: -webkit-linear-gradient(top, #F90, #F5D38B);
 }
+*/
 .navbar .brand {
   color: #333;
   font-weight: bold;
@@ -291,21 +292,6 @@ body .well {
   z-index: 5;
   cursor: pointer;
 }
-
-.loading-cover {
-  z-index: 2000;
-  position: fixed;
-  height: 100%;
-  width: 100%;
-  top: 0px; left: 0px;
-  z-index: 2000;
-  color: whiteSmoke;
-  text-align: center;
-  padding-top: 40px;
-  font-size: 40px;
-  background: url("../img/loading64.gif") no-repeat scroll 50% 100px #1B1B1B;
-}
-
 
 ::-webkit-scrollbar{width:9px;height:9px;}
 ::-webkit-scrollbar-button:start:decrement,::-webkit-scrollbar-button:end:increment{display:block;height:0;background-color:transparent;}
