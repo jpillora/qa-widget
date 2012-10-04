@@ -28,7 +28,7 @@ define(['util/ga','jquery'], function(ga) {
 
   return {
     error: function(msg,duration) {
-      ga.trackEvent("error", msg);
+      ga.event("error", msg);
       show('error', 'Error!',msg, duration);
     },
     warn: function(msg,duration) {
