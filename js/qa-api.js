@@ -23,7 +23,7 @@ define(['util/ga','vars','util/html','alert','util/store','jquery'],
        user_opts.type.toLowerCase() === 'post') {
       defaults.data = {};
       defaults.data['slide_id'] = vars.get('slide_id', 1);
-      defaults.data['user_id']  = vars.get('user_id', 54321);
+      defaults.data['user_id']  = vars.get('user_id');
     }
     
     if(!defaults.dataType)
@@ -75,23 +75,18 @@ define(['util/ga','vars','util/html','alert','util/store','jquery'],
             url: localPath + 'question/'
           });
         },
-        get_by_slide: function(context,success) {
-          var slide_id = vars.get('slide_id', 1);
+        get_by_slide: function(slide_id,context,success) {
           ga.event('local/question','get_by_slide', slide_id);
           return ajax(success, null, context, {
             url: localPath + 'slide/' + slide_id + '/question/'
           });
         },
 
-        get_after_date: function(date,context,success) {
-          var slide_id = vars.get('slide_id', 1);
+        get_after_date: function(slide_id,date,context,success) {
           ga.event('local/poll','get_by_slide', slide_id);
           return ajax(success, null, context, {
             url: localPath + 'slide/' + slide_id + '/question/',
-            data: {
-              from_date: date,
-              sort: "updated_at"
-            }
+            data: { from_date: date }
           });
         },
 

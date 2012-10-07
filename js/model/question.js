@@ -11,7 +11,10 @@ define(['backbone'], function() {
       'answers'     : [],
       'comments'    : [],
       'tags'        : [],
-      'hidden'      : true
+      'hidden'      : true,
+      'link'        : null,
+      'owner'       : null,
+      'user_id'     : -1
     },
     initialize: function() {
       var creation_date = this.get('creation_date');

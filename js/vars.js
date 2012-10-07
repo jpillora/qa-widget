@@ -4,10 +4,12 @@ define(['util/log','underscore','jquery'],function(log) {
   var watchFor = {};
 
   //update hash vars
-  function update() {
+  function grab() {
     var str = window.location.hash.substr(1),
         vars = str.split('&'),
         obj = {};
+
+    if(!str) return false;
 
     for(var i = 0; i < vars.length; ++i) {
       var pair = vars[i].split('=');
@@ -15,13 +17,14 @@ define(['util/log','underscore','jquery'],function(log) {
       obj[pair[0]] = pair[1];
     }
     
-    variables = $.extend({},obj);
+    $.extend(variables,obj);
+    //window.location.hash = '';
+    return true;
   }
 
   function changes() {
-    update();
+    if(!grab()) return;
     _.each(watchFor, function(data, key) {
-
       var val = variables[key];
       if(val === data.last)
         return;
@@ -30,10 +33,18 @@ define(['util/log','underscore','jquery'],function(log) {
     });
   }
 
-  $(window).bind('hashchange', changes);
-  update();
+  if($.browser.msie && $.browser.version <= 7)
+    setInterval(changes, 2000);
+  else
+    $(window).bind('hashchange', changes);
+
+  grab();
 
   return {
+    set: function(key, val, trigger) {
+      variables[key] = val;
+      if(trigger && watchFor[key]) watchFor[key].callback(val);
+    },
     get: function(key, def) {
       var val = variables[key]; 
       if(val === undefined)

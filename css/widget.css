@@ -293,6 +293,17 @@ body .well {
   cursor: pointer;
 }
 
+span.current-user-container {
+  background: #EEE;
+  padding: 5px;
+  border-radius: 3px;
+  margin-top: 5px;
+}
+
+span.current-user-container > span.current-user {
+  font-weight: bold;
+}
+
 ::-webkit-scrollbar{width:9px;height:9px;}
 ::-webkit-scrollbar-button:start:decrement,::-webkit-scrollbar-button:end:increment{display:block;height:0;background-color:transparent;}
 ::-webkit-scrollbar-track-piece{background-color:#FAFAFA;-webkit-border-radius:0;-webkit-border-bottom-right-radius:8px;-webkit-border-bottom-left-radius:8px;}

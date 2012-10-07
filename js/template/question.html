@@ -4,20 +4,27 @@
   <div class="so_bg down"></div>
 </div>
 
+
+
+<% if (link) { %><a href="<%= link %>" target="_blank"><% } %>
 <h4 class="title"><%= title %></h4>
+<% if (link) { %></a><% } %>
+
 <div class="controls">
   <span class="label label-source"><%= source %></span>
   <button class="remove btn btn-mini">Remove</button>
   <button class="toggle-content btn btn-mini" data-toggle=".question-content"><%= hidden ? 'Show' : 'Hide' %></button>
 </div>
+
+<div class="info-container pull-right">
+  <div class="user" data-view="user"></div>
+  <div class="info muted" data-view="date"></div>
+</div>
+<div class="clearfix"></div>
+
 <div class="question-content" <%= hidden ? 'style="display:none;"' : '' %> >
 
   <div class="body" data-view="body"><%= body %></div>
-
-  <div class="info-container">
-    <div class="info pull-right muted" data-view="date"></div>
-    <div class="clearfix"></div>
-  </div>
 
   <hr class="separator"/>
 

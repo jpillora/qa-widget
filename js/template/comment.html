@@ -5,11 +5,7 @@
       <div class="so_bg up"></div>
     </div>
     <span class="comment-body"><%= body %></span>
-    <% if (user_id != -1) { %>
-    <span> - <%= user_id %></span>
-    <% } else if (owner !== undefined) { %>
-    <span> - <a href="<%= owner.link %>"><%= owner.display_name %></a></span>
-    <% } %>
+    <span class="" data-view="user"></span>
     <span class="muted" data-view="date"></span>
   </div>
 </td>

@@ -4,8 +4,10 @@ define(['backbone'], function() {
 
     name: "AnswerModel",
     defaults: {
-      score      : 0,
-      created_at : null
+      'score'      : 0,
+      'created_at' : null,
+      'owner'      : null,
+      'user_id'    : -1
     },
     initialize: function() {
       var creation_date = this.get('creation_date');
