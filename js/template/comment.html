@@ -4,11 +4,9 @@
       <div class="vote_count pull-left"><%= score %></div>
       <div class="so_bg up"></div>
     </div>
-
-    <%= body %>
-
+    <span class="comment-body"><%= body %></span>
     <% if (user_id != -1) { %>
-    <span> - User <%= user_id %></span>
+    <span> - <%= user_id %></span>
     <% } else if (owner !== undefined) { %>
     <span> - <a href="<%= owner.link %>"><%= owner.display_name %></a></span>
     <% } %>

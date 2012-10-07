@@ -7,6 +7,7 @@ define(['util/regex','lib/prettify','backbone'],
 
     render: function() {
 
+      //traverse up the parent tree to find the question
       var parent = this;
       while(parent) {
 
