@@ -34,9 +34,11 @@ define(['list/questions','view/question', 'model/question','backbone'],
     },
 
     createOne: function(obj) {
+      this.list.add(new QuestionModel(obj));
+    },
 
-      var model = new QuestionModel(obj);
-      this.list.add(model);
+    createAll: function(objs) {
+      this.list.add(_.map(objs, function(obj) { return new QuestionModel(obj) }));
     }
 
   });

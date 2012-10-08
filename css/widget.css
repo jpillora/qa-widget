@@ -9,9 +9,11 @@ body {
     padding-top: 0px;
   }
 }
-body .so_bg {
+body .so-sprites {
   background-image: url('../img/so_sprites.png');
 }
+
+body .align-right { text-align: right; }
 
 hr.separator {
   margin: 10px 0;
@@ -39,7 +41,8 @@ div.source-stackoverflow span.label-source {
   background-color: #FFA603;
 }
 div.source-stackoverflow div.post-answer,
-div.source-stackoverflow div.post-comment {
+div.source-stackoverflow div.post-comment,
+div.source-stackoverflow div.list-comments div.up {
   display: none;
 }
 div.source-local span.label-source {
@@ -111,7 +114,7 @@ div.source-local button.remove {
   font-weight: bold;
 }
 
-.ask.container .similars {
+.ask.container .popdown {
   display: none;
   clear: both;
   max-height: 100px;
@@ -120,14 +123,14 @@ div.source-local button.remove {
   border: thin #CCC solid;
   border-top: none;
 }
-.ask.container .similars div.similar {
+.ask.container div.similar {
   background: #DDD;
   border-radius: 3px;
   padding: 3px;
   margin: 3px;
   cursor: pointer;
 }
-.ask.container .similars div.similar:hover {
+.ask.container div.similar:hover {
   background-color: #FFF;
   -webkit-transition: background-color 500ms linear;
   -moz-transition: background-color 500ms linear;
@@ -152,8 +155,8 @@ body .well {
 }
 
 .question .controls {
-  float: right;
-  padding-right: 3px;
+  padding: 3px;
+  text-align: right;
 }
 
 .question .voting {
@@ -210,16 +213,22 @@ body .well {
   margin-left: 10px;
 }
 
-.body pre.prettyprint {
-  padding: 10px;
+body pre.prettyprint {
+  padding: 5px;
   background: white;
   border: thin solid #DDD;
-  overflow: scroll;
+  overflow: auto;
   white-space: nowrap;
+}
+body pre.prettyprint.inline {
+  padding: 3px;
+  margin-bottom: 2px;
+}
+body .inline {
+  display: inline-block;
 }
 
 .answer .body pre.prettyprint {
-  padding-left: 5px;
   background: whiteSmoke;
 }
 
@@ -302,6 +311,13 @@ span.current-user-container {
 
 span.current-user-container > span.current-user {
   font-weight: bold;
+}
+
+.user .reputation-icon {
+  width: 15px;
+  height: 15px;
+  background-position: -35px -1026px;
+  display: inline-block;
 }
 
 ::-webkit-scrollbar{width:9px;height:9px;}

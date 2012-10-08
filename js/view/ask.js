@@ -1,6 +1,6 @@
-define(['util/ga', 'text!template/submit-tag.html',
-  'qa-api','util/store','alert','view/autocomplete','backbone'], 
-  function(ga, tagHtml, api,store,alert, AutoCompleteView){
+define(['util/ga', 'text!template/submit-tag.html', 'view/body',
+  'qa-api','util/store','alert','util/timer','view/autocomplete','backbone'], 
+  function(ga, tagHtml, BodyView, api,store,alert,timer, AutoCompleteView){
 
   return Backbone.View.extend({
 
@@ -43,6 +43,12 @@ define(['util/ga', 'text!template/submit-tag.html',
       //body listeners
       view.submitBody.autogrow();
 
+      this.previewer = new BodyView({el: this.$('.previewer')});
+      timer.idle(this.submitBody, 'keyup', 1000, $.proxy(function() {
+        this.previewer.$el.html(this.submitBody.val());
+        this.previewer.render();
+      },this));
+
       //tag listeners
       view.similarTagsView = new AutoCompleteView({
         el: view.submitTags,
@@ -57,11 +63,6 @@ define(['util/ga', 'text!template/submit-tag.html',
       view.similarTagsView.render();
 
       view.setupTogglers();
-
-      //load previously chosen questions
-      var questions = store.get('stackoverflow-questions');
-      if(questions && questions.length > 0)
-        api.stackOverflow.question.get(questions.join(';'), view, view.addQuestions);
     },
 
     titleRequest: function(query, process) {
@@ -91,6 +92,12 @@ define(['util/ga', 'text!template/submit-tag.html',
     titleClick: function(item) {
       var id = item.question_id;
       api.stackOverflow.question.get(id, this, this.showQuestion);
+    },
+    showQuestion: function(data) {
+      if(data.items !== undefined &&
+         data.items.length === 1)
+        data.items[0].hidden = false;
+      this.addQuestions(data);
     },
 
     tagRequest: function(query, process) {
@@ -162,15 +169,6 @@ define(['util/ga', 'text!template/submit-tag.html',
         .trigger('click').slideUp();
       this.$('.tag-list').empty();
       this.showQuestion(data);
-    },
-
-    showQuestion: function(data) {
-
-      if(data.items !== undefined &&
-         data.items.length === 1)
-        data.items[0].hidden = false;
-
-      this.addQuestions(data);
     },
 
     addQuestions: function(data) {

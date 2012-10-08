@@ -18,7 +18,8 @@ define(['util/regex','lib/prettify','backbone'],
         parent = parent.attributes.parent;
       }
 
-      if(parent.model.get('source') !== 'stackoverflow') {
+      if(!parent.model || parent.model.get('source') !== 'stackoverflow') {
+        this.log('parsing markup')
         var body = this.parseMarkup(this.$el.html());
         this.$el.html(body);
       }
@@ -52,17 +53,43 @@ define(['util/regex','lib/prettify','backbone'],
     },
 
     prettyPrint: function() {
-      this.$('pre>code').parent().each(function() {
-        var code = $(this).html();
-        var newCode = $(prettyPrintOne(code));
+      var _this = this;
+      this.$('code').each(function() {
+        var codeElem = $(this), parent = codeElem.parent(), 
+            code = codeElem.html();
 
-        newCode.find('span').each(function() {
+        var codeLines = code.split('\n'), indentation = 0,
+            lines = codeLines.length;
+
+        //calculate superfluous  indentation
+        for(i = 0; i<lines; ++i) {
+          var spaces = codeLines[i].match(/^\s+/);
+          indentation = Math.max(indentation, spaces ? spaces[0].length : 0);
+        }
+        //remove it if it exists
+        if(indentation) {
+          code = '';
+          for(i = 0; i<lines; ++i)
+            code += codeLines[i].replace(new RegExp("^\\s{0,"+indentation+"}"), '') + "\n";
+        }
+        
+        code = $(prettyPrintOne(code));
+
+        code.each(function() {
           $(this).html( 
             $(this).html().replace(/\n/g,'<br/>').replace(/\ /g,'&nbsp;')
           );
         });
           
-        $(this).addClass('prettyprint').html(newCode);
+        if(parent.is("pre")) {
+          parent.addClass('prettyprint').html(code);
+        } else {
+          var pre = $("<pre/>").addClass('prettyprint').addClass('inline').html(code);
+
+          codeElem.after(pre).remove();
+        }
+
+        
       });
     }
 

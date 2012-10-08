@@ -1,20 +1,22 @@
 <div class="voting" data-view="voting">
-  <div class="so_bg up"></div>
+  <div class="so-sprites up"></div>
   <div class="vote_count"><%= score %></div>
-  <div class="so_bg down"></div>
-  <div class="so_bg accept"></div>
+  <div class="so-sprites down"></div>
+  <div class="so-sprites accept"></div>
 </div>
 
-<div class="controls">
-</div>
 
 <div class="answer-content">
 
-  <div class="info pull-right muted" data-view="date"></div>
+  <div class="controls pull-right">
+    <div class="buttons">
+    </div>
+    <div><span class="muted">Answered by </span><span class="user" data-view="user"></span></div>
+    <div class="muted" data-view="date"></div>
+  </div>
 
   <div class="body" data-view="body"><%= body %></div>
-
-  <div class="user pull-right" data-view="user"></div>
+  
   <div class="comments" data-view="comments"></div>
 
 </div>

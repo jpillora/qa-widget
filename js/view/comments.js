@@ -79,7 +79,7 @@ define(['text!template/comments.html','list/comments',
 
     addOne: function(model) {
 
-      var commentView = new CommentView({model: model});
+      var commentView = new CommentView({model: model, attributes: {parent: this}});
       var elem = commentView.render();
       elem.find('.content').hide().delay(100).slideDown('slow');
 

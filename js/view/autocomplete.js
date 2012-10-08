@@ -23,7 +23,7 @@ define(['text!template/autocomplete.html','util/timer','backbone'],
       view.log("render");
 
       var className = 'similar-'+view.name;
-      view.list = $("<div/>").addClass('similars').addClass(className);
+      view.list = $("<div/>").addClass('popdown').addClass(className);
       view.btn = $("<div/>").addClass('similars-btn').attr('data-toggle', "."+className);
 
       view.$el.after(view.btn).after(view.list);

@@ -16,7 +16,7 @@ define(['text!template/question.html','util/store',
       model.bind('destroy', this.onDestroy, this);
 
       if(model.get('source') === 'stackoverflow')
-        store.add('stackoverflow-questions', model.get('question_id'));
+        store.add('stackoverflow-questions-slide-' + vars.get('slide_id'), model.get('question_id'));
     },
 
     events: {
@@ -50,7 +50,7 @@ define(['text!template/question.html','util/store',
 
     remove: function() {
       if(this.model.get('source') === 'stackoverflow')
-        store.remove('stackoverflow-questions', this.model.get('question_id'));
+        store.remove('stackoverflow-questions-slide-' + vars.get('slide_id'), this.model.get('question_id'));
 
       this.model.collection.remove(this.model);      
 

@@ -1,25 +1,23 @@
 <div class="voting" data-view="voting">
-  <div class="so_bg up"></div>
+  <div class="so-sprites up"></div>
   <div class="vote_count"><%= score %></div>
-  <div class="so_bg down"></div>
+  <div class="so-sprites down"></div>
 </div>
-
-
 
 <% if (link) { %><a href="<%= link %>" target="_blank"><% } %>
 <h4 class="title"><%= title %></h4>
 <% if (link) { %></a><% } %>
 
-<div class="controls">
-  <span class="label label-source"><%= source %></span>
-  <button class="remove btn btn-mini">Remove</button>
-  <button class="toggle-content btn btn-mini" data-toggle=".question-content"><%= hidden ? 'Show' : 'Hide' %></button>
+<div class="controls pull-right">
+  <div class="buttons">
+    <span class="label label-source"><%= source %></span>
+    <button class="remove btn btn-mini">Remove</button>
+    <button class="toggle-content btn btn-mini" data-toggle=".question-content"><%= hidden ? 'Show' : 'Hide' %></button>
+  </div>
+  <div><span class="muted">Asked by </span><span class="user" data-view="user"></span></div>
+  <div class="muted" data-view="date"></div>
 </div>
 
-<div class="info-container pull-right">
-  <div class="user" data-view="user"></div>
-  <div class="info muted" data-view="date"></div>
-</div>
 <div class="clearfix"></div>
 
 <div class="question-content" <%= hidden ? 'style="display:none;"' : '' %> >

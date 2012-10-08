@@ -1,7 +1,7 @@
-define(['view/questions','view/ask','util/ga',
+define(['view/questions','view/ask','util/ga', 'util/store',
         'qa-api','vars','alert','util/guid','backbone',
         'css!../../css/widget'], 
-  function(QuestionsView,AskView,ga,api,vars,alert,guid) {
+  function(QuestionsView,AskView,ga,store,api,vars,alert,guid) {
 
   return Backbone.View.extend({
     name: "WidgetView",
@@ -56,6 +56,10 @@ define(['view/questions','view/ask','util/ga',
 
     },
 
+    addQuestions: function(data) {
+      this.questions.createAll(data.items);
+    },
+
     setUser: function(id) {
       this.$("span.current-user").html(id);
       alert.info("User " + id + " has just logged in", 3000);
@@ -75,7 +79,12 @@ define(['view/questions','view/ask','util/ga',
         if(data.items)
           this.questions.list.reset(data.items);
 
-        this.pollId = setInterval($.proxy(this.poll,this), this.interval);
+        //load previously chosen stack overflow questions
+        var questions = store.get('stackoverflow-questions-slide-' + id);
+        if(questions && questions.length > 0)
+          api.stackOverflow.question.get(questions.join(';'), this.questions, this.addQuestions);
+
+        //this.pollId = setInterval($.proxy(this.poll,this), this.interval);
       });
 
     },
