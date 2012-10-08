@@ -23,21 +23,15 @@ define(['text!template/autocomplete.html','util/timer','backbone'],
       view.log("render");
 
       var className = 'similar-'+view.name;
-      view.list = $("<div/>").addClass('popdown').addClass(className);
-      view.btn = $("<div/>").addClass('similars-btn').attr('data-toggle', "."+className);
+      view.list = $("<div/>").addClass('popdown').addClass(className).hide();
+      view.btn = $("<div/>").addClass('similars-btn').attr('data-toggle', "."+className).hide();
 
       view.$el.after(view.btn).after(view.list);
 
       //listeners
       timer.idle(view.$el, 'keyup', view.idle, function(){
-
         var query = view.$el.val();
-
-        view.log("quering for: " + query);
-
-        if(!query || query.length < view.minLength)
-          return;
-
+        if(!query || query.length < view.minLength) return;
         view.loading(true);
         view.request.apply(view.parent, [query, function(items){
           view.process.apply(view, [items, query]);
@@ -64,9 +58,7 @@ define(['text!template/autocomplete.html','util/timer','backbone'],
       _.each(items, function(item){
 
         var itemElement = $(view.itemTemplate(item));
-
         itemElement.click(function() {
-          view.log("click... " + JSON.stringify(item));
           view.click.apply(view.parent, [item]);
         });
 

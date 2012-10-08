@@ -54,19 +54,21 @@
 
           <textarea class="submitBody input-block-level" placeholder="Type your question body here"></textarea>
 
-          <div class="popdown" data-show-when=".submitBody">
-
+          <div class="preview-container popdown" style="display:none;">
             <div class="previewer">
             </div>
+          </div>
 
-            <div class="align-right">
-            <button class="btn btn-mini markup-help-btn"
-              type="button">Markup Help</button>
-              
-            <button class="btn btn-mini preview-body-btn"
-              data-show-when=".submitBody" 
-              type="button">Preview</button>
-            </div>
+          <div class="body-buttons align-right">
+            <a class="btn btn-mini markup-help-btn"
+              data-show-when=".submitBody"
+              rel="popover" data-content="And here's some amazing content. It's very engaging. right?" data-original-title="A Title"
+              >Markup Help</a>
+
+            <a class="btn btn-mini preview-body-btn"
+              data-show-when=".submitBody"
+              data-toggle=".popdown" 
+              >Show Preview</a>
           </div>
 
           <input class="submitTags input-block-level" type="text" placeholder="Type your tags here and choose" value="" ></input>

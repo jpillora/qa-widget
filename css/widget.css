@@ -15,9 +15,16 @@ body .so-sprites {
 
 body .align-right { text-align: right; }
 
+body .w-word:hover {
+  background: #DDD;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
 hr.separator {
   margin: 10px 0;
 }
+
 /*
 .navbar-inner {
   background-image: -moz-linear-gradient(top, #F90, #F5D38B);
@@ -61,8 +68,11 @@ div.source-local button.remove {
 }
 .ask textarea.submitBody {
   margin-top: 5px;
+  margin-bottom: 0px;
   height:100px;
 }
+
+
 .ask input.submitTags {
   margin-top: 5px;
 }
@@ -123,6 +133,13 @@ div.source-local button.remove {
   border: thin #CCC solid;
   border-top: none;
 }
+.ask.container .preview-container.popdown {
+  padding: 5px;
+}
+.ask.container .body-buttons {
+  margin-top: 3px;
+}
+
 .ask.container div.similar {
   background: #DDD;
   border-radius: 3px;

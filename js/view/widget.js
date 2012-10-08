@@ -23,6 +23,8 @@ define(['view/questions','view/ask','util/ga', 'util/store',
     render: function() {
       this.log("render");
 
+      this.$el.on('click', '.w-word', this.wikiClick);
+
       vars.onChange('slide_id', this.setSlide);
       vars.onChange('user_id', this.setUser);
 
@@ -54,6 +56,13 @@ define(['view/questions','view/ask','util/ga', 'util/store',
         });
       });
 
+    },
+
+    wikiClick: function(e) {
+      var text = e.currentTarget.innerHTML;
+      var span = $(e.currentTarget);
+      //span.popover({ title: "Wiki", content: text });
+      this.log(text);
     },
 
     addQuestions: function(data) {

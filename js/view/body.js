@@ -24,8 +24,50 @@ define(['util/regex','lib/prettify','backbone'],
         this.$el.html(body);
       }
 
+      this.spannify(this.el);
+
+      var words = this.$('w-word');
+
+      this.log("init words #"
+      words.popover({
+        placement:'bottom',
+        content: function(e) {
+          return "<h3>foo!</h3>"
+        }
+      })
+
       this.prettyPrint();
       return this;
+    },
+
+    spannify: function(node) {
+      if(!node) return;
+      if(node.jquery && node.length == 1) node = node[0];
+
+      var whiteList = ["P","DIV","UL","OL","LI", "BLOCKQUOTE"];
+
+      search(node);
+      function search(node) {
+        if(node.nodeType === Node.TEXT_NODE){
+
+          var text = node.textContent;
+          if(text.match(/^\s*$/)) return;
+
+          var html = text.replace(/(\w+)/g,'<span class="w-word">$1</span>');
+          var parent = node.parentNode;
+
+          if(parent.childNodes.length > 1) {
+
+            var p = document.createElement("P");
+            p.innerHTML = html;
+            parent.replaceChild(p, node);
+
+          } else
+            parent.innerHTML = html;
+
+        }else if(_.contains(whiteList,node.tagName))
+          _.each(node.childNodes, search);
+      }
     },
 
     parseMarkup: function(text) {
@@ -37,7 +79,7 @@ define(['util/regex','lib/prettify','backbone'],
         //headings
         .replace(/^(#{1,6})([\s\w]*[^\s])$/gm,
           function(n,hashes,text) { 
-            var n = hashes.length; 
+            var n = 7-hashes.length; 
             return "<h"+n+">" + text + "</h"+n+">" 
           })
         //bold
