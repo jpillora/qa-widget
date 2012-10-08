@@ -26,9 +26,9 @@ define(['util/regex','lib/prettify','backbone'],
 
       this.spannify(this.el);
 
-      var words = this.$('w-word');
+      var words = this.$('.w-word');
 
-      this.log("init words #"
+      this.log("init words #%s", words.length);
       words.popover({
         placement:'bottom',
         content: function(e) {
