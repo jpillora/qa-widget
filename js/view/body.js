@@ -1,6 +1,6 @@
 //Body view - Handles formatting and highlighting within text bodies
-define(['util/regex','lib/prettify','backbone'], 
-  function(regex){
+define(['util/regex','util/html','qa-api','lib/prettify','backbone'], 
+  function(regex,htmlUtil,api){
   return Backbone.View.extend({
   	 
     name: "BodyView",
@@ -10,7 +10,6 @@ define(['util/regex','lib/prettify','backbone'],
       //traverse up the parent tree to find the question
       var parent = this;
       while(parent) {
-
         if(parent.name === "QuestionView" ||
           !parent.attributes ||
           !parent.attributes.parent) 
@@ -18,25 +17,16 @@ define(['util/regex','lib/prettify','backbone'],
         parent = parent.attributes.parent;
       }
 
-      if(!parent.model || parent.model.get('source') !== 'stackoverflow') {
-        this.log('parsing markup')
-        var body = this.parseMarkup(this.$el.html());
-        this.$el.html(body);
-      }
+      var content = this.$el.html();
+
+      if(!parent.model || parent.model.get('source') !== 'stackoverflow')
+        content = this.parseMarkup(htmlUtil.encode(content));
+
+      this.$el.html(content);
 
       this.spannify(this.el);
-
-      var words = this.$('.w-word');
-
-      this.log("init words #%s", words.length);
-      words.popover({
-        placement:'bottom',
-        content: function(e) {
-          return "<h3>foo!</h3>"
-        }
-      })
-
       this.prettyPrint();
+
       return this;
     },
 
@@ -44,7 +34,7 @@ define(['util/regex','lib/prettify','backbone'],
       if(!node) return;
       if(node.jquery && node.length == 1) node = node[0];
 
-      var whiteList = ["P","DIV","UL","OL","LI", "BLOCKQUOTE"];
+      var blackList = ["PRE","A","CODE"];
 
       search(node);
       function search(node) {
@@ -53,19 +43,18 @@ define(['util/regex','lib/prettify','backbone'],
           var text = node.textContent;
           if(text.match(/^\s*$/)) return;
 
-          var html = text.replace(/(\w+)/g,'<span class="w-word">$1</span>');
+          var html = text.replace(/([\w']+)/g,'<span class="w-word">$1</span>');
           var parent = node.parentNode;
 
           if(parent.childNodes.length > 1) {
-
-            var p = document.createElement("P");
+            var p = document.createElement("SPAN");
             p.innerHTML = html;
             parent.replaceChild(p, node);
 
           } else
             parent.innerHTML = html;
 
-        }else if(_.contains(whiteList,node.tagName))
+        }else if(!_.contains(blackList,node.tagName))
           _.each(node.childNodes, search);
       }
     },
@@ -87,11 +76,11 @@ define(['util/regex','lib/prettify','backbone'],
         //italics
         .replace(/\*(.*?)\*/g,"<i>$1</i>")
         //plain url
-        .replace(/(https?:\/\/[^\s]+)/g,'<a href="$1">$1</a>')
+        .replace(/(https?:\/\/[^\s<>;"')]+)/g,'<a href="$1">$1</a>')
         //img
-        .replace(/!\[([\w\s]+)\]\(([^\<>;"')]+)\)/g,'<img src="$2" alt="$1"/>')
+        .replace(/!\[([\w\s]+)\]\(([^\s<>;"')]+)\)/g,'<img src="$2" alt="$1"/>')
         //named url
-        .replace(/\[([\w\s]+)\]\(([^\<>;"')]+)\)/g,'<a href="$2">$1</a>')
+        .replace(/\[([\w\s]+)\]\(([^\s<>;"')]+)\)/g,'<a href="$2">$1</a>')
     },
 
     prettyPrint: function() {
@@ -127,7 +116,6 @@ define(['util/regex','lib/prettify','backbone'],
           parent.addClass('prettyprint').html(code);
         } else {
           var pre = $("<pre/>").addClass('prettyprint').addClass('inline').html(code);
-
           codeElem.after(pre).remove();
         }
 

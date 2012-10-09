@@ -202,7 +202,24 @@ define(['util/ga','vars','util/html','alert','util/store','jquery'],
           });
         }
       }
-    }//end stackoverflow 
+    },//end stackoverflow 
+  
+    wikipedia: {
+      summary: function(title, context, success) {
+        ga.event('wikipedia','summary',title);
+        return ajax(success, null, context, {
+          url: 'http://en.wikipedia.org/w/api.php',
+          dataType: 'jsonp',
+          data: {
+            action: 'query',
+            prop:   'extracts',
+            titles: title,
+            format: 'json',
+            exintro: 1
+          }
+        });
+      }
+    }//end wikipedia
   };
 
 

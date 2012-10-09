@@ -21,6 +21,51 @@ body .w-word:hover {
   cursor: pointer;
 }
 
+body .popover-wrapper {
+  position: fixed;
+  margin: 25px;
+  top: 0px;
+  left: 0px;
+  z-index: 500;
+}
+
+body .popover-wrapper .popover {
+  display: block;
+  width: auto;
+  position: relative;
+}
+
+body .popover-wrapper .popover-container {
+  max-height: 200px;
+  overflow: scroll;
+}
+
+body .popover-wrapper .popover-title{
+  padding: 3px;
+} 
+body .popover-wrapper .popover-title .wiki-btn {
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+  background: url('../img/wiki-icon.png');
+  cursor: pointer;
+} 
+body .popover-wrapper .popover-title .close {
+  padding: 5px;
+  float:right;
+} 
+body .popover-wrapper .popover-title .keyword {
+  font-size: 20px;
+  display: inline-block;
+  padding-left: 20px;
+} 
+
+
+body .body-btns {
+  display: inline-block;
+  padding-top: 2px;
+}
+
 hr.separator {
   margin: 10px 0;
 }
@@ -32,15 +77,15 @@ hr.separator {
   background-image: -webkit-linear-gradient(top, #F90, #F5D38B);
 }
 */
-.navbar .brand {
+body .navbar .brand {
   color: #333;
   font-weight: bold;
 }
-.navbar .nav > li > a {
+body .navbar .nav > li > a {
   color: #333;
   font-weight: bold;
 }
-.navbar .btn-navbar .icon-bar {
+body .navbar .btn-navbar .icon-bar {
   background-color: #777;
 }
 

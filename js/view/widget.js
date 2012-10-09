@@ -1,6 +1,7 @@
 define(['view/questions','view/ask','util/ga', 'util/store',
         'qa-api','vars','alert','util/guid','backbone',
-        'css!../../css/widget'], 
+        //'css!../../css/widget!'
+        ], 
   function(QuestionsView,AskView,ga,store,api,vars,alert,guid) {
 
   return Backbone.View.extend({
@@ -16,6 +17,7 @@ define(['view/questions','view/ask','util/ga', 'util/store',
       this.questions  = [];
       this.interval   = vars.get('interval',5*1000);
 
+
       _.bindAll(this);
       window.widget = this;
     },
@@ -23,7 +25,7 @@ define(['view/questions','view/ask','util/ga', 'util/store',
     render: function() {
       this.log("render");
 
-      this.$el.on('click', '.w-word', this.wikiClick);
+      this.wikiInit();
 
       vars.onChange('slide_id', this.setSlide);
       vars.onChange('user_id', this.setUser);
@@ -58,11 +60,56 @@ define(['view/questions','view/ask','util/ga', 'util/store',
 
     },
 
-    wikiClick: function(e) {
-      var text = e.currentTarget.innerHTML;
-      var span = $(e.currentTarget);
-      //span.popover({ title: "Wiki", content: text });
-      this.log(text);
+
+    wikiInit: function() {
+
+      var wrapper = this.$('.popover-wrapper'),
+          title = wrapper.find('.popover-title'),
+          word = title.find('.keyword');
+          closeBtn = wrapper.find('.close'),
+          wikiLink = wrapper.find('.wiki-btn'),
+          title = wrapper.find('.popover-title'),
+          content = wrapper.find('.popover-container');
+
+      //wiki-search dom elements
+      closeBtn.click(function() {
+        wrapper.fadeOut();
+      });
+
+      function parseNext(str, extract) {
+        var m = extract.match(new RegExp("("+ str + "\\s*\\((programming|comput[^\\)]+\\)))","i"));
+        if(m) return m[1];
+        m = extract.match(/REDIRECT ([\w\s]+)/i);
+        if(m) return m[1];
+        return null;
+      }
+
+      function load(str) {
+        console.log("load: " + str);
+        api.wikipedia.summary(str, this, function(data) {
+          if(!data.query) return;
+          for(p in data.query.pages);
+          
+          var extract = data.query.pages[p].extract;
+          if(!extract) return alert.info("No Wikipedia page found", 1500);
+          var next = parseNext(str, extract);
+          if(next) return load(next);
+
+          word.html(str);
+          wikiLink.attr('href', 'http://en.wikipedia.org/wiki/'+str);
+          content.html(extract);
+          wrapper.css('top', ($(window).height()-wrapper.height())/2);
+          wrapper.fadeIn();
+        });
+        return;
+      }
+
+      //live bind all wiki-words
+      this.$el.on('click', '.w-word', function(e) {
+        load($(this).html());
+      });
+
+      return;
     },
 
     addQuestions: function(data) {
@@ -71,7 +118,7 @@ define(['view/questions','view/ask','util/ga', 'util/store',
 
     setUser: function(id) {
       this.$("span.current-user").html(id);
-      alert.info("User " + id + " has just logged in", 3000);
+      alert.info("User '" + id + "' has just logged in", 3000);
     },
     setSlide: function(id) {
 
@@ -93,7 +140,7 @@ define(['view/questions','view/ask','util/ga', 'util/store',
         if(questions && questions.length > 0)
           api.stackOverflow.question.get(questions.join(';'), this.questions, this.addQuestions);
 
-        //this.pollId = setInterval($.proxy(this.poll,this), this.interval);
+        this.pollId = setInterval(this.poll, this.interval);
       });
 
     },
