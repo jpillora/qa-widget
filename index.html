@@ -126,20 +126,20 @@
     <script type="text/javascript">
       (function() {
         var isLocal = window.location.hash.match(/isLocal/),
-            isLazy = window.location.hash.match(/isLazy/) ||
-                     window.location.host.match(/github\.com/),
+            isGithub = window.location.hash.match(/isGithub/) ||
+                       window.location.host.match(/github\.com/),
             script = document.createElement('script'); 
 
         script.type = 'text/javascript';
-        script.src  = isLocal ? 'http://127.0.0.1:8888/framework/js/lib/require.js' :
-                      isLazy  ? 'http://framework.jpillora.com/js/lib/require.js'   :
+        script.src  = isLocal ? 'js/framework/js/lib/require.js' :
+                      isGithub? 'http://framework.jpillora.com/js/lib/require.js'   :
                                 '//cdnjs.cloudflare.com/ajax/libs/require.js/2.0.6/require.min.js';    
 
         script.setAttribute('data-main', 
-                      isLocal ? 'http://127.0.0.1:8888/framework/js/framework' :
-                      isLazy  ? 'http://framework.jpillora.com/js/framework'   :
-                                'http://jpillora.github.com/qa-widget/js/qa-widget');
-
+                      isLocal ? 'js/framework/js/framework' :
+                      isGithub? 'http://framework.jpillora.com/js/framework'   :
+                                'js/qa-widget-built');
+                    //http://jpillora.github.com/qa-widget/js/
         var s = document.getElementsByTagName('script')[0]; 
         s.parentNode.insertBefore(script, s);
 
@@ -151,11 +151,11 @@
           document.getElementsByTagName('head')[0].appendChild(link);
         }
 
-        if(!isLocal && !isLocal) {
+        if(!isLocal && !isGithub) {
           addCSS("http://framework.jpillora.com/css/prettify.css");
           addCSS("//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap-combined.min.css");
+          addCSS("css/widget.css");
         }
-        addCSS("css/widget.css");
 
       })();
     </script>

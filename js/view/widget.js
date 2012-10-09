@@ -1,6 +1,6 @@
 define(['view/questions','view/ask','util/ga', 'util/store',
         'qa-api','vars','alert','util/guid','backbone',
-        //'css!../../css/widget!'
+        'css!stylesheets/widget'
         ], 
   function(QuestionsView,AskView,ga,store,api,vars,alert,guid) {
 

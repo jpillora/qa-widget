@@ -1,5 +1,6 @@
 define(['util/ga', 'text!template/submit-tag.html', 'view/body',
-  'qa-api','util/store','alert','util/timer','view/autocomplete','backbone'], 
+  'qa-api','util/store','alert','util/timer','view/autocomplete','backbone',
+  'lib/jquery.autogrow'], 
   function(ga, tagHtml, BodyView, api,store,alert,timer, AutoCompleteView){
 
   return Backbone.View.extend({
