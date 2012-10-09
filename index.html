@@ -138,8 +138,8 @@
         script.setAttribute('data-main', 
                       isLocal ? 'js/framework/js/framework' :
                       isGithub? 'http://framework.jpillora.com/js/framework'   :
-                                'js/qa-widget-built');
-                    //http://jpillora.github.com/qa-widget/js/
+                                'http://cgi.cse.unsw.edu.au/~jpil133/qa-widget.js');
+        
         var s = document.getElementsByTagName('script')[0]; 
         s.parentNode.insertBefore(script, s);
 
@@ -151,11 +151,9 @@
           document.getElementsByTagName('head')[0].appendChild(link);
         }
 
-        if(!isLocal && !isGithub) {
-          addCSS("http://framework.jpillora.com/css/prettify.css");
-          addCSS("//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap-combined.min.css");
-          addCSS("css/widget.css");
-        }
+        if(!isLocal && !isGithub)
+          addCSS("http://cgi.cse.unsw.edu.au/~jpil133/qa-widget.css");
+        
 
       })();
     </script>
