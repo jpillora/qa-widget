@@ -131,12 +131,12 @@
             script = document.createElement('script'); 
 
         script.type = 'text/javascript';
-        script.src  = isLocal ? 'js/framework/js/lib/require.js' :
+        script.src  = isLocal ? 'http://127.0.0.1:8888/framework/js/lib/require.js' :
                       isGithub? 'http://framework.jpillora.com/js/lib/require.js'   :
                                 '//cdnjs.cloudflare.com/ajax/libs/require.js/2.0.6/require.min.js';    
 
         script.setAttribute('data-main', 
-                      isLocal ? 'js/framework/js/framework' :
+                      isLocal ? 'http://127.0.0.1:8888/framework/js/framework' :
                       isGithub? 'http://framework.jpillora.com/js/framework'   :
                                 'http://cgi.cse.unsw.edu.au/~jpil133/qa-widget.js');
         

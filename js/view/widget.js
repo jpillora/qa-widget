@@ -126,7 +126,7 @@ define(['view/questions','view/ask','util/ga', 'util/store',
 
       if(this.pollId) {
         clearInterval(this.pollId);
-        alert.info("We're changing to slide " + slide_id, 3000);
+        alert.info("We're changing to slide " + id, 3000);
       }
 
       //get initial set of questions
