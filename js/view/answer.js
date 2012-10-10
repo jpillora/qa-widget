@@ -1,7 +1,8 @@
 //Answer view
 define(['text!template/answer.html','util/store',
-        'model/answer','qa-api','backbone'],
-	function(html,store,AnswerModel,api){
+        'model/answer','qa-api',
+        'current-users','backbone'],
+	function(html,store,AnswerModel,api,users){
 
   return Backbone.View.extend({
     name: "AnswerView",
@@ -12,6 +13,7 @@ define(['text!template/answer.html','util/store',
     initialize: function() {
       this.model.bind('destroy', this.onDestroy, this);
       this.model.bind('change:is_accepted', this.acceptedCheck, this);
+      this.model.bind('change:score', users.update, users);
     },
 
     events: {

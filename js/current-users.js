@@ -9,7 +9,7 @@ define(['model/user', 'qa-api'], function(UserModel,api) {
     },
     update: function(model,result) {
 
-      if(!result.changes.score) return;
+      //if(!result.changes.score) return;
 
       var id = model.get('user_id'),
           user = this.get(id);
@@ -19,7 +19,8 @@ define(['model/user', 'qa-api'], function(UserModel,api) {
     refresh: function(userModel) {
       userModel.log("refresh");
       api.local.user(userModel.id, this, function(data) {
-        userModel.set('reputation',data.reputation);
+        if(data.reputation)
+          userModel.set('reputation',data.reputation);
       });
     }
 

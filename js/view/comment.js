@@ -1,5 +1,6 @@
 //Comment view
-define(['text!template/comment.html','model/comment','current-users','backbone'],
+define(['text!template/comment.html','model/comment',
+      'current-users','backbone'],
   function(html,CommentModel,users){
 
   return Backbone.View.extend({
@@ -11,7 +12,7 @@ define(['text!template/comment.html','model/comment','current-users','backbone']
 
     initialize: function() {
       this.model.bind('destroy', this.onDestroy, this);
-      this.model.bind('change', users.update, users);
+      this.model.bind('change:score', users.update, users);
     },
 
     events: {

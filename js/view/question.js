@@ -14,7 +14,7 @@ define(['text!template/question.html','util/store',
       //remove elem on destroy
       var model = this.model;
       model.on('destroy', this.onDestroy, this);
-      model.on('change', users.update, users);
+      model.on('change:score', users.update, users);
 
       if(model.get('source') === 'stackoverflow')
         store.add('stackoverflow-questions-slide-' + vars.get('slide_id'), model.get('question_id'));

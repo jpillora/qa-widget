@@ -32,7 +32,8 @@ define(['util/ga','vars','util/html','alert','util/store','jquery'],
     //intercept errors
     defaults['success'] = function() {
       var data = arguments[0];
-      if(data.error !== undefined)
+
+      if(data.error !== undefined && !data.error.match(/User.*?not exist/))
         alert.error(data.error);
       if(data.error_message !== undefined)
         alert.error(data.error_message);
@@ -152,7 +153,7 @@ define(['util/ga','vars','util/html','alert','util/store','jquery'],
       },
       user: function(id, context, success) {
         ga.event('local/user','reputation', id);
-        return ajax(success, null, context, {
+        return ajax(success, $.noop, context, {
           url: localPath + 'reputation/',
           data: {
             user_id: id
