@@ -13,7 +13,7 @@ define(['text!template/answer.html','util/store',
     initialize: function() {
       this.model.bind('destroy', this.onDestroy, this);
       this.model.bind('change:is_accepted', this.acceptedCheck, this);
-      this.model.bind('change:score', users.update, users);
+      this.model.bind('change:score change:is_accepted', users.update, users);
     },
 
     events: {
