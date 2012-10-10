@@ -1,13 +1,14 @@
 
-body {
-  min-width: 250px;
-  padding-bottom: 40px;
-  padding-top: 60px;
-}
 @media (max-width: 979px) {
   body {
     padding-top: 0px;
   }
+}
+
+body {
+  min-width: 250px;
+  padding-bottom: 40px;
+  padding-top: 60px;
 }
 body .so-sprites {
   background-image: url('../img/so_sprites.png');

@@ -1,9 +1,18 @@
 //Body view - Handles formatting and highlighting within text bodies
-define(['util/regex','util/html','qa-api','lib/prettify','backbone'], 
+define(['util/regex','util/html','qa-api','lib/prettify','lib/markdown','backbone'], 
   function(regex,htmlUtil,api){
   return Backbone.View.extend({
   	 
     name: "BodyView",
+
+    setContent: function(content) {
+      this.content = content;
+    },
+    getContent: function() {
+      var c = this.content;
+      this.content = undefined;
+      return c;
+    },
 
     render: function() {
 
@@ -17,16 +26,15 @@ define(['util/regex','util/html','qa-api','lib/prettify','backbone'],
         parent = parent.attributes.parent;
       }
 
-      var content = this.$el.html();
+      var content = this.getContent();
+      if(content === undefined) content = this.$el.html();
 
       if(!parent.model || parent.model.get('source') !== 'stackoverflow')
-        content = this.parseMarkup(htmlUtil.encode(content));
+        content = markdown.toHTML(content);
 
       this.$el.html(content);
-
       this.spannify(this.el);
       this.prettyPrint();
-
       return this;
     },
 
@@ -59,53 +67,29 @@ define(['util/regex','util/html','qa-api','lib/prettify','backbone'],
       }
     },
 
-    parseMarkup: function(text) {
-      return text
-        //code block
-        .replace(/```\n((.*\s?)*)\n```/mg,"<pre><code>$1</code></pre>")
-        //inline code
-        .replace(/`(.*?)`/g,"<code>$1</code>")
-        //headings
-        .replace(/^(#{1,6})([\s\w]*[^\s])$/gm,
-          function(n,hashes,text) { 
-            var n = 7-hashes.length; 
-            return "<h"+n+">" + text + "</h"+n+">" 
-          })
-        //bold
-        .replace(/\*\*(.*?)\*\*/g,"<b>$1</b>")
-        //italics
-        .replace(/\*(.*?)\*/g,"<i>$1</i>")
-        //plain url
-        .replace(/(https?:\/\/[^\s<>;"')]+)/g,'<a href="$1">$1</a>')
-        //img
-        .replace(/!\[([\w\s]+)\]\(([^\s<>;"')]+)\)/g,'<img src="$2" alt="$1"/>')
-        //named url
-        .replace(/\[([\w\s]+)\]\(([^\s<>;"')]+)\)/g,'<a href="$2">$1</a>')
-    },
-
     prettyPrint: function() {
       var _this = this;
       this.$('code').each(function() {
         var codeElem = $(this), parent = codeElem.parent(), 
             code = codeElem.html();
 
-        var codeLines = code.split('\n'), indentation = 0,
+        var codeLines = code.split('\n'), indentation,
             lines = codeLines.length;
 
         //calculate superfluous  indentation
         for(i = 0; i<lines; ++i) {
-          var spaces = codeLines[i].match(/^\s+/);
-          indentation = Math.max(indentation, spaces ? spaces[0].length : 0);
+          var spaces = codeLines[i].match(/^\s*/)[0].length;
+          indentation = i === 0 ? spaces : Math.min(indentation, spaces);
         }
         //remove it if it exists
         if(indentation) {
-          code = '';
-          for(i = 0; i<lines; ++i)
-            code += codeLines[i].replace(new RegExp("^\\s{0,"+indentation+"}"), '') + "\n";
+          for(i = 0; i<lines; ++i) 
+            codeLines[i] = codeLines[i].substr(indentation);
+          code = codeLines.join('\n');
         }
-        
         code = $(prettyPrintOne(code));
 
+        //loop through spans and swap out space chars for html
         code.each(function() {
           $(this).html( 
             $(this).html().replace(/\n/g,'<br/>').replace(/\ /g,'&nbsp;')

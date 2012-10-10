@@ -42,11 +42,11 @@ define(['util/ga', 'text!template/submit-tag.html', 'view/body',
       view.similarTitleView.render();
 
       //body listeners
-      view.submitBody.autogrow();
+      //view.submitBody.autogrow();
 
       this.previewer = new BodyView({el: this.$('.previewer')});
       timer.idle(this.submitBody, 'keyup', 1000, $.proxy(function() {
-        this.previewer.$el.html(this.submitBody.val());
+        this.previewer.setContent(this.submitBody.val());
         this.previewer.render();
       },this));
 
