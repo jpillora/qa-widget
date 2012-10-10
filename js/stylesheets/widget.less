@@ -1,58 +1,390 @@
-body {
-    min-width: 250px;
-    padding-bottom: 40px;
-    padding-top: 60px;
-    .so-sprites {
-        background-image: url('../img/so_sprites.png');
-    }
-    .w-word:hover {
-        background: #DDD;
-        border-radius: 3px;
-        cursor: pointer;
-    }
-    .body-btns {
-        display: inline-block;
-        padding-top: 2px;
-    }
-    .align-right {
-        text-align: right;
-    }
-    .popover-wrapper {
-        position: fixed;
-        margin: 25px;
-        top: 0px;
-        left: 0px;
-        z-index: 500;
-        .popover {
-            display: block;
-            width: auto;
-            position: relative;
-        }
-        .popover-container {
-            max-height: 200px;
-            overflow: scroll;
-        }
-        .popover-title {
-            padding: 3px;
-            .keyword {
-                font-size: 20px;
-                display: inline-block;
-                padding-left: 20px;
-            }
-            .wiki-btn {
-                width: 30px;
-                height: 30px;
-                display: inline-block;
-                background: url('../img/wiki-icon.png');
-                cursor: pointer;
-            }
-            .close {
-                padding: 5px;
-                float:right;
-            }
-        }
-    }
+
+@media (max-width: 979px) {
+  body#widget {
+    padding-top: 0px;
+  }
 }
-hr.separator {
+
+#widget {
+  min-width: 250px;
+  padding-bottom: 40px;
+  padding-top: 60px;
+  //bootstrap overrides
+  .well {
+    margin-bottom: 10px;
+    padding-bottom: 10px; 
+  }
+  .navbar .brand {
+    color: #333;
+    font-weight: bold;
+    .nav > li > a {
+      color: #333;
+      font-weight: bold;
+    }
+    .btn-navbar .icon-bar {
+      background-color: #777;
+    }
+  }
+
+  //helpers
+  pre.prettyprint {
+    padding: 5px;
+    background: white;
+    border: thin solid #DDD;
+    overflow: auto;
+    white-space: nowrap;
+    &.inline {
+      padding: 3px;
+      margin-bottom: 2px;
+    }
+  }
+  .inline {
+    display: inline-block;
+  }
+  .so-sprites {
+    background-image: url('../img/so_sprites.png');
+  }
+  .w-word:hover {
+    background: #DDD;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  .body-btns {
+    display: inline-block;
+    padding-top: 2px;
+  }
+  .align-right {
+    text-align: right;
+  }
+  .small-title {
+    font-weight: bold;
+  }
+  hr.separator {
     margin: 10px 0;
+  }
+  //nav bar
+
+  span.current-user-container {
+    background: #EEE;
+    padding: 5px;
+    border-radius: 3px;
+    margin-top: 5px;
+    > span.current-user {
+      font-weight: bold;
+    }
+  }
+
+  //custom popover
+  .popover-wrapper {
+    position: fixed;
+    margin: 25px;
+    top: 0px;
+    left: 0px;
+    z-index: 500;
+    .popover {
+      display: block;
+      width: auto;
+      position: relative;
+    }
+    .popover-container {
+      max-height: 200px;
+      overflow: scroll;
+    }
+    .popover-title {
+      padding: 3px;
+      .keyword {
+        font-size: 20px;
+        display: inline-block;
+        padding-left: 20px;
+      }
+      .wiki-btn {
+        width: 30px;
+        height: 30px;
+        display: inline-block;
+        background: url('../img/wiki-icon.png');
+        cursor: pointer;
+      }
+      .close {
+        padding: 5px;
+        float:right;
+      }
+    }
+  }
+  //user
+  .user .reputation-icon {
+    width: 15px;
+    height: 15px;
+    background-position: -35px -1026px;
+    display: inline-block;
+  }
+
+  //ask
+  .ask {
+    .similars-btn {
+      display: none;
+      border: thin solid #CCC;
+      float: left;
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+      border-top: none;
+      opacity: 0.8;
+      width: 60px;
+      text-align: center;
+      padding: 5px;
+      margin-bottom: 5px;
+      &.loading {
+        background-image: url('../img/loading.gif');
+        background-repeat: no-repeat;
+        padding-left: 30px;
+        background-position: 5px 5px;
+      }
+      &:hover {
+        cursor: pointer;
+        opacity: 1;
+        font-weight: bold;
+      }
+    }
+    .tag-list {
+      div.label {
+        margin-right: 5px;
+        margin-top: 3px;
+        display: inline-block;
+        font-size: 13px;
+        padding: 5px;
+        .close {
+          float: none;
+          margin-top: -5px;
+        }
+      }
+    }
+    .preview-container.popdown {
+      padding: 5px;
+    }
+
+    textarea.submitTitle,
+    textarea.submitBody,
+    input.submitTags {
+      margin-top: 5px;
+      margin-bottom: 0px;
+    }
+    textarea.submitBody {
+      height:130px;
+    }
+
+    .body-buttons {
+      margin-top: 3px;
+
+      .bold-btn { font-weight: bold; }
+      .italics-btn { font-style: italic; }
+      .code-btn {  }
+    }
+
+    div.similar {
+      background: #DDD;
+      border-radius: 3px;
+      padding: 3px;
+      margin: 3px;
+      cursor: pointer;
+      &:hover {
+        background-color: #FFF;
+        -webkit-transition: background-color 500ms linear;
+        -moz-transition: background-color 500ms linear;
+        -o-transition: background-color 500ms linear;
+        -ms-transition: background-color 500ms linear;
+        transition: background-color 500ms linear;
+      }
+    }
+    .popdown {
+      display: none;
+      clear: both;
+      max-height: 100px;
+      overflow-y: scroll;
+      border-radius: 3px;
+      border: thin #CCC solid;
+      border-top: none;
+    }
+    .submit-question-btn {
+      margin-top: 10px;
+      float: right;
+    }
+  }
+
+  //question
+  .question {
+
+    position: relative;
+
+    &.source-stackoverflow {
+      span.label-source {
+        background-color: #FFA603;
+      }
+      .post-answer,
+      .post-comment,
+      .list-comments .up {
+        display: none;
+      }
+    }
+
+    &.source-local {
+      span.label-source {
+        background-color: #4289F3;
+      }
+      button.remove {
+        display: none;
+      }
+      .voting .up, .voting .down {
+        cursor: pointer;
+      }
+    }
+    &.owned{
+      .answer .accept {
+        background-position: 0px -565px;
+        display: block;
+        cursor: pointer;
+      }
+    }
+    .voting {
+      float: left;
+      margin-left: -10px;
+      margin-top: -10px;
+      padding-right: 5px;
+      padding-bottom: 5px;
+    }
+    .controls {
+      padding: 3px;
+      text-align: right;
+    }
+    .title {
+      padding: 10px;
+      display: inline;
+      line-height: 40px;
+    }
+  }
+  //comments
+  .comments {
+
+    .list-comments {
+      display: none;
+      .table {
+        margin-bottom: 5px;
+
+        .comment {
+          p {
+            display: inline;
+          }
+          .reputation {
+            opacity: 0.25;
+          }
+          &:hover .reputation {
+            opacity: 1.0;
+          }
+        }
+
+      }
+    }
+
+    padding-left: 5px;
+    padding-right: 5px;
+    .post-comment {
+      padding-left: 5px;
+      padding-right: 5px;
+      .submit-comment-btn {
+        margin-top: 3px;
+        margin-top: 3px;
+      }
+    }
+    .voting {
+      div.up {
+        background-position: 0px -406px;
+        margin-left: 30px;
+        margin-top: 10px;
+      }
+      div.vote_count {
+        font-size: 15px;
+        margin-top: 10px;
+        margin-left: 10px;
+      }
+      div {
+        width: 15px;
+        height: 15px;
+      }
+      div.up.chosen {
+        background-position: 0px -388px;
+      }
+    }
+  }
+
+  .answers-container {
+    display: none;
+  }
+
+  //answers
+  .answer {
+    background: white;
+    .accept {
+      height: 30px;
+      display: none;
+    }
+    &.accepted .accept {
+      background-position: 0px -465px !important;
+      display: block;
+    }
+    .post-answer {
+      .submit-answer-btn {
+        margin-top: 3px;
+      }
+    }
+    pre.prettyprint {
+      background: whiteSmoke;
+    }
+  }
+  //votes
+  .voting {
+    div {
+      height: 20px;
+      width: 40px;
+      &.down {
+        background-position: 0px -300px;
+        &.chosen {
+          background-position: 0px -332px;
+        }
+      }
+      &.up {
+        background-position: 0px -265px;
+        &.chosen {
+          background-position: 0px -228px;
+        }
+      }
+      &.vote_count {
+        text-align: center;
+        vertical-align: middle;
+        font-weight: bold;
+        font-size: 20px;
+      }
+    }
+  }
+
+  //fixed elements
+  .alert-container {
+    position: fixed;
+    top: 0px; left: 0px;
+    display: none;
+    z-index: 2000;
+    width: 100%;
+    opacity: 0.95;
+    .alert {
+      position: relative;
+      margin:20px;
+      z-index: 5;
+      cursor: pointer;
+    }
+  }
+
 }
+
+//custom scroll bar
+::-webkit-scrollbar{width:9px;height:9px;}
+::-webkit-scrollbar-button:start:decrement,::-webkit-scrollbar-button:end:increment{display:block;height:0;background-color:transparent;}
+::-webkit-scrollbar-track-piece{background-color:#FAFAFA;-webkit-border-radius:0;-webkit-border-bottom-right-radius:8px;-webkit-border-bottom-left-radius:8px;}
+::-webkit-scrollbar-thumb:vertical{height:50px;background-color:#999;-webkit-border-radius:8px;}
+::-webkit-scrollbar-thumb:horizontal{width:50px;background-color:#999;-webkit-border-radius:8px;}

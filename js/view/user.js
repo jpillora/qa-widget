@@ -1,5 +1,5 @@
-define(['text!template/user.html','backbone'], 
-  function(html) {
+define(['text!template/user.html','current-users','model/user','backbone'], 
+  function(html,users,UserModel) {
   
   return Backbone.View.extend({
   
@@ -8,18 +8,28 @@ define(['text!template/user.html','backbone'],
   
     initialize: function() {
 
-      this.model = {};
       var parent = this.attributes.parent.model;
 
       if(parent.has('owner')) {
         var owner = parent.get('owner');
-        this.model.user_id = owner.display_name;
-        this.model.reputation = owner.reputation;
-        this.model.link = owner.link;
+        this.model = new UserModel({
+          id: owner.display_name,
+          reputation: owner.reputation,
+          link: owner.link
+        });
+
       } else {
-        this.model.user_id = parent.get('user_id');
-        this.model.reputation = 0;
-        this.model.link = null;
+
+        var id = parent.get('user_id');
+        var model = users.get(id);
+        if(!model) {
+          model = new UserModel({
+            id: id
+          });
+          users.add(model);
+        }
+        model.on('change', this.render, this);
+        this.model = model;
       }
 
     },

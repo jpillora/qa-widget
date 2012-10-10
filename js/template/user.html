@@ -1,5 +1,7 @@
 <% if (link) { %> <a href="<%=link%>"><% } %>
-<span><%= user_id %></span>
+<span><%= id %></span>
 <% if (link) { %></a><% } %>
-<div class="reputation-icon so-sprites"></div>
-<span class="reputation"><%= reputation %></span>
+<span class="reputation">
+  <div class="reputation-icon so-sprites"></div>
+  <span class="rep-val"><%= reputation %></span>
+</span>

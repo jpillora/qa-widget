@@ -81,14 +81,22 @@
               data-show-when=".submitBody">
 
             <div class="body-btns btn-group">
-              <button class="btn btn-mini bold-btn">B</button>
-              <button class="btn btn-mini italics-btn">I</button>
-              <button class="btn btn-mini code-btn">Code</button>
+              <button class="btn btn-mini heading-btn" data-type="heading">Heading</button>
+              <button class="btn btn-mini bullet-btn" data-type="bullet">●</button>
+              <button class="btn btn-mini bold-btn" data-type="bold">b</button>
+              <button class="btn btn-mini italics-btn" data-type="italics">i</button>
+              <button class="btn btn-mini code-btn" data-type="code">Code</button>
+              <button class="btn btn-mini url-btn" data-type="url">URL</button>
+              <button class="btn btn-mini img-btn" data-type="img">Image</button>
             </div>
 
-            <a class="btn btn-mini preview-body-btn"
-              data-toggle=".preview-container" 
-              >Show Preview</a>
+            <div class="body-btns btn-group">
+              <button class="btn btn-mini help-btn"><a target="_blank" href="http://en.wikipedia.org/wiki/Markdown">Markup Help</a></button>
+
+              <button class="btn btn-mini preview-body-btn" 
+                data-toggle=".preview-container" >Show Preview</button>
+            </div>
+
           </div>
 
           <input class="submitTags input-block-level" type="text" placeholder="Type your tags here and choose" value="" ></input>

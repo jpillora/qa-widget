@@ -149,6 +149,15 @@ define(['util/ga','vars','util/html','alert','util/store','jquery'],
             }
           });
         }
+      },
+      user: function(id, context, success) {
+        ga.event('local/user','reputation', id);
+        return ajax(success, null, context, {
+          url: localPath + 'reputation/',
+          data: {
+            user_id: id
+          }
+        });
       }
     }, //end local
 

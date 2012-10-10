@@ -1,7 +1,7 @@
 //Question view
 define(['text!template/question.html','util/store',
-  'model/question','vars','backbone'], 
-  function(html,store,QuestionModel,vars){
+  'model/question','vars','current-users','backbone'], 
+  function(html,store,QuestionModel,vars,users){
 
   return Backbone.View.extend({
 
@@ -13,7 +13,8 @@ define(['text!template/question.html','util/store',
     initialize: function() {
       //remove elem on destroy
       var model = this.model;
-      model.bind('destroy', this.onDestroy, this);
+      model.on('destroy', this.onDestroy, this);
+      model.on('change', users.update, users);
 
       if(model.get('source') === 'stackoverflow')
         store.add('stackoverflow-questions-slide-' + vars.get('slide_id'), model.get('question_id'));
