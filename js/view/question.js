@@ -7,12 +7,14 @@ define(['text!template/question.html','util/store',
 
     name: "QuestionView",
     tagName: "div",
+    className: "question well",
     template: _.template(html),
     model: QuestionModel,
 
     initialize: function() {
       //remove elem on destroy
       var model = this.model;
+      model.set('view', this);
       model.on('destroy', this.onDestroy, this);
       model.on('change:score', users.update, users);
 
@@ -25,12 +27,11 @@ define(['text!template/question.html','util/store',
     },
 
     render: function(){
-      this.log("render")
 
-      this.$el
-        .addClass("question")
-        .addClass("well")
-        .addClass("source-" + this.model.get('source'));
+      if(this.rendered === true)
+        return this.$el;
+
+      this.$el.addClass("source-" + this.model.get('source'));
 
       var user_id = vars.get('user_id');
       if(user_id && user_id == this.model.get('user_id'))
@@ -46,23 +47,28 @@ define(['text!template/question.html','util/store',
         view.$el.scrollTo();
       },500);
 
+      this.rendered = true;
       return this.$el;
     },
+
 
     remove: function() {
       if(this.model.get('source') === 'stackoverflow')
         store.remove('stackoverflow-questions-slide-' + vars.get('slide_id'), this.model.get('question_id'));
 
-      this.model.collection.remove(this.model);      
+      if(this.model.collection)
+        this.model.collection.remove(this.model);      
 
       this.$el.slideUp('slow', function() {
         $(this).remove();
       });
 
+      this.log('remove')
       //this.model.destroy(); //will trigger destroy
     },
 
     onDestroy: function() {
+      this.log('destroy')
     }
 
     

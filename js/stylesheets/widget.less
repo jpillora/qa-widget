@@ -14,9 +14,11 @@
     margin-bottom: 10px;
     padding-bottom: 10px; 
   }
-  .navbar .brand {
-    color: #333;
-    font-weight: bold;
+  .navbar {
+    &,.brand {
+      color: #333;
+      font-weight: bold;
+    }
     .nav > li > a {
       color: #333;
       font-weight: bold;
@@ -130,13 +132,13 @@
       opacity: 0.8;
       width: 60px;
       text-align: center;
-      padding: 5px;
       margin-bottom: 5px;
       &.loading {
         background-image: url('../img/loading.gif');
         background-repeat: no-repeat;
         padding-left: 30px;
-        background-position: 5px 5px;
+        background-position: 7px 1px;
+        background-size: 19px;
       }
       &:hover {
         cursor: pointer;

@@ -1,11 +1,16 @@
-define(['model/question','vars','backbone'], 
-  function(QuestionModel,vars){
+define(['model/question','vars','util/store','backbone'], 
+  function(QuestionModel,vars,store){
   return Backbone.Collection.extend({
     name: "QuestionsList",
     model: QuestionModel,
-    
+
     initialize: function() {
-      
+      _.bind(this.comparator);
+      this.compareField = store.get('questions-sort-field') || 'created_at';
+    },
+
+    comparator: function(question) {
+      return -question.get(this.compareField);
     },
 
     parse: function(response) {

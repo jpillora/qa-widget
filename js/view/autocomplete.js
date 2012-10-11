@@ -66,7 +66,7 @@ define(['text!template/autocomplete.html','util/timer','backbone'],
 
       });
 
-      this.list.slideDown('slow', function() {
+      this.list.slideDown('fast', function() {
         view.loading(false, items.length !== 0);
       });
 
@@ -80,9 +80,9 @@ define(['text!template/autocomplete.html','util/timer','backbone'],
         show = true;
 
       if(show)
-        this.btn.slideDown('slow');
+        this.btn.slideDown('fast');
       else
-        this.btn.slideUp('slow');
+        this.btn.slideUp('fast');
 
       if(loading)
         this.btn.addClass('loading').html("Loading");

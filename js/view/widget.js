@@ -29,8 +29,11 @@ define(['view/questions','view/ask','util/ga', 'util/store',
 
       vars.onChange('slide_id', this.setSlide);
       vars.onChange('user_id', this.setUser);
+      vars.onChange('wiki_search', this.wikiSearch);
 
-      if(!vars.get('user_id'))
+      if(vars.get('user_id'))
+        this.setUser(vars.get('user_id'));
+      else
         vars.set('user_id',"user_" + guid(), true);
 
 
@@ -76,26 +79,47 @@ define(['view/questions','view/ask','util/ga', 'util/store',
         wrapper.fadeOut();
       });
 
-      function parseNext(str, extract) {
-        var m = extract.match(new RegExp("("+ str + "\\s*\\((programming|comput[^\\)]+\\)))","i"));
-        if(m) return m[1];
-        m = extract.match(/REDIRECT ([\w\s]+)/i);
-        if(m) return m[1];
-        return null;
-      }
+      var titles = [];
+      function search(str, full) {
 
-      function load(str) {
+        str = str.replace(/\n/g,'');
         console.log("load: " + str);
-        api.wikipedia.summary(str, this, function(data) {
+
+        api.wikipedia.summary(str, full, this, function(data) {
           if(!data.query) return;
           for(p in data.query.pages);
           
-          var extract = data.query.pages[p].extract;
-          if(!extract) return alert.info("No Wikipedia page found", 1500);
-          var next = parseNext(str, extract);
-          if(next) return load(next);
+          if(data.query.normalized &&
+             data.query.normalized[0].from === str)
+              str = data.query.normalized[0].to;
 
-          word.html(str);
+          titles.push(str);
+
+          var extract = data.query.pages[p].extract;
+          if(extract === null || extract === undefined) 
+            return titles = [], alert.info("No Wikipedia page found", 1500);
+
+          var m = null, next = null;
+
+          //may refer to...
+          m = extract.match(/may( also)? refer to:<\/p>$/);
+          if(!m) m = extract.match(/^\s*$/);
+          if(m) return search(titles.pop(), true);
+
+          //find other articles related to comp sci
+          m = extract.match(
+            new RegExp("("+ str + "\\s*\\((programming|comput[^\\)]+\\)))","i")
+          );
+          if(m) return search(m[1]);
+
+          m = extract.match(/REDIRECT\s*?([\w\s]+)/i);
+          if(m) return search(m[1]);
+
+
+          extract = extract.replace(/<li>\n?([^,<>]*?)/g,"<li><a href='#wiki_search=$1'>$1</a>,")
+
+          word.html(titles.join(' ➡ '));
+          titles = [];
           wikiLink.attr('href', 'http://en.wikipedia.org/wiki/'+str);
           content.html(extract);
           wrapper.css('top', ($(window).height()-wrapper.height())/2);
@@ -106,9 +130,11 @@ define(['view/questions','view/ask','util/ga', 'util/store',
 
       //live bind all wiki-words
       this.$el.on('click', '.w-word', function(e) {
-        load($(this).html());
+        search($(this).html());
       });
 
+      //expose
+      this.wikiSearch = search;
       return;
     },
 
@@ -117,8 +143,10 @@ define(['view/questions','view/ask','util/ga', 'util/store',
     },
 
     setUser: function(id) {
+      var last = this.$("span.current-user").html();
       this.$("span.current-user").html(id);
-      alert.info("User '" + id + "' has just logged in", 3000);
+      if(last !== id)
+        alert.info("User '" + id + "' has just logged in", 3000);
     },
     setSlide: function(id) {
 

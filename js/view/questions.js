@@ -1,5 +1,6 @@
-define(['list/questions','view/question', 'model/question','backbone'],
-  function(QuestionsList,QuestionView,QuestionModel){
+define(['list/questions','view/question', 'model/question',
+        'util/store','backbone'],
+  function(QuestionsList,QuestionView,QuestionModel,store){
 
   return Backbone.View.extend({
   	name: "QuestionsView",
@@ -8,29 +9,114 @@ define(['list/questions','view/question', 'model/question','backbone'],
     initialize: function() {
       
       this.list = this.setupCollection('questions', QuestionsList);
+      this.list.on('add', function() {
+        this.log('add!')
+      }, this);
+      this.views = [];
+    },
+
+    events: {
+      'click button.sort-btn': 'sortAll'
     },
 
     render: function(){
       this.log("render");
+
+      this.container = this.$('.questions-container');
+
+      this.$('.sort-btns button[data-field='+this.list.compareField+']').addClass('active');
+
+      this.noQuestions = this.$('.no-questions');
       this.trigger('rendered');
     },
 
-    reset: function() {
+    sortAll: function(e) {
 
+      this.log('sorting');
+
+      var btn = $(e.currentTarget).addClass('active');
+      var others = btn.siblings('button').removeClass('active');
+
+      var field = btn.data('field');
+
+      store.set('questions-sort-field', field)
+
+      this.list.compareField = field;
+      this.list.sort();
+    },
+
+    isEmpty: function() {
+      if(this.noQuestions)
+      this.noQuestions[this.list.length ? 
+        'slideUp' : 'slideDown']('fast');
+    },
+
+    reset: function() {
     },
 
     addAll: function() {
-      var view = this;
-      view.$el.slideUp('fast',function() { 
-        $(this).empty().slideDown(); 
-        view.list.each(view.addOne,view);
+
+      var toRemove = []
+      var toKeep = [];
+      _.each(this.views, $.proxy(function(view) {
+        if(this.list.contains(view.model))
+          toKeep.push(view);
+        else
+          toRemove.push(view);
+      }, this));
+
+      //remove
+      _.each(toRemove, function(view) {
+        view.remove();
       });
+
+      this.views = toKeep;
+
+      this.log('add all: #%s (current views #%s)', this.list.length, this.views.length);
+
+      this.list.each(this.addOne,this);
     },
 
     addOne: function(model) {
-      this.log("add: " + model.id)
-      var questionView = new QuestionView({model: model});
-      this.$el.append(questionView.render().hide().delay(100).slideDown('slow'));
+      this.isEmpty();
+
+      //retrieve view using model
+      var questionView = this.getViewByModel(model);
+
+      //build view if not built
+      var isNew = !questionView
+      if(isNew) {
+        this.log("add: %s - %s", model.id, model.get('title'));
+        questionView = new QuestionView({model: model});
+        this.views.push(questionView);
+      }
+
+      //build element
+      var elem = questionView.render();
+
+      //slide down new views
+      if(isNew)
+        elem.hide().delay(100).slideDown('slow');
+
+      //insert in correct sorted position
+      var position = this.list.indexOf(model);
+      var prevModel = this.list.at(position-1);
+      var prevView = this.getViewByModel(prevModel);
+
+      if(position === 0) {
+        this.container.prepend(elem);
+      } else if(prevView) {
+        prevView.$el.after(elem)
+      } else {
+        this.container.append(elem);
+        console.log(elem)
+      }
+    },
+
+    getViewByModel: function(model) {
+      return _.find(this.views, function(view) {
+        return view.model === model;
+      });
     },
 
     createOne: function(obj) {
