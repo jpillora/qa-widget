@@ -116,7 +116,7 @@ define(['view/questions','view/ask','util/ga', 'util/store',
           if(m) return search(m[1]);
 
 
-          extract = extract.replace(/<li>\n?([^,<>]*?)/g,"<li><a href='#wiki_search=$1'>$1</a>,")
+          extract = extract.replace(/<li>\n?([^,<>]*)/g,"<li><a href='#wiki_search=$1'>$1</a>,")
 
           word.html(titles.join(' ➡ '));
           titles = [];
