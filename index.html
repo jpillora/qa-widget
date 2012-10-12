@@ -44,7 +44,7 @@
       </div>
     </div>
 
-    <div class="loading-cover" style="z-index: 2000;  position: fixed;  height: 100%;  width: 100%;  top: 0px; left: 0px;  z-index: 2000;  color: white;  text-align: center;  padding-top: 40px;  font-size: 40px;  background: url('http://framework.jpillora.com/img/loading64white.gif') no-repeat scroll 50% 100px #1B1B1B; font-family: Helvetica;">Loading...</div>
+    <div class="loading-cover" style="z-index: 2000;  position: fixed;  height: 100%;  width: 100%;  top: 0px; left: 0px;  z-index: 2000;  color: white;  text-align: center;  padding-top: 40px;  font-size: 40px;  background: url('http://cgi.cse.unsw.edu.au/~jpil133/img/loading64.gif') no-repeat scroll 50% 100px #1B1B1B; font-family: Helvetica;">Loading...</div>
 
 
     <div class="popover-wrapper" style="display:none;">
@@ -90,8 +90,10 @@
               <button class="btn btn-mini img-btn" data-type="img">Image</button>
             </div>
 
-            <div class="body-btns btn-group">
-              <button class="btn btn-mini help-btn"><a target="_blank" href="http://en.wikipedia.org/wiki/Markdown">Markup Help</a></button>
+            <div class="help-btns btn-group">
+              <button class="btn btn-mini help-btn"><a target="_blank" href="http://en.wikipedia.org/wiki/Markdown">Markdown</a></button>
+
+              <button class="btn btn-mini help-btn"><a target="_blank" href="http://www.emoji-cheat-sheet.com/">Emoji</a></button>
 
               <button class="btn btn-mini preview-body-btn" 
                 data-toggle=".preview-container" >Show Preview</button>
@@ -151,41 +153,7 @@
 
     </div>
 
-    <script type="text/javascript">
-      (function() {
-        var isLocal = window.location.hash.match(/isLocal/),
-            isTest = window.location.hash.match(/isTest/),
-            isGithub = window.location.hash.match(/isGithub/) ||
-                       window.location.host.match(/github\.com/),
-            script = document.createElement('script'),
-            prodHost = 'http://cgi.cse.unsw.edu.au/~jpil133/'; 
-
-        script.type = 'text/javascript';
-        script.src  = isLocal ? 'http://127.0.0.1:8888/framework/js/lib/require.js' :
-                      isGithub? 'http://framework.jpillora.com/js/lib/require.js'   :
-                                '//cdnjs.cloudflare.com/ajax/libs/require.js/2.0.6/require.min.js';    
-        script.setAttribute('data-main', 
-                      isLocal ? 'http://127.0.0.1:8888/framework/js/framework' :
-                      isGithub? 'http://framework.jpillora.com/js/framework'   :
-                                (isTest ? 'js/' : prodHost) + 'qa-widget.js');
-        
-        var s = document.getElementsByTagName('script')[0]; 
-        s.parentNode.insertBefore(script, s);
-
-        function addCSS(src) {
-          var link = document.createElement('link');
-          link.type = 'text/css';
-          link.rel = 'stylesheet';
-          link.href = src;
-          document.getElementsByTagName('head')[0].appendChild(link);
-        }
-
-        if(!isLocal && !isGithub)
-          addCSS((isTest ? 'js/' : prodHost) + "qa-widget.css");
-        
-
-      })();
-    </script>
-
+    <script src="http://cgi.cse.unsw.edu.au/~jpil133/js/require.min.js" type="text/javascript" 
+      data-main="http://cgi.cse.unsw.edu.au/~jpil133/js/qa-widget.js"></script>
   </body>
 </html>

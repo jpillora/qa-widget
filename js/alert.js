@@ -1,6 +1,6 @@
 define(['util/ga','jquery'], function(ga) {
 
-  var alertContainer = null, alert = null;
+  var alertContainer = null, alert = null, queue = [];
 
   $(document).ready(function() {
     alertContainer = $(".alert-container");
@@ -8,37 +8,55 @@ define(['util/ga','jquery'], function(ga) {
     alertContainer.find('.alert button.close,.alert').click(hide);
   });
 
-  function show(type, attentionMsg, msg, duration) {
-    $(document).ready(function() {
-      alert.attr('class','alert alert-'+type);
-      alert.find('.attention').html(attentionMsg + ' ');
-      alert.find('.text').html(msg.replace(/[^\w'\s]/g,''))
-      alertContainer.fadeIn();
-
-      if(duration === undefined)
-        duration = 5000;
-      
-      setTimeout(hide,duration);
-    });
+  //add to alerts queue
+  function add() {
+    queue.push(arguments);
+    if(queue.length === 1) show();
   }
 
+  //show the current alert
+  function show() {
+    if(queue.length === 0) return;
+    var args = queue[0];
+    //inner helper
+    (function(type, attentionMsg, msg, duration) {
+
+      $(document).ready(function() {
+        alert.attr('class','alert alert-'+type);
+        alert.find('.attention').html(attentionMsg + ' ');
+        alert.find('.text').html(msg.replace(/[^\w'\s]/g,''))
+        alertContainer.fadeIn();
+
+        if(duration === undefined)
+          duration = 5000;
+        
+        setTimeout(hide,duration);
+      });
+
+    }).apply(this, args);
+  }
+
+  //hide the current alert, trigger next
   function hide() {
-    alertContainer.fadeOut();
+    alertContainer.fadeOut(function() {
+      queue.shift();
+      if(queue.length > 0) show();
+    });
   }
 
   return {
     error: function(msg,duration) {
       ga.event("error", msg);
-      show('error', 'Error!',msg, duration);
+      add('error', 'Error!',msg, duration);
     },
     warn: function(msg,duration) {
-      show('warning', 'Warning!',msg, duration);
+      add('warning', 'Warning!',msg, duration);
     },
     success: function(msg,duration) {
-      show('success', 'Hooray!',msg, duration);
+      add('success', 'Hooray!',msg, duration);
     },
     info: function(msg,duration) {
-      show('info','Heads up!', msg, duration);
+      add('info','Heads up!', msg, duration);
     }
   };
 

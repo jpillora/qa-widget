@@ -1,6 +1,6 @@
 define(['view/questions','view/ask','util/ga', 'util/store',
         'qa-api','vars','alert','util/guid','backbone',
-        'less!stylesheets/widget'
+        'css!stylesheets/widget'
         ], 
   function(QuestionsView,AskView,ga,store,api,vars,alert,guid) {
 
@@ -10,8 +10,10 @@ define(['view/questions','view/ask','util/ga', 'util/store',
 
     initialize: function() {
       
-      if($.browser.msie && $.browser.version <= 8)
-        alert.warn("Many features of this widget are not supported on your browser. Get Google Chrome.")
+      if($.browser.msie)
+        alert.warn("Many features of this widget are"+
+          " not supported on your browser. Get Google Chrome.",
+          10000);
 
       this.model = new Backbone.Model();
       this.questions  = [];
@@ -116,7 +118,7 @@ define(['view/questions','view/ask','util/ga', 'util/store',
           if(m) return search(m[1]);
 
 
-          extract = extract.replace(/<li>\n?([^,<>]*)/g,"<li><a href='#wiki_search=$1'>$1</a>,")
+          extract = extract.replace(/<li>\n?([^,<>]*)/g,"<li><a href='#wiki_search=$1'>$1</a>")
 
           word.html(titles.join(' ➡ '));
           titles = [];

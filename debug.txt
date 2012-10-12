@@ -1,0 +1,25 @@
+
+
+    <script type="text/javascript">
+      (function() {
+        var isLocal = window.location.hash.match(/isLocal/),
+            isTest = window.location.hash.match(/isTest/),
+            isGithub = window.location.hash.match(/isGithub/) ||
+                       window.location.host.match(/github\.com/),
+            script = document.createElement('script'),
+            prodHost = 'http://cgi.cse.unsw.edu.au/~jpil133/'; 
+
+        script.type = 'text/javascript';
+        script.src  = isLocal ? 'http://127.0.0.1:8888/framework/js/lib/require.js' :
+                      isGithub? 'http://framework.jpillora.com/js/lib/require.js'   :
+                                '//cdnjs.cloudflare.com/ajax/libs/require.js/2.0.6/require.min.js';    
+        script.setAttribute('data-main', 
+                      isLocal ? 'http://127.0.0.1:8888/framework/js/framework' :
+                      isGithub? 'http://framework.jpillora.com/js/framework'   :
+                                (isTest ? 'js/' : prodHost) + 'qa-widget.js');
+        
+        var s = document.getElementsByTagName('script')[0]; 
+        s.parentNode.insertBefore(script, s);
+
+      })();
+    </script>

@@ -1,6 +1,8 @@
 define(['util/ga', 'text!template/submit-tag.html', 'view/body',
-  'qa-api','util/store','alert','util/timer','view/autocomplete','backbone'], 
-  function(ga, tagHtml, BodyView, api,store,alert,timer, AutoCompleteView){
+  'qa-api','util/store','alert','util/timer','view/autocomplete',
+  'util/textarea','backbone'], 
+  function(ga, tagHtml, BodyView, api,store,alert,timer, 
+    AutoCompleteView,textarea){
 
   return Backbone.View.extend({
 
@@ -166,69 +168,87 @@ define(['util/ga', 'text!template/submit-tag.html', 'view/body',
         btn = $(e.currentTarget),
         type = btn.data('type'),
         field = this.submitBody[0],
-        start = field.selectionStart,
-        end = field.selectionEnd,
+        result = textarea.selection(field),
+        start = result.selectionStart,
+        end = result.selectionEnd,
         val = field.value,
         pre = val.substring(0,start),
         sel = val.substring(start,end),
-        post = val.substr(end);
+        post = val.substr(end),
+        isMulti = sel.match(/\n/);
 
-      function lines(str) {
+      function multi(str) {
         var preRe = /\n(.*)$/, postRe = /^(.*)\n/,
             preMatch = pre.match(preRe),
             postMatch = post.match(postRe);
 
         if(preMatch) {
           sel = preMatch[1] + sel;
-          pre = pre.replace(preRe,'\n\n');
+          pre = pre.replace(preRe,'\n');
+        } else if (!isMulti) {
+          sel = pre + sel;
+          pre = '';
         }
         if(postMatch) {
           sel = sel + postMatch[1];
-          post = post.replace(postRe,'\n\n');
+          post = post.replace(postRe,'\n');
+        } else if (!isMulti) {
+          sel = sel + post;
+          post = '';
         }
         var lines = sel.split('\n');
         for(var i = 0, l = lines.length; i<l; ++i)
           lines[i] = str + lines[i];
 
         sel = lines.join('\n');
-        done();
       }
 
-      function wrap(c1,c2) {
+      function single(c1,c2) {
         if(c2 === undefined) c2 = c1;
         sel = c1+sel+c2;
-        done();
       }
 
       function done() {
-        field.value = pre + sel + post;
+        field.value = (pre + sel + post);
         $(field).trigger('keyup');
       }
 
-      var multiline = sel.match(/\n/);
 
       switch(type) {
         case 'code':
-          if(multiline)
-            lines('    ')
-          else
-            wrap('`');
+          if(isMulti) {
+            multi('    ');
+            sel += '\n';
+          } else
+            single('`');
+          done();
           break;
         case 'bullet':
-          if(multiline)
-            lines('* '); break;
+          if(!isMulti)  break;
+          multi('* ');
+          sel = '\n' + sel + '\n';
+          done();
+          break;
         case 'heading':
-          if(!multiline)
-            lines('# '); break;
+          if(isMulti)  break;
+          multi('### ');
+          sel = '\n' + sel;
+          done();
+          break;
         case 'bold':
-          if(!multiline)
-            lines('# '); wrap('**'); break;
+          if(isMulti) break;
+          single('**');
+          done();
+          break;
         case 'italics':
-          if(!multiline)
-            lines('# '); wrap('*'); break;
+          if(isMulti) break;
+          single('*');
+          done();
+          break;
         case 'url':
         case 'img':
 
+          if(isMulti) break;
           var bang = '', desc, desc2 = '';
           if(type === 'url') {
             desc = 'Display Link Text';
@@ -239,7 +259,8 @@ define(['util/ga', 'text!template/submit-tag.html', 'view/body',
             if(!sel) desc2 = 'Image URL';
           }
 
-          wrap(bang+'['+desc+']('+desc2,')');
+          single(bang+'['+desc+']('+desc2,')');
+          done();
 
           var newStart = bang.length + start + 1 + (desc2 ?  desc.length+2 : 0);
           var newEndStart = newStart + (!desc2 ?  desc.length : desc2.length);

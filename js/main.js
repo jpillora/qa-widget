@@ -2,6 +2,7 @@
 define(['view/widget','bootstrap','text', 'css',
          'ext/jquery', 'lib/jquery.cookie','lib/jquery.color',
          'ext/backbone',
+         //for building
           'view/comment',
           'view/comments',
           'view/answer',
@@ -16,4 +17,6 @@ define(['view/widget','bootstrap','text', 'css',
   var widget = new WidgetView();
   widget.render();
   return widget;
+
+
 });

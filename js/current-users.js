@@ -4,7 +4,7 @@ define(['model/user', 'qa-api'], function(UserModel,api) {
     name: 'CurrentUsers',
     model: UserModel,
     initialize: function() {
-      this.log("created");
+      //this.log("created");
       this.on('add',this.refresh,this);
     },
     update: function(model,result) {
