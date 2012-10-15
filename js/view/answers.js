@@ -8,8 +8,6 @@ define(['text!template/answers.html','list/answers','view/answer',
 
     initialize: function() {
       this.list = this.setupCollection('answers', AnswersList);
-      this.list.on('add', this.changed, this);
-      this.list.on('remove', this.changed, this);
     },
 
     events: {
@@ -29,10 +27,14 @@ define(['text!template/answers.html','list/answers','view/answer',
       if(!questionId)
         throw "Missing question id"
       
+
+      this.$('.submit-answer-btn').attr('disabled','disabled');
       api.local.answer.submit(questionId, val, this, this.submittedAnswer);
     },
 
     submittedAnswer: function(data) {
+
+      this.$('.submit-answer-btn').attr('disabled',null);
       if(!data.items || data.items.length != 1)
         return;
 
@@ -42,7 +44,8 @@ define(['text!template/answers.html','list/answers','view/answer',
       this.$('.submit-answer').val('').trigger('keyup');;
     },
 
-    changed: function() {
+    change: function() {
+      this.log("change!");
       this.$('.answers-container').visible(this.list.length > 0);
     },
 
@@ -56,6 +59,7 @@ define(['text!template/answers.html','list/answers','view/answer',
 
       this.setupTogglers();
       this.setupHidables();
+      this.setupNestedViews();
       
       this.trigger('rendered');
     },

@@ -11,6 +11,7 @@ define(['view/widget','bootstrap','text', 'css',
           'view/date',
           'view/voting',
           'view/user',
+          'view/edit-controls',
           'lib/require/normalize'
          ], function(WidgetView) {
 

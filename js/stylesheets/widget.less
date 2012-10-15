@@ -40,8 +40,10 @@
     overflow: auto;
     white-space: nowrap;
     &.inline {
-      padding: 3px;
-      margin-bottom: 2px;
+      padding: 0px;
+      padding-right: 3px;
+      padding-left: 3px;
+      margin-bottom: 0px;
     }
   }
   .inline {
@@ -54,10 +56,6 @@
     background: #DDD;
     border-radius: 3px;
     cursor: pointer;
-  }
-  .body-btns, .help-btns {
-    display: inline-block;
-    padding-top: 2px;
   }
   .align-right {
     text-align: right;
@@ -124,8 +122,45 @@
     display: inline-block;
   }
 
+  //edit controls
+  .edit-controls {
+
+    .preview-container.popdown {
+      padding: 5px;
+      background: white;
+    }
+
+    .btn-group, .edit-btn {
+      margin: 3px;
+    }
+
+    .edit-btns {
+
+      .btn-group {
+        display: inline-block;
+      }
+
+      .bold-btn { font-weight: bold; }
+      .italics-btn { font-style: italic; }
+      .code-btn {  }
+    }
+
+  }
+
+  //popdown / autocomplete
+  .popdown {
+    display: none;
+    clear: both;
+    max-height: 100px;
+    overflow-y: scroll;
+    border-radius: 3px;
+    border: thin #CCC solid;
+    border-top: none;
+  }
+
   //ask
   .ask {
+
     .similars-btn {
       display: none;
       border: thin solid #CCC;
@@ -163,9 +198,6 @@
         }
       }
     }
-    .preview-container.popdown {
-      padding: 5px;
-    }
 
     textarea.submitTitle,
     textarea.submitBody,
@@ -175,14 +207,6 @@
     }
     textarea.submitBody {
       height:130px;
-    }
-
-    .body-buttons {
-      margin-top: 3px;
-
-      .bold-btn { font-weight: bold; }
-      .italics-btn { font-style: italic; }
-      .code-btn {  }
     }
 
     div.similar {
@@ -199,15 +223,6 @@
         -ms-transition: background-color 500ms linear;
         transition: background-color 500ms linear;
       }
-    }
-    .popdown {
-      display: none;
-      clear: both;
-      max-height: 100px;
-      overflow-y: scroll;
-      border-radius: 3px;
-      border: thin #CCC solid;
-      border-top: none;
     }
     .submit-question-btn {
       margin-top: 10px;
@@ -322,28 +337,34 @@
 
   .answers-container {
     display: none;
-  }
-
-  //answers
-  .answer {
-    background: white;
-    .accept {
-      height: 30px;
-      display: none;
-    }
-    &.accepted .accept {
-      background-position: 0px -465px !important;
-      display: block;
-    }
-    .post-answer {
-      .submit-answer-btn {
-        margin-top: 3px;
+    //answers
+    .answer {
+      background: white;
+      .accept {
+        height: 30px;
+        display: none;
+      }
+      &.accepted .accept {
+        background-position: 0px -465px !important;
+        display: block;
+      }
+      pre.prettyprint {
+        background: whiteSmoke;
       }
     }
-    pre.prettyprint {
-      background: whiteSmoke;
+
+
+  }
+  .post-answer {
+    margin-bottom: 5px;
+    textarea.submit-answer {
+      margin-bottom: 0px;
+    }
+    .submit-answer-btn {
+      margin-top: 3px;
     }
   }
+
   //votes
   .voting {
     div {

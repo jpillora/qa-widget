@@ -9,9 +9,6 @@ define(['list/questions','view/question', 'model/question',
     initialize: function() {
       
       this.list = this.setupCollection('questions', QuestionsList);
-      this.list.on('add', function() {
-        this.log('add!')
-      }, this);
       this.views = [];
     },
 
@@ -21,12 +18,10 @@ define(['list/questions','view/question', 'model/question',
 
     render: function(){
       this.log("render");
-
       this.container = this.$('.questions-container');
 
       this.$('.sort-btns button[data-field='+this.list.compareField+']').addClass('active');
 
-      this.noQuestions = this.$('.no-questions');
       this.trigger('rendered');
     },
 
@@ -45,10 +40,9 @@ define(['list/questions','view/question', 'model/question',
       this.list.sort();
     },
 
-    isEmpty: function() {
-      if(this.noQuestions)
-      this.noQuestions[this.list.length ? 
-        'slideUp' : 'slideDown']('fast');
+    change: function() {
+      this.log("change!");
+      this.$('.no-questions').visible(!this.list.length);
     },
 
     reset: function() {
@@ -78,8 +72,6 @@ define(['list/questions','view/question', 'model/question',
     },
 
     addOne: function(model) {
-      this.isEmpty();
-
       //retrieve view using model
       var questionView = this.getViewByModel(model);
 
@@ -111,6 +103,8 @@ define(['list/questions','view/question', 'model/question',
         this.container.append(elem);
         console.log(elem)
       }
+
+      return true;
     },
 
     getViewByModel: function(model) {

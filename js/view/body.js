@@ -1,6 +1,6 @@
 //Body view - Handles formatting and highlighting within text bodies
 define(['util/regex','util/html','qa-api','lib/prettify','lib/markdown','backbone'], 
-  function(regex,htmlUtil,api){
+  function(regex,htmlUtil,api, prettify){
   return Backbone.View.extend({
   	 
     name: "BodyView",
@@ -33,7 +33,7 @@ define(['util/regex','util/html','qa-api','lib/prettify','lib/markdown','backbon
         content = markdown.toHTML(content);
 
       //emojis!
-      content = content.replace(/:(\w+):/, 
+      content = content.replace(/:(\w+):/g, 
         '<img class="emoji" src="http://www.emoji-cheat-sheet.com/graphics/emojis/$1.png"/>');
 
       this.$el.html(content);
@@ -91,7 +91,7 @@ define(['util/regex','util/html','qa-api','lib/prettify','lib/markdown','backbon
             codeLines[i] = codeLines[i].substr(indentation);
           code = codeLines.join('\n');
         }
-        code = $(prettyPrintOne(code));
+        code = $(prettify.prettyPrintOne(code));
 
         //loop through spans and swap out space chars for html
         code.each(function() {

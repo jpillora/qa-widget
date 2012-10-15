@@ -17,8 +17,13 @@ define(['backbone'], function() {
       'user_id'     : -1
     },
     initialize: function() {
+      //property aliases
       var creation_date = this.get('creation_date');
       if(creation_date) this.set('created_at', creation_date*1000);
+
+      var last_activity_date = this.get('last_activity_date');
+      if(last_activity_date)
+        this.set('updated_at', last_activity_date);
     }
   });
 
