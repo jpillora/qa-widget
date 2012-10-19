@@ -28,8 +28,14 @@ define(['util/log','underscore','jquery'],function(log) {
       var val = variables[key];
       if(val === data.last)
         return;
-      data.last = val;
-      data.callback(val);
+
+      var isValid = data.callback(val);
+
+      if(isValid === false)
+        variables[key] = data.last;
+      else
+        data.last = val;
+
     });
   }
 

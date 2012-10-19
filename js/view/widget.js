@@ -1,6 +1,6 @@
 define(['view/questions','view/ask','util/ga', 'util/store',
         'qa-api','vars','alert','util/guid','backbone',
-        'css!stylesheets/widget'
+        'less!stylesheets/widget.less'
         ], 
   function(QuestionsView,AskView,ga,store,api,vars,alert,guid) {
 
@@ -18,7 +18,6 @@ define(['view/questions','view/ask','util/ga', 'util/store',
       this.model = new Backbone.Model();
       this.questions  = [];
       this.interval   = vars.get('interval',5*1000);
-
 
       _.bindAll(this);
       window.widget = this;
@@ -145,6 +144,12 @@ define(['view/questions','view/ask','util/ga', 'util/store',
     },
 
     setUser: function(id) {
+
+      if(!id.match(/^[A-Za-z]\w{0,15}$/)) {
+        alert.error("User ID not allowed");
+        return false;
+      }
+
       var last = this.$("span.current-user").html();
       this.$("span.current-user").html(id);
       if(last !== id)

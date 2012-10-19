@@ -100,7 +100,7 @@
           $("#content,#slides").css('height', h - 90 );
 
           var widgetWidth = $("#sidebar").data('width');
-          if(widgetWidth) {
+          if(widgetWidth !== undefined) {
             $("#sidebar").stop().animate({width: widgetWidth}, 500);
 
             var w = $('body').width();
