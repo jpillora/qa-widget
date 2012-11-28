@@ -165,6 +165,7 @@ define(['view/questions','view/ask','util/ga', 'util/store',
       }
 
       //get initial set of questions
+      if(!document.location.host.match(/github/))
       api.local.question.get_by_slide(id, this,function(data) {
 
         if(data.items)

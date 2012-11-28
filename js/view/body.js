@@ -34,7 +34,7 @@ define(['util/regex','util/html','qa-api','lib/prettify','lib/markdown','backbon
 
       //emojis!
       content = content.replace(/:(\w+):/g, 
-        '<img class="emoji" src="http://www.emoji-cheat-sheet.com/graphics/emojis/$1.png"/>');
+        '<img class="emoji" src="https://raw.github.com/arvida/emoji-cheat-sheet.com/master/public/graphics/emojis/$1.png"/>');
 
       this.$el.html(content);
       this.spannify(this.el);
